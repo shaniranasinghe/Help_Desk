@@ -1,0 +1,105 @@
+/* General Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+}
+
+body {
+    background-color: #f4f6f8;
+    color: #333;
+    line-height: 1.6;
+    background-image: url('../Images/background.png'); 
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;    
+}
+
+/* Ticket Form Section */
+.form-section {
+    padding: 60px 20px;
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.form-section h2 {
+    margin-bottom: 15px;
+    color: #222;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.form-section p {
+    margin-bottom: 30px;
+    color: #d8d8d8;
+    font-size: 16px;
+}
+
+/* Ticket Form Styling */
+.ticket-form {
+    width: 100%;
+    max-width: 600px;
+    background-color: #ffffff;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.ticket-form label {
+    font-size: 16px;
+    margin-bottom: 8px;
+    display: block;
+    color: #333;
+}
+
+.ticket-form input,
+.ticket-form textarea,
+.ticket-form select {
+    width: 100%;
+    padding: 14px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    color: #333;
+    background: #f9f9f9;
+}
+
+.ticket-form textarea {
+    resize: vertical;
+}
+
+.ticket-form button {
+    padding: 14px 30px;
+    font-size: 18px;
+    font-weight: bold;
+    background-color: #0078d4;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.ticket-form button:hover {
+    background-color: #005bb5;
+    transform: translateY(-2px);
+}
+
+.ticket-form button:active {
+    transform: translateY(0);
+}
+
+/* Additional Spacing and Alignment */
+.inputbox {
+    margin-bottom: 20px;
+}
+
+.inputbox:last-child {
+    margin-bottom: 0;
+}

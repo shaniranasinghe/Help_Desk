@@ -1,0 +1,90 @@
+/* General Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+}
+
+body {
+    background-color: #f4f6f8;
+    color: #333;
+    line-height: 1.6;
+    background-image: url('../Images/background.png'); /* Path to your background image */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Wrapper for content */
+.main-content {
+    flex: 1; /* Ensures the content takes the remaining space, allowing footer to stick at the bottom */
+    padding: 20px;
+}
+
+/* Search Results Section */
+.search-results-container {
+    width: 60%; /* Reduced width to 60% of the page */
+    max-width: 900px; /* Ensure it doesn't grow too large on wide screens */
+    margin: 0 auto;
+    padding: 30px;
+    background-color: rgba(255, 255, 255, 0.9); /* Slightly transparent background */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 30px;
+    min-height: 700px; /* Increased height to make it taller */
+}
+
+/* Search Result Card */
+.search-result {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin: 15px 0;
+    transition: all 0.3s ease;
+}
+
+.search-result:hover {
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+    transform: translateY(-5px);
+}
+
+.search-result h3 {
+    color: #333;
+    font-size: 1.6em;
+    margin-bottom: 10px;
+}
+
+.search-result p {
+    color: #555;
+    font-size: 1em;
+    margin: 10px 0;
+    line-height: 1.5;
+}
+
+.search-result a {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.search-result a:hover {
+    color: #0056b3;
+    text-decoration: underline;
+}
+
+/* No Results Message */
+.no-results-message {
+    text-align: center;
+    color: #f95b5b;
+    font-size: 1.2em;
+    padding: 20px;
+    font-style: italic;
+}
+
+/* Footer - Already in footer.css, no need for changes here */

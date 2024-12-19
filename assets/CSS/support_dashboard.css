@@ -1,0 +1,245 @@
+/* support_dashboard.css */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f4f4f4;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.container {
+    width: 80%;
+    margin: 0 auto;
+    padding-top: 50px;
+}
+
+
+/* Ticket Table */
+.ticket-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 30px;
+}
+
+.ticket-table th, .ticket-table td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.ticket-table th {
+    background-color: #466587;
+    color: white;
+}
+
+.ticket-table td {
+    background-color: #f9f9f9;
+}
+
+.ticket-table .status {
+    padding: 5px 10px;
+    border-radius: 4px;
+}
+
+.ticket-table .status.open {
+    background-color: #f39c12;
+    color: white;
+}
+
+.ticket-table .status.resolved {
+    background-color: #27ae60;
+    color: white;
+}
+
+/* Action Buttons */
+.btn {
+    padding: 8px 16px;
+    font-size: 14px;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    cursor: pointer;
+    color: white;
+    margin: 0 5px;
+    display: inline-block;
+}
+
+.btn.resolve {
+    background-color: #3498db;
+}
+
+.btn.resolve:hover {
+    background-color: #2980b9;
+}
+
+.btn.transfer {
+    background-color: #e74c3c;
+}
+
+.btn.transfer:hover {
+    background-color: #c0392b;
+}
+
+/* No Tickets Message */
+.no-tickets {
+    font-size: 18px;
+    color: #e74c3c;
+    margin-top: 30px;
+    text-align: center;
+}
+
+/* Table Row Hover */
+.ticket-table tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #fff;
+    padding: 2em;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    z-index: 1000;
+    width: 400px;
+    max-width: 90%;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.modal-content {
+    text-align: left;
+}
+
+.modal .close {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #333;
+    cursor: pointer;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    transition: color 0.3s;
+}
+
+.modal .close:hover {
+    color: #e74c3c;
+}
+
+.modal-content h2 {
+    margin-top: 0;
+    font-size: 1.5em;
+    color: #333;
+    margin-bottom: 1em;
+    text-align: center;
+}
+
+/* Resolve Modal Styling */
+#resolveModal {
+    background: #f4f9fc;
+    border: 2px solid #3498db;
+}
+
+#resolveModal form {
+    display: flex;
+    flex-direction: column;
+}
+
+#resolveModal textarea {
+    padding: 10px;
+    margin-bottom: 1em;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    font-size: 1em;
+    resize: vertical;
+    min-height: 120px;
+}
+
+#resolveModal button {
+    padding: 12px 18px;
+    background-color: #3498db;
+    color: white;
+    font-size: 1.1em;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#resolveModal button:hover {
+    background-color: #2980b9;
+}
+
+/* Transfer Modal Styling */
+#transferModal {
+    background: #f9f9f9;
+    border: 2px solid #e74c3c;
+}
+
+#transferModal select,
+#transferModal button {
+    padding: 12px;
+    margin-bottom: 1em;
+    font-size: 1.1em;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+}
+
+#transferModal select {
+    cursor: pointer;
+    background-color: #fff;
+}
+
+#transferModal button {
+    background-color: #e74c3c;
+    color: white;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+#transferModal button:hover {
+    background-color: #c0392b;
+}
+
+/* Modal Background Overlay */
+.modal:target {
+    display: block;
+    opacity: 1;
+    transform: translate(-50%, -50%);
+}
+
+.modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 999;
+    transition: opacity 0.3s ease;
+    display: none;
+}
+
+/* Show backdrop when modal is active */
+.modal:target ~ .modal-backdrop {
+    display: block;
+    opacity: 1;
+}
+
+/* Disable button appearance */
+.disabled {
+    pointer-events: none;
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+

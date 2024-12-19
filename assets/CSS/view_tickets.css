@@ -1,0 +1,140 @@
+/* Reset and Global Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+}
+
+html, body {
+    height: 100%;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    background-color: #f4f6f8;
+    color: #333;
+    line-height: 1.6;
+    background-image: url('../Images/background.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+/* Container Styles */
+.container1 {
+    flex: 1; /* Fills the available vertical space */
+    margin: 20px auto;
+    width: 1500px;
+    padding: 20px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+
+/* New ticket section */
+.new {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.new h1 {
+    font-size: 24px;
+    color: #007bff;
+}
+
+.new .btn.primary {
+    background: #007bff;
+    color: #fff;
+    padding: 10px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    margin-left: auto;  /* This aligns the button to the right */
+}
+
+.new .btn.primary:hover {
+    background: #0056b3;
+}
+
+/* Ticket grid styles */
+.ticket-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.ticket-card {
+    background: #fefefe;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.ticket-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+}
+
+.ticket-header h2 {
+    font-size: 20px;
+    margin: 0 0 10px;
+    color: #023a76;
+}
+
+.ticket-body p {
+    margin: 10px 0;
+    line-height: 1.6;
+}
+
+.ticket-footer {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 10px;
+}
+
+.btn.view-more {
+    background: #28a745;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.btn.view-more:hover {
+    background: #218838;
+}
+
+/* Specific styles for open and resolved tickets */
+.ticket-card.open-ticket {
+    background-color: #fdf6b4 !important;
+    border: 1px solid #e4c982;
+}
+
+.ticket-card.resolved-ticket {
+    background-color: #b0d6f5 !important;
+    border: 1px solid #389bff;
+}
+
+
+.no-tickets {
+    text-align: center;
+    color: #999;
+    margin: 20px 0;
+    font-size: 16px;
+}
+
+/* Responsive Fix */
+@media (max-width: 768px) {
+    .container1 {
+        width: 90%;
+    }
+}

@@ -1,0 +1,183 @@
+/* General Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+}
+
+body {
+    background-color: #f4f6f8;
+    color: #333;
+    line-height: 1.6;
+    background-image: url('../Images/background.png'); /* Path to your background image */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+
+    
+}
+
+/* Hero Section */
+.hero {
+    background-color: #f4f4f4;
+    padding: 50px 0;
+    text-align: center;
+    margin-top: 0;
+}
+
+.hero h2 {
+    margin-bottom: 20px;
+}
+
+.hero form {
+    display: inline-block;
+}
+
+.hero form input[type="text"] {
+    padding: 10px;
+    width: 300px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-right: 5px;
+}
+
+.hero form button {
+    padding: 10px 20px;
+    background-color: #0078d4;
+    border: none;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.hero form button:hover {
+    background-color: #005bb5;
+}
+
+/* Ticket Section */
+.ticket {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 50px 0;
+}
+
+.ticket .container {
+    max-width: 800px;
+    width: 100%;
+}
+
+#raise-ticket h2 {
+    color: #ffffff; /* Change this to your desired color */
+    font-size: 24px; /* Optional: Adjust font size if needed */
+    font-weight: bold; /* Optional: Add bold styling */
+}
+
+#raise-ticket p {
+    color: #b7b7b7; /* Change this to your desired color */
+    font-size: 16px; 
+}
+
+/* Adjust the "Raise a New Ticket" button positioning */
+#raise-ticket .btn {
+    background-color: #007bff;
+    color: #ffffff;
+    padding: 10px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: bold;
+    border: 2px solid #007bff;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    margin-top: 200px; /* Adjusted margin to move button down */
+}
+
+#raise-ticket .btn:hover {
+    background-color: #ffffff;
+    color: #007bff;
+}
+
+/* Cards Section */
+
+.section {
+    padding: 50px 0;
+    
+}
+
+#knowledgebase h2{
+    margin-left: 150px; 
+    color: #cdcaca;
+}
+
+.cards {
+    display: flex;
+    justify-content: center; /* Center-align cards */
+    flex-wrap: wrap; /* Allow wrapping for smaller screens */
+    gap: 20px;
+}
+
+.card {
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    flex: 1;
+    max-width: 400px; /* Limit card width */
+    text-align: center;
+    transition: transform 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.card h3 {
+    margin-bottom: 10px;
+}
+
+.card a {
+    color: #0078d4;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.card a:hover {
+    text-decoration: underline;
+}
+
+
+
+
+
+.login-container .btn {
+    margin-right: 10px;
+}
+
+#feedback {
+    background-color: #eef2f3;
+    padding: 50px 0;
+    text-align: center;
+}
+#feedback .btn {
+    color: #090909;
+    padding: 0.7em 1.7em;
+    font-size: 18px;
+    border-radius: 0.5em;
+    background: #e8e8e8;
+    cursor: pointer;
+    text-decoration: none; /* Remove underline */
+    border: 1px solid #e8e8e8;
+    transition: all 0.3s;
+    box-shadow: 6px 6px 12px #c5c5c5, -6px -6px 12px #ffffff;
+}
+
+#feedback .btn:active {
+    color: #666;
+    box-shadow: inset 4px 4px 12px #c5c5c5, inset -4px -4px 12px #ffffff;
+  }
+
+
+

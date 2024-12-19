@@ -1,0 +1,141 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - 40px); /* Adjust height to account for header/footer */
+    width: 100%;
+    background: url("../images/background.jpg") no-repeat;
+    background-position: center;
+    background-size: cover;
+    padding: 20px; /* Add padding to create space around the form */
+}
+
+.form-box {
+    position: relative;
+    width: 600px;
+    height: auto; /* Make height dynamic to adjust based on content */
+    background-color: white;
+    border-radius: 8px;
+    padding: 30px 40px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    margin: 20px 0; /* Add vertical margin to prevent clipping at edges */
+}
+
+
+.input-group {
+    display: flex; /* Make a flex container for inputs */
+    justify-content: space-between; /* Add space between the inputs */
+    gap: 20px; /* Space between First Name and Last Name fields */
+    margin-bottom: 20px; /* Add margin below */
+}
+
+.input-group .inputbox {
+    flex: 1; /* Make each input field take equal space */
+}
+
+h2 {
+    font-size: 2em;
+    color: black;
+    text-align: center;
+}
+
+.inputbox {
+    position: relative;
+    margin: 20px 0;
+    width: 100%;
+    border-bottom: 2px solid #5a5959;
+}
+
+.inputbox label {
+    position: absolute;
+    top: 50%;
+    left: 5px;
+    transform: translateY(-50%);
+    color: black;
+    font-size: 1em;
+    pointer-events: none;
+    transition: 0.5s;
+}
+
+.inputbox input {
+    width: 100%;
+    height: 50px;
+    background: transparent;
+    border: none;
+    outline: none;
+    font-size: 1em;
+    padding: 0 5px;
+    color: black;
+}
+
+.inputbox input:focus ~ label,
+.inputbox input:valid ~ label {
+    top: -5px;
+    font-size: 1em;
+    color: #5a5959;
+}
+
+input, select {
+    padding: 10px;
+    margin-bottom: 15px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+
+button {
+    width: 100%;
+    height: 45px;
+    border-radius: 5px;
+    background: #0171d3;
+    border: none;
+    outline: none;
+    color: white;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: 500;
+    transition: 0.3s;
+}
+
+button:hover {
+    background: #005bb5;
+}
+
+.login {
+    font-size: 1em;
+    font-weight: 400;
+    color: black;
+    margin-top: 15px;
+}
+
+.login p a {
+    text-decoration: none;
+    color: #0171d3;
+    font-weight: 600;
+}
+
+.login p a:hover {
+    text-decoration: underline;
+}
+
+p {
+    font-size: 1em;
+}
+
+p[style="color: red;"] {
+    color: red !important;
+}
+
+p[style="color: green;"] {
+    color: green !important;
+}

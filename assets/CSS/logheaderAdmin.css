@@ -1,0 +1,152 @@
+body {
+    margin: 0;
+  }
+  
+  /* Header of the page */
+  
+  header {
+      height: 94px;
+      background: #fff;
+      border: 1px solid black;
+      position: relative;
+      /* box-shadow: -1px 1px 20px 0px black; */
+      box-shadow: 0px 0px 0px 5px rgba(0, 0, 0, 0.471);
+      z-index: 10;
+  }
+    
+  header > img {
+      position: relative;
+      left: 61px;
+      width: 100px;
+      margin-right: 10px;
+  }
+    
+  header > nav {
+      position: absolute;
+      right: 20px;
+      top: 10px;
+  }
+  
+  header > h1 {
+    position: absolute;
+    margin-left: 46%;
+    margin-right: 54%;
+    top: 10px;
+    font-family: Lateef;
+  }
+  
+    
+  #notify{
+    height: 40px;
+    width: 40px;
+    margin-right: 20px;
+    margin-top: 10px;
+  }
+  
+  /*  Logout button */
+  
+  #lout {
+    background-color:rgb(239, 86, 69);
+    color: whitesmoke;
+    font-weight: bold;
+    padding: 10px 20px 10px 20px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    border-radius: 50px;
+    font-family: Lateef;
+    float: right;
+    margin-top: 10px;
+  }
+  
+  #lout:hover, #lout:focus {
+    background-color: #e61818;
+  }
+  
+
+  
+  main::after {
+    content: "";
+    clear: both;
+    display: table;
+  }
+
+  .breadcrumb-container {
+    background-color: rgb(209, 227, 235);
+    padding: 2px 10px; /* Adjust padding for a thin row */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Adds a subtle shadow for separation */
+    border-radius: 0px; /* Optional: Adds rounded corners */
+    margin-bottom: 0; /* Space below the breadcrumb row */
+    padding-bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start; /* Aligns content to the left */
+  }
+  
+  
+  .breadcrumb {
+    display: flex;
+    align-items: center;
+    font-size: 18px; /* Font size */
+    font-weight: 600; /* Adjust this value for thickness */
+    color: #666;
+    margin-bottom: 20px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+  
+  .breadcrumb-logo {
+    display: flex;
+    align-items: center;
+    margin-right: 10px;
+  }
+  
+  .breadcrumb-logo .logo {
+    height: 40px; /* Adjust logo size */
+    width: auto;
+    margin-right: 10px;
+    transition: transform 0.3s;
+  }
+  
+  .breadcrumb-logo:hover .logo {
+    transform: scale(1.1);
+  }
+  
+  .breadcrumb-link {
+    text-decoration: none;
+    color: #666;
+    transition: color 0.3s;
+  }
+  
+  .breadcrumb-link:hover {
+    color: #007bff;
+  }
+  
+  .breadcrumb-separator {
+    margin: 0 8px;
+    color: #bbb;
+  }
+  
+  .breadcrumb-link.active {
+    color: #000;
+    font-weight: bold;
+    pointer-events: none;
+    cursor: default;
+  }
+
+    /* Profile Icon Styling */
+.profile-icon img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 20px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.profile-icon img:hover {
+  transform: scale(1.1);
+}
+  

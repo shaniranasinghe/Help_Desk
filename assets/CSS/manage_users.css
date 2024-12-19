@@ -1,0 +1,275 @@
+/* Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f4f4f4;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+
+
+/* Dashboard Container */
+.dashboard-container {
+    display: flex;
+    flex: 1;
+    overflow: hidden; /* Prevent page scrolling */
+}
+
+/* Sidebar Styling */
+.sidebar {
+    width: 250px;
+    background: linear-gradient(135deg, #2c3e50, #34495e);
+    color: white;
+    padding: 20px;
+    overflow-y: auto;
+    height: calc(100vh - 90px); /* Height excluding header & footer */
+    position: sticky;
+    top: 60px; /* Height of the header */
+    top: 60px; /* Height of the header */
+    flex-shrink: 0; /* Prevent sidebar shrinking */
+}
+
+.sidebar h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 22px;
+    letter-spacing: 1px;
+    color: #ecf0f1;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+}
+
+.sidebar ul li {
+    margin: 15px 0;
+}
+
+.sidebar ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+    display: block;
+    padding: 12px 20px;
+    border-radius: 8px;
+    transition: all 0.3s ease-in-out;
+    font-weight: 500;
+    position: relative;
+}
+
+.sidebar ul li a:before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 5px;
+    height: 100%;
+    background: #3498db;
+    transform: scaleY(0);
+    transition: all 0.3s ease-in-out;
+}
+
+.sidebar ul li a:hover, .sidebar ul li a.active {
+    background: #3498db;
+    color: white;
+}
+
+.sidebar ul li a:hover:before, .sidebar ul li a.active:before {
+    transform: scaleY(1);
+}
+
+/* Main Content */
+.main-content {
+    flex-grow: 1;
+    padding: 20px 30px;
+    overflow-y: auto;
+}
+
+.main-content h2 {
+    margin-bottom: 20px;
+    color: #333;
+}
+
+
+/* Table Styling */
+.users-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 16px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.users-table thead tr {
+    background: #466587;
+    color: white;
+    text-align: left;
+    font-weight: bold;
+}
+
+.users-table th, .users-table td {
+    padding: 12px 20px;
+    text-align: left;
+    border: 1px solid #ddd;
+}
+
+.users-table tbody tr:nth-child(even) {
+    background: #f2f2f2;
+}
+
+.users-table tbody tr:hover {
+    background: #eaf3ff;
+}
+
+/* Action Buttons */
+.btn {
+    padding: 8px 16px;
+    font-size: 14px;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    cursor: pointer;
+    color: white;
+    margin: 0 5px;
+    display: inline-block;
+}
+
+.edit-btn {
+    background: #17a2b8;
+}
+
+.delete-btn {
+    background: #e74c3c;
+}
+
+.btn:hover {
+    opacity: 0.8;
+}
+
+.edit-user-form-container {
+    width: 60%;
+    margin: 50px auto;
+    background: #fff;
+    padding: 30px 40px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+.edit-user-form-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.edit-user-form label {
+    display: block;
+    margin-top: 15px;
+    font-weight: bold;
+    color: #555;
+}
+
+.edit-user-form input, .edit-user-form select {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.edit-user-form .btn {
+    padding: 10px 20px;
+    font-size: 14px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    color: white;
+    margin-top: 20px;
+}
+
+.save-btn {
+    background: #28a745;
+}
+
+.cancel-btn {
+    background: #6c757d;
+    text-decoration: none;
+    text-align: center;
+    padding: 10px 20px;
+    display: inline-block;
+}
+
+.btn:hover {
+    opacity: 0.9;
+}
+
+/* Container styling for positioning */
+.report-container {
+    display: flex;
+    justify-content: flex-end; /* Aligns content to the right */
+    margin-bottom: 10px; /* Adds space between button and table */
+}
+
+/* Styling for the Generate Report button */
+.generate-report-btn {
+    background-color: #4CAF50; /* Green background */
+    color: white; /* White text */
+    padding: 10px 20px; /* Adds padding */
+    border: none; /* Removes border */
+    border-radius: 5px; /* Rounds corners */
+    font-size: 16px; /* Increases font size */
+    cursor: pointer; /* Adds hover cursor */
+    transition: transform 0.2s, background-color 0.3s;
+}
+
+/* Hover effect for button */
+.generate-report-btn:hover {
+    background-color: #45a049; /* Slightly darker green */
+    transform: scale(1.05); /* Enlarge slightly */
+}
+
+/* Hero Section */
+.hero {
+    background-color: #f4f4f4;
+    padding:10px 0;
+    text-align: center;
+    margin-top: 0;
+}
+
+
+.hero form {
+    display: inline-block;
+}
+
+.hero form input[type="text"] {
+    padding: 10px;
+    width: 300px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-right: 5px;
+}
+
+.hero form button {
+    padding: 10px 20px;
+    background-color: #0078d4;
+    border: none;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.hero form button:hover {
+    background-color: #005bb5;
+}
+
+/* Highlight Search Result */
+.highlight {
+    background-color: #a29d73 !important;  /* Light yellow highlight */
+    font-weight: bold;
+}
