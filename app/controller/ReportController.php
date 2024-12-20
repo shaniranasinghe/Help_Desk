@@ -1,7 +1,7 @@
 <?php
 include('../../model/ReportModel.php');
 include('../../model/includes/config.php');
-require(__DIR__ . '/../../libs/fpdf.php');
+require('/../../libs/fpdf.php');
 
 
 class ReportController {

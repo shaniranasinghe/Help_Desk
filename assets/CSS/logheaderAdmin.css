@@ -1,75 +1,89 @@
 body {
-    margin: 0;
-  }
-  
-  /* Header of the page */
-  
-  header {
-      height: 94px;
-      background: #fff;
-      border: 1px solid black;
-      position: relative;
-      /* box-shadow: -1px 1px 20px 0px black; */
-      box-shadow: 0px 0px 0px 5px rgba(0, 0, 0, 0.471);
-      z-index: 10;
-  }
-    
-  header > img {
-      position: relative;
-      left: 61px;
-      width: 100px;
-      margin-right: 10px;
-  }
-    
-  header > nav {
-      position: absolute;
-      right: 20px;
-      top: 10px;
-  }
-  
-  header > h1 {
-    position: absolute;
-    margin-left: 46%;
-    margin-right: 54%;
-    top: 10px;
-    font-family: Lateef;
-  }
-  
-    
-  #notify{
-    height: 40px;
-    width: 40px;
-    margin-right: 20px;
-    margin-top: 10px;
-  }
-  
-  /*  Logout button */
-  
-  #lout {
-    background-color:rgb(239, 86, 69);
-    color: whitesmoke;
-    font-weight: bold;
-    padding: 10px 20px 10px 20px;
-    font-size: 16px;
-    border: none;
-    cursor: pointer;
-    border-radius: 50px;
-    font-family: Lateef;
-    float: right;
-    margin-top: 10px;
-  }
-  
-  #lout:hover, #lout:focus {
-    background-color: #e61818;
-  }
-  
+  margin: 0;
+}
 
-  
-  main::after {
-    content: "";
-    clear: both;
-    display: table;
-  }
+/* Header of the page */
+header {
+  height: 94px;
+  background: #fff;
+  border: 1px solid black;
+  box-shadow: 0px 0px 0px 5px rgba(0, 0, 0, 0.471);
+  z-index: 10;
+}
+
+/* Flexbox container for header elements */
+.header-content {
+  display: flex;
+  align-items: center; /* Vertically center the items */
+  justify-content: space-between; /* Distribute space evenly */
+  padding: 0 20px; /* Add some padding for spacing */
+  height: 100%;
+}
+
+/* Logo styling */
+.logo-container img {
+  width: 100px;
+  margin-right: 10px;
+}
+
+/* Welcome heading styling */
+header h1 {
+  flex-grow: 1; /* Allow the welcome text to grow and occupy available space */
+  text-align: center;
+  font-family: Lateef;
+  margin: 0;
+}
+
+/* Navigation styling */
+header .header-nav {
+  display: flex;
+  align-items: center; /* This ensures all elements (icons) are aligned vertically */
+}
+
+/* Notification icon */
+#notify {
+  height: 40px;
+  width: 40px;
+  margin-right: 20px;
+  margin-top: 10px;
+}
+
+/* Logout button */
+#lout {
+  background-color: rgb(239, 86, 69);
+  color: whitesmoke;
+  font-weight: bold;
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  border-radius: 50px;
+  font-family: Lateef;
+  margin-top: 6px;
+}
+
+#lout:hover,
+#lout:focus {
+  background-color: #e61818;
+}
+
+/* Profile Icon Styling */
+.profile-icon img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 20px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+  margin-top: 9px; 
+}
+
+.profile-icon img:hover {
+  transform: scale(1.1);
+}
+
+
+
 
   .breadcrumb-container {
     background-color: rgb(209, 227, 235);
@@ -136,17 +150,5 @@ body {
     cursor: default;
   }
 
-    /* Profile Icon Styling */
-.profile-icon img {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  margin-right: 20px;
-  cursor: pointer;
-  transition: transform 0.2s ease;
-}
 
-.profile-icon img:hover {
-  transform: scale(1.1);
-}
   

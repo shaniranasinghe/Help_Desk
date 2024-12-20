@@ -35,7 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['query'])) {
         <a href="#" class="breadcrumb-logo">
             <img src="../../../assets/Images/logo.png" alt="Help Desk Logo" class="logo">
         </a>
-        <a href="#" class="breadcrumb-link">Help Center</a>
+        <a href="./dashboard.php" class="breadcrumb-link">Help Center</a>
         <span class="breadcrumb-separator">></span>
         <a href="#" class="breadcrumb-link active">Dashboard</a>
     </nav>
@@ -53,17 +53,23 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['query'])) {
     </div>
 
     <main class="main-content">
-        <h2>All Tickets Overview</h2>
+        <h2>All User Tickets</h2>
 
-        <form id="search-form" method="POST" action="ticketListView.php">
-            <input type="text" name="query" placeholder="Search by User ID..." value="<?php echo htmlspecialchars($searchQuery); ?>" required>
-            <button type="submit">Search</button>
-        </form>
+        <section class="hero">
+            <div class="container"></div>
+                <form id="search-form" method="POST" action="ticketListView.php">
+                    <input type="text" name="query" placeholder="Search by User ID..." value="<?php echo htmlspecialchars($searchQuery); ?>" required>
+                    <button type="submit">Search</button>
+                </form>
+            </div>
+        </section>    
 
         <?php if (!empty($tickets)): ?>
             <form action="../../controller/ReportController.php" method="POST">
                 <input type="hidden" name="user_id" value="<?php echo htmlspecialchars($searchQuery); ?>">
-                <button type="submit" name="generateUserReport" class="generate-report-btn">Generate Report</button>
+                <div class="report-container">
+                    <button class="generate-report-btn">Generate Report</button>
+                </div>
             </form>
 
             <table class="ticket-table">

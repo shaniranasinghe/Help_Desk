@@ -33,21 +33,22 @@ if($acctype != "Admin" && $acctype != "Support"){
     </head>
     <body>
 	
-		<header>
-            
-            <img src="../../../assets/Images/logo.png" alt="logo" />
+    <header>
+        <div class="header-content">
+            <div class="logo-container">
+                <img src="../../../assets/Images/logo.png" alt="logo" />
+            </div>
             <h1>Welcome</h1>
-
-            <nav>
-                <ul>
-                    <a href="#"><img id="notify" src="../../../assets/images/notifi.png" alt="logo"/></a>
-                    <a href="../pages/admin_profile.php" class="profile-icon"><img src="../../../assets/Images/profile.png" alt="logo"/></a>
-                    <a href="../auth/logout.php"><button type="button" id="lout">Logout</button></a>
-                    
-                
-                </ul>
+            <nav class="header-nav">
+                <a href="#"><img id="notify" src="../../../assets/images/notifi.png" alt="notifications" /></a>
+                <a href="../pages/admin_profile.php" class="profile-icon">
+                    <img src="../../../assets/Images/profile.png" alt="profile" />
+                </a>
+                <a href="../auth/logout.php"><button type="button" id="lout">Logout</button></a>
             </nav>
-        </header>
+        </div>
+    </header>
+
 
        
         

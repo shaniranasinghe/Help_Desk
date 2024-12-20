@@ -27,7 +27,37 @@ class ReportModel {
             die("Query failed: " . $conn->error);
         }
 
-        return $result;
+        $tickets = [];
+        
+        while ($row = $result->fetch_assoc()) {
+            $ticket_id = $row['ticket_id'];
+    
+            // Initialize ticket if not already present in $tickets array
+            if (!isset($tickets[$ticket_id])) {
+                $tickets[$ticket_id] = [
+                    'ticket_id' => $row['ticket_id'],
+                    'ticket_title' => $row['ticket_title'],
+                    'ticket_description' => $row['ticket_description'],
+                    'ticket_status' => $row['ticket_status'],
+                    'priority' => $row['priority'],
+                    'submitted_by' => $row['submitted_by'],
+                    'current_company' => $row['current_company'],
+                    'transfers' => []
+                ];
+            }
+    
+            // If transfer details are present, append them to the ticket's transfer history
+            if ($row['from_company_id'] !== null) {
+                $tickets[$ticket_id]['transfers'][] = [
+                    'from_company_id' => $row['from_company_id'],
+                    'to_company_id' => $row['to_company_id'],
+                    'transferred_at' => $row['transferred_at']
+                ];
+            }
+        }
+    
+
+        return $tickets;
     }
 }
 ?>
