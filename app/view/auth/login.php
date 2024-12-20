@@ -1,6 +1,5 @@
 <?php
 session_start();
-include_once '../common/header.php';
 require '../../model/includes/config.php'; // Database configuration
 
 // Initialize error message
@@ -77,6 +76,32 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel="stylesheet" href="../../../assets/CSS/login.css">
 </head>
 <body>
+<header class="header">
+        <div class="container">
+            <div class="logo">
+                <a href="../../../index.php"><img src="../../../assets/Images/logo.png" alt="Logo"></a>
+                <h1><a href="../../../index.php">Hellodesk.</a></h1>       
+            </div>
+            
+            <div class="login-container">
+                 <a href="./login.php" class="btn secondary1">Login</a>
+                <a href="./signup.php" class="btn secondary1">Sign up</a>
+            </div>
+        </div>
+    </header>
+
+
+        <div class="breadcrumb-container">
+            <nav class="breadcrumb">
+                <a href="../../../index.php" class="breadcrumb-logo">
+                    <img src="../../../assets/Images/logo.png" alt="Help Desk Logo" class="logo">
+                </a>
+                <a href="../pages/home.php" class="breadcrumb-link active">Help Center</a>
+            </nav>
+        </div>
+
+
+
     <!-- Login Form Section -->
     <section>
         <div class="form-box">
