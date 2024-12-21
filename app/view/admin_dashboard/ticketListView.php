@@ -56,7 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['query'])) {
         <h2>All User Tickets</h2>
 
         <section class="hero">
-            <div class="container"></div>
+            <div class="container">
                 <form id="search-form" method="POST" action="ticketListView.php">
                     <input type="text" name="query" placeholder="Search by User ID..." value="<?php echo htmlspecialchars($searchQuery); ?>" required>
                     <button type="submit">Search</button>
@@ -65,12 +65,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['query'])) {
         </section>    
 
         <?php if (!empty($tickets)): ?>
-            <form action="../../controller/ReportController.php" method="POST">
+            <form action="../../controller/GenerateReportController.php" method="POST">
+                <input type="hidden" name="report_type" value="user_tickets">
                 <input type="hidden" name="user_id" value="<?php echo htmlspecialchars($searchQuery); ?>">
                 <div class="report-container">
                     <button class="generate-report-btn">Generate Report</button>
                 </div>
             </form>
+
 
             <table class="ticket-table">
                 <thead>

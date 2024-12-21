@@ -56,9 +56,48 @@ class ProfileController {
         return ['user' => $user, 'error' => $error, 'success' => $success];
     }
 
-    public function deleteAccount($userId) {
-        return $this->userModel->deleteUser($userId);
+    // In ProfileController.php
+
+public function deleteAccount($userId) {
+    global $conn;
+
+    // Start transaction
+    $conn->begin_transaction();
+
+    try {
+        // Delete associated tickets
+        $ticketQuery = "DELETE FROM tickets WHERE user_id = ?";
+        $stmt = $conn->prepare($ticketQuery);
+        $stmt->bind_param("i", $userId);
+        $stmt->execute();
+
+        // Check if ticket deletion is successful
+        if ($stmt->affected_rows === 0) {
+            throw new Exception("No tickets found for the user.");
+        }
+
+        // Delete the user account
+        $deleteQuery = "DELETE FROM users WHERE id = ?";
+        $stmt = $conn->prepare($deleteQuery);
+        $stmt->bind_param("i", $userId);
+        $stmt->execute();
+
+        // Check if user deletion is successful
+        if ($stmt->affected_rows === 0) {
+            throw new Exception("User deletion failed.");
+        }
+
+        // Commit the transaction
+        $conn->commit();
+        return true;
+
+    } catch (Exception $e) {
+        // Rollback transaction in case of error
+        $conn->rollback();
+        return false;
     }
+}
+
     
 }
 ?>
