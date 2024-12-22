@@ -46,10 +46,6 @@ class TicketController {
         return $this->ticketModel->getTicketsForCompany($company_id);
     }
 
-    // Get all tickets with replies for a user
-    public function getTicketsWithReplies($user_id) {
-        return $this->ticketModel->getTicketsWithRepliesByUserId($user_id);
-    }
 
     public function transferTicket($ticket_id, $to_company_id) {
         return $this->ticketModel->transferTicket($ticket_id, $to_company_id);

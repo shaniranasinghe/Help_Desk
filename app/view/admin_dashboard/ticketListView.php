@@ -65,7 +65,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['query'])) {
         </section>    
 
         <?php if (!empty($tickets)): ?>
-            <form action="../../controller/GenerateReportController.php" method="POST">
+            <form action="../../controller/utController.php" method="POST">
                 <input type="hidden" name="report_type" value="user_tickets">
                 <input type="hidden" name="user_id" value="<?php echo htmlspecialchars($searchQuery); ?>">
                 <div class="report-container">
@@ -85,6 +85,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['query'])) {
                         <th>Submitted By</th>
                         <th>Current Company</th>                        
                         <th>Transfer History</th>
+                        <th>Replies</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -97,6 +98,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['query'])) {
                             <td><?php echo htmlspecialchars($ticket['priority']); ?></td>
                             <td><?php echo htmlspecialchars($ticket['submitted_by']); ?></td>
                             <td><?php echo htmlspecialchars($ticket['current_company']); ?></td>
+                            
                             <td>
                                 <?php 
                                     if (!empty($ticket['transfers'])): 
@@ -108,7 +110,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['query'])) {
                                     else: ?>
                                         Not Transferred
                                 <?php endif; ?>
-                            </td>     
+                            </td>   
+                            <td>
+                                <?php 
+                                    // Check if ticket_reply exists and display it, otherwise display 'No replies'
+                                    if (!empty($ticket['replies'])): 
+                                        foreach ($ticket['replies'] as $reply): ?>
+                                            <?php echo htmlspecialchars($reply['ticket_reply']); ?><br>
+                                            <?php echo htmlspecialchars($reply['replied_at']); ?><br>
+                                        <?php endforeach; 
+                                    else: ?>
+                                        No replies
+                                <?php endif; ?>
+                            </td>
+  
                         </tr>
                     <?php endforeach; ?>
                 </tbody>

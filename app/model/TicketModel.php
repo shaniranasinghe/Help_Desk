@@ -21,59 +21,7 @@ class TicketModel {
         return $stmt->execute();
     }
 
-    // Get tickets by user ID
-    public function getTicketsByUserId($userId) {
-        $query = "SELECT ticket_id, ticket_title, ticket_description, created_at 
-                  FROM tickets WHERE user_id = ? ORDER BY created_at DESC";
-        $stmt = $this->conn->prepare($query);
-        $stmt->bind_param("i", $userId);
-        $stmt->execute();
-        return $stmt->get_result();
-    }
-
-    public function getTicketsWithRepliesByUserId($userId) {
-        $query = "
-            SELECT 
-                t.ticket_id, t.ticket_title, t.ticket_description, t.ticket_status, t.created_at, 
-                tr.ticket_reply, tr.replied_at 
-            FROM tickets t 
-            LEFT JOIN ticket_replies tr ON t.ticket_id = tr.ticket_id 
-            WHERE t.user_id = ? 
-            ORDER BY t.created_at DESC, tr.replied_at ASC";
-
-        $stmt = $this->conn->prepare($query);
-        $stmt->bind_param("i", $userId);
-        $stmt->execute();
-        $result = $stmt->get_result();
-
-        // Collect tickets with replies
-        $tickets = [];
-        while ($row = $result->fetch_assoc()) {
-            $ticket_id = $row['ticket_id'];
-
-            if (!isset($tickets[$ticket_id])) {
-                $tickets[$ticket_id] = [
-                    'ticket_id' => $row['ticket_id'],
-                    'ticket_title' => $row['ticket_title'],
-                    'ticket_description' => $row['ticket_description'],
-                    'ticket_status' => $row['ticket_status'],
-                    'created_at' => $row['created_at'],
-                    'replies' => []
-                ];
-            }
-
-            if ($row['ticket_reply']) {
-                $tickets[$ticket_id]['replies'][] = [
-                    'ticket_reply' => $row['ticket_reply'],
-                    'replied_at' => $row['replied_at']
-                ];
-            }
-        }
-
-        return $tickets;
-    }
-
-    // Get all tickets with additional details
+    
     // Get all tickets with additional details
     public function getAllTickets() {
         $query = "

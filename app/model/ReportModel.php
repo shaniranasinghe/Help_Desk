@@ -12,13 +12,15 @@ class ReportModel {
                 t.ticket_id, t.ticket_title, t.ticket_description, t.ticket_status, t.priority, 
                 u.user_name AS submitted_by, 
                 c.company_name AS current_company,
-                tt.from_company_id, tt.to_company_id, tt.transferred_at 
+                tt.from_company_id, tt.to_company_id, tt.transferred_at,
+                tr.ticket_reply, tr.replied_at 
             FROM tickets t
             LEFT JOIN users u ON t.user_id = u.id
             LEFT JOIN companies c ON t.company_id = c.company_id
             LEFT JOIN ticket_transfers tt ON t.ticket_id = tt.ticket_id
+            LEFT JOIN ticket_replies tr ON t.ticket_id = tr.ticket_id 
             WHERE t.user_id = '$userID'
-            ORDER BY t.created_at DESC
+            ORDER BY t.created_at DESC, tr.replied_at ASC
         ";
         
 
@@ -42,7 +44,15 @@ class ReportModel {
                     'priority' => $row['priority'],
                     'submitted_by' => $row['submitted_by'],
                     'current_company' => $row['current_company'],
-                    'transfers' => []
+                    'transfers' => [],
+                    'replies' => []
+                ];
+            }
+
+            if ($row['ticket_reply']) {
+                $tickets[$ticket_id]['replies'][] = [
+                    'ticket_reply' => $row['ticket_reply'],
+                    'replied_at' => $row['replied_at']
                 ];
             }
     

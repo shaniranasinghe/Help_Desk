@@ -67,7 +67,7 @@ $active_companies = "active";
     <main class="main-content">
         <h2>Manage Companies</h2>
 
-        <form action="../../controller/GenerateReportController.php" method="POST">
+        <form action="../../controller/cController.php" method="POST">
             <input type="hidden" name="report_type" value="companies">
             <div class="report-container">
                 <button class="generate-report-btn">Generate Report</button>

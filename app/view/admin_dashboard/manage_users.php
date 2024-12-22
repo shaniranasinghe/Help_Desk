@@ -101,7 +101,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['query'])) {
         </section>
 
         <!-- Generate Report Button -->
-        <form action="../../controller/GenerateReportController.php" method="POST">
+        <form action="../../controller/uController.php" method="POST">
             <input type="hidden" name="report_type" value="users">
             <div class="report-container">
                 <button class="generate-report-btn">Generate Report</button>
