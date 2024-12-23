@@ -76,6 +76,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
+// Fetch companies for the dropdown
+$companyQuery = "SELECT * FROM company";
+$companyResult = $conn->query($companyQuery);
+
 $conn->close();
 ?>
 
@@ -158,18 +162,19 @@ $conn->close();
 
                 <div class="inputbox">
                     <input type="text" id="address" name="address" required>
-                    <label for="address" class="required">Address</label>
+                    <label for="address">Address</label>
                 </div>
 
                 <div class="inputbox">
                     <input type="text" id="city" name="city" required>
-                    <label for="city" class="required">City</label>
+                    <label for="city">City</label>
                 </div>
 
                 <div class="inputbox">
                     <input type="text" id="postalcode" name="postalcode" required>
-                    <label for="postalcode" class="required">Postal Code</label>
+                    <label for="postalcode">Postal Code</label>
                 </div>
+
 
                 <div class="inputbox">
                     <label for="company_id" class="required">Company:</label>
@@ -181,7 +186,8 @@ $conn->close();
                         <option value="5">Sub-Company 5</option>
                         <option value="6">Primary Company</option>
                     </select>
-                </div>   
+                </div>
+  
                 
                 <div class="inputbox">
                     <input type="password" id="password" name="password" required>
