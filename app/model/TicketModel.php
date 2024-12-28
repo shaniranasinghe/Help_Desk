@@ -1,19 +1,23 @@
 <?php
-class TicketModel {
+class TicketModel
+{
     private $conn;
 
-    public function __construct($conn) {
+    public function __construct($conn)
+    {
         $this->conn = $conn;
     }
 
     // Get list of companies
-    public function getCompanies() {
+    public function getCompanies()
+    {
         $query = "SELECT company_id, company_name FROM companies ORDER BY company_name ASC";
         return $this->conn->query($query);
     }
 
     // Create a new ticket
-    public function createTicket($title, $description, $userId, $issueType, $companyId) {
+    public function createTicket($title, $description, $userId, $issueType, $companyId)
+    {
         $query = "INSERT INTO tickets (ticket_title, ticket_description, user_id, issue_type, company_id) 
                   VALUES (?, ?, ?, ?, ?)";
         $stmt = $this->conn->prepare($query);
@@ -21,11 +25,12 @@ class TicketModel {
         return $stmt->execute();
     }
 
-    public function getTicketsWithRepliesByUserId($userId) {
+    public function getTicketsWithRepliesByUserId($userId)
+    {
         $query = "
             SELECT 
                 t.ticket_id, t.ticket_title, t.ticket_description, t.ticket_status, t.created_at, 
-                tr.ticket_reply, tr.replied_at 
+                tr.ticket_reply, tr.replied_at ,attachment_path
             FROM tickets t 
             LEFT JOIN ticket_replies tr ON t.ticket_id = tr.ticket_id 
             WHERE t.user_id = ? 
@@ -48,7 +53,8 @@ class TicketModel {
                     'ticket_description' => $row['ticket_description'],
                     'ticket_status' => $row['ticket_status'],
                     'created_at' => $row['created_at'],
-                    'replies' => []
+                    'replies' => [],
+                    'attachment_path' => $row['attachment_path']
                 ];
             }
 
@@ -63,9 +69,10 @@ class TicketModel {
         return $tickets;
     }
 
-    
+
     // Get all tickets with additional details
-    public function getAllTickets() {
+    public function getAllTickets()
+    {
         $query = "
             SELECT 
                 t.ticket_id, t.ticket_title, t.ticket_description, t.ticket_status, t.priority, 
@@ -78,15 +85,15 @@ class TicketModel {
             LEFT JOIN ticket_transfers tt ON t.ticket_id = tt.ticket_id
             ORDER BY t.created_at DESC
         ";
-        
+
         $result = $this->conn->query($query);
-        
+
         // Collect tickets and their transfer history
         $tickets = [];
-        
+
         while ($row = $result->fetch_assoc()) {
             $ticket_id = $row['ticket_id'];
-    
+
             // Initialize ticket if not already present in $tickets array
             if (!isset($tickets[$ticket_id])) {
                 $tickets[$ticket_id] = [
@@ -100,7 +107,7 @@ class TicketModel {
                     'transfers' => []
                 ];
             }
-    
+
             // If transfer details are present, append them to the ticket's transfer history
             if ($row['from_company_id'] !== null) {
                 $tickets[$ticket_id]['transfers'][] = [
@@ -110,15 +117,16 @@ class TicketModel {
                 ];
             }
         }
-    
+
         // Return the tickets with full transfer history
         return $tickets;
     }
 
-    
+
 
     // Fetch tickets assigned to a specific company
-    public function getTicketsForCompany($company_id) {
+    public function getTicketsForCompany($company_id)
+    {
         $query = "SELECT ticket_id, ticket_title, ticket_description, ticket_status, priority, created_at 
                   FROM tickets 
                   WHERE company_id = ? 
@@ -130,12 +138,14 @@ class TicketModel {
     }
 
     // Resolve a ticket
-    public function resolveTicket($ticket_id, $company_id, $ticket_reply) {
+    public function resolveTicket($ticket_id, $company_id, $ticket_reply)
+    {
         $this->conn->begin_transaction();
 
         try {
             // Update ticket status
-            $stmt = $this->conn->prepare("
+            $stmt = $this->conn->prepare(
+                "
                 UPDATE tickets 
                 SET ticket_status = 'Resolved' 
                 WHERE ticket_id = ? AND company_id = ?"
@@ -152,16 +162,16 @@ class TicketModel {
 
             $this->conn->commit();
             return true;
-
         } catch (Exception $e) {
             $this->conn->rollback();
             return false;
         }
     }
-    
+
 
     // Transfer a ticket to another company
-    public function transferTicket($ticket_id, $to_company_id) {
+    public function transferTicket($ticket_id, $to_company_id)
+    {
         $transfer_status = 'Open';
         $transferred_at = date("Y-m-d H:i:s");
 
@@ -180,7 +190,8 @@ class TicketModel {
 
     // Update ticket status
     // TicketModel.php
-    public function updateTicketStatus($ticketId, $status) {
+    public function updateTicketStatus($ticketId, $status)
+    {
         $sql = "UPDATE tickets SET ticket_status = ? WHERE ticket_id = ?";
         $stmt = $this->conn->prepare($sql);
         $stmt->bind_param('si', $status, $ticketId);
@@ -188,13 +199,28 @@ class TicketModel {
     }
 
     // Method to get tickets sorted by priority (highest first)
-    public function getTicketsSortedByPriority() {
+    public function getTicketsSortedByPriority()
+    {
         $query = "SELECT * FROM tickets ORDER BY FIELD(priority, 'high', 'medium', 'low') DESC";
         return $this->conn->query($query);
     }
 
-    
+    // Method to get support members based on company_id
+    // Fetch support members based on company_id
+    public function getSupportMembersByCompany($companyId)
+    {
+        $query = "SELECT id AS user_id, user_name FROM users WHERE company_id = ? AND Acc_type = 'Support'";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param("i", $companyId);
+        $stmt->execute();
+        return $stmt->get_result();
+    }
 
-
+    // Method to assign a ticket to a support member
+    // Fetch support members
+    public function getSupportMembers()
+    {
+        $query = "SELECT id AS user_id, user_name , company_id FROM users WHERE Acc_type = 'Support'";
+        return $this->conn->query($query);
+    }
 }
-?>

@@ -1,6 +1,6 @@
 <?php
-require '../../model/includes/config.php'; 
-require '../../model/TicketModel.php'; // Make sure this path is correct, too
+require '../../model/includes/config.php';
+require '../../model/TicketModel.php';
 
 // Ensure the user is logged in
 if (!isset($_SESSION['user_id'])) {
@@ -8,17 +8,22 @@ if (!isset($_SESSION['user_id'])) {
     exit();
 }
 
-class TicketController {
+
+
+class TicketController
+{
     private $ticketModel;
     private $conn; // Declare the connection property
 
-    public function __construct($conn) {
+    public function __construct($conn)
+    {
         $this->conn = $conn; // Initialize the $conn property
         $this->ticketModel = new TicketModel($conn); // Initialize the model with the connection
     }
 
     // User-specific operations
-    public function createTicket() {
+    public function createTicket()
+    {
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $user_id = $_SESSION['user_id'];
             $ticket_title = trim($_POST['ticket_title']);
@@ -37,26 +42,31 @@ class TicketController {
     }
 
     // Get all tickets for a user
-    public function getAllTickets() {
+    public function getAllTickets()
+    {
         return $this->ticketModel->getAllTickets();
     }
 
     // Company-specific operations (Support)
-    public function showTicketsForCompany($company_id) {
+    public function showTicketsForCompany($company_id)
+    {
         return $this->ticketModel->getTicketsForCompany($company_id);
     }
 
-    public function getTicketsWithReplies($user_id) {
+    public function getTicketsWithReplies($user_id)
+    {
         return $this->ticketModel->getTicketsWithRepliesByUserId($user_id);
     }
 
 
-    public function transferTicket($ticket_id, $to_company_id) {
+    public function transferTicket($ticket_id, $to_company_id)
+    {
         return $this->ticketModel->transferTicket($ticket_id, $to_company_id);
     }
 
     // Change the status of a ticket
-    public function changeTicketStatus($ticketId, $status) {
+    public function changeTicketStatus($ticketId, $status)
+    {
         if ($status !== 'open' && $status !== 'resolved') {
             return false; // Invalid status
         }
@@ -66,18 +76,117 @@ class TicketController {
     }
 
     // Method to fetch tickets sorted by priority
-    public function getTicketsSortedByPriority($company_id) {
-        // Ensure $this->conn is initialized
+    public function getTicketsSortedByPriority($company_id)
+    {
         if ($this->conn === null) {
             throw new Exception("Database connection is not initialized.");
         }
 
-        $query = "SELECT * FROM tickets WHERE company_id = ? ORDER BY FIELD(priority, 'high', 'medium', 'low') ASC";
-        $stmt = $this->conn->prepare($query);
+        $query = "SELECT * FROM tickets 
+                  WHERE company_id = ? 
+                  AND ticket_status != 'resolved'
+                  ORDER BY FIELD(priority, 'high', 'medium', 'low') ASC";
+
+        if (!($stmt = $this->conn->prepare($query))) {
+            throw new Exception("Query preparation failed: " . $this->conn->error);
+        }
+
         $stmt->bind_param("i", $company_id);
         $stmt->execute();
         return $stmt->get_result();
     }
-}
 
-?>
+    public function getMyAssignedTickets($company_id, $support_member_id)
+    {
+        if ($this->conn === null) {
+            throw new Exception("Database connection is not initialized.");
+        }
+
+        $query = "SELECT * FROM tickets 
+              WHERE company_id = ? 
+              AND assigned_to = ? 
+              ORDER BY FIELD(priority, 'high', 'medium', 'low') ASC";
+
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param("ii", $company_id, $support_member_id);
+        $stmt->execute();
+        return $stmt->get_result();
+    }
+    public function getResolvedTickets($company_id)
+    {
+        if ($this->conn === null) {
+            throw new Exception("Database connection is not initialized.");
+        }
+
+        $query = "SELECT * FROM tickets WHERE company_id = ? AND ticket_status = 'resolved' ORDER BY updated_at DESC";
+
+        // Debug the query
+        if (!($stmt = $this->conn->prepare($query))) {
+            throw new Exception("Query preparation failed: " . $this->conn->error);
+        }
+
+        if (!$stmt->bind_param("i", $company_id)) {
+            throw new Exception("Parameter binding failed: " . $stmt->error);
+        }
+
+        if (!$stmt->execute()) {
+            throw new Exception("Query execution failed: " . $stmt->error);
+        }
+
+        $result = $stmt->get_result();
+        $stmt->close();
+
+        return $result;
+    }
+
+
+
+
+
+    public function getSupportMembersDropdown($companyId)
+    {
+        $supportMembers = $this->ticketModel->getSupportMembersByCompany($companyId);
+        return $supportMembers;
+    }
+
+
+
+    public function getSupportMembers()
+    {
+        return $this->ticketModel->getSupportMembers();
+    }
+
+    public function getSupportMembersbyCompany($company_id)
+    {
+        if ($this->conn === null) {
+            throw new Exception("Database connection is not initialized.");
+        }
+
+        $query = "SELECT 
+                    id AS user_id,
+                    user_name,
+                    company_id 
+                  FROM users 
+                  WHERE Acc_type = 'Support' 
+                  AND company_id = ?
+                  ORDER BY user_name ASC";
+
+        // Debug the query
+        if (!($stmt = $this->conn->prepare($query))) {
+            throw new Exception("Query preparation failed: " . $this->conn->error);
+        }
+
+        if (!$stmt->bind_param("i", $company_id)) {
+            throw new Exception("Parameter binding failed: " . $stmt->error);
+        }
+
+        if (!$stmt->execute()) {
+            throw new Exception("Query execution failed: " . $stmt->error);
+        }
+
+        $result = $stmt->get_result();
+        $stmt->close();
+
+        return $result;
+    }
+}

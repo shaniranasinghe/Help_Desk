@@ -1,245 +1,500 @@
 /* support_dashboard.css */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 body {
-    font-family: Arial, sans-serif;
-    background: #f4f4f4;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
+  font-family: Arial, sans-serif;
+  background: #f4f4f4;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 .container {
-    width: 80%;
-    margin: 0 auto;
-    padding-top: 50px;
+  width: 80%;
+  margin: 0 auto;
+  padding-top: 50px;
 }
-
 
 /* Ticket Table */
 .ticket-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 30px;
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 30px;
 }
 
-.ticket-table th, .ticket-table td {
-    padding: 15px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
+.ticket-table th,
+.ticket-table td {
+  padding: 15px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
 }
 
 .ticket-table th {
-    background-color: #466587;
-    color: white;
+  background-color: #466587;
+  color: white;
 }
 
 .ticket-table td {
-    background-color: #f9f9f9;
+  background-color: #f9f9f9;
 }
 
 .ticket-table .status {
-    padding: 5px 10px;
-    border-radius: 4px;
+  padding: 5px 10px;
+  border-radius: 4px;
 }
 
 .ticket-table .status.open {
-    background-color: #f39c12;
-    color: white;
+  background-color: #f39c12;
+  color: white;
 }
 
 .ticket-table .status.resolved {
-    background-color: #27ae60;
-    color: white;
+  background-color: #27ae60;
+  color: white;
 }
 
 /* Action Buttons */
 .btn {
-    padding: 8px 16px;
-    font-size: 14px;
-    border: none;
-    border-radius: 5px;
-    text-decoration: none;
-    cursor: pointer;
-    color: white;
-    margin: 0 5px;
-    display: inline-block;
+  padding: 8px 16px;
+  font-size: 14px;
+  border: none;
+  border-radius: 5px;
+  text-decoration: none;
+  cursor: pointer;
+  color: white;
+  margin: 0 5px;
+  display: inline-block;
 }
 
 .btn.resolve {
-    background-color: #3498db;
+  background-color: #3498db;
 }
 
 .btn.resolve:hover {
-    background-color: #2980b9;
+  background-color: #2980b9;
 }
 
 .btn.transfer {
-    background-color: #e74c3c;
+  background-color: #e74c3c;
 }
 
 .btn.transfer:hover {
-    background-color: #c0392b;
+  background-color: #c0392b;
+}
+
+.btn.view-more {
+  background-color: #3c0c48;
 }
 
 /* No Tickets Message */
 .no-tickets {
-    font-size: 18px;
-    color: #e74c3c;
-    margin-top: 30px;
-    text-align: center;
+  font-size: 18px;
+  color: #e74c3c;
+  margin-top: 30px;
+  text-align: center;
 }
 
 /* Table Row Hover */
 .ticket-table tr:hover {
-    background-color: #f1f1f1;
+  background-color: #f1f1f1;
 }
 
 /* Modal Styles */
 .modal {
-    display: none;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: #fff;
-    padding: 2em;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    border-radius: 8px;
-    z-index: 1000;
-    width: 400px;
-    max-width: 90%;
-    transition: opacity 0.3s ease, transform 0.3s ease;
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #fff;
+  padding: 2em;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  z-index: 1000;
+  width: 400px;
+  max-width: 90%;
+  transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
 .modal-content {
-    text-align: left;
+  text-align: left;
 }
 
 .modal .close {
-    font-size: 1.5em;
-    font-weight: bold;
-    color: #333;
-    cursor: pointer;
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    transition: color 0.3s;
+  font-size: 1.5em;
+  font-weight: bold;
+  color: #333;
+  cursor: pointer;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  transition: color 0.3s;
 }
 
 .modal .close:hover {
-    color: #e74c3c;
+  color: #e74c3c;
 }
 
 .modal-content h2 {
-    margin-top: 0;
-    font-size: 1.5em;
-    color: #333;
-    margin-bottom: 1em;
-    text-align: center;
+  margin-top: 0;
+  font-size: 1.5em;
+  color: #333;
+  margin-bottom: 1em;
+  text-align: center;
 }
 
 /* Resolve Modal Styling */
 #resolveModal {
-    background: #f4f9fc;
-    border: 2px solid #3498db;
+  background: #f4f9fc;
+  border: 2px solid #3498db;
 }
 
 #resolveModal form {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 #resolveModal textarea {
-    padding: 10px;
-    margin-bottom: 1em;
-    border-radius: 4px;
-    border: 1px solid #ddd;
-    font-size: 1em;
-    resize: vertical;
-    min-height: 120px;
+  padding: 10px;
+  margin-bottom: 1em;
+  border-radius: 4px;
+  border: 1px solid #ddd;
+  font-size: 1em;
+  resize: vertical;
+  min-height: 120px;
 }
 
 #resolveModal button {
-    padding: 12px 18px;
-    background-color: #3498db;
-    color: white;
-    font-size: 1.1em;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+  padding: 12px 18px;
+  background-color: #3498db;
+  color: white;
+  font-size: 1.1em;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
 #resolveModal button:hover {
-    background-color: #2980b9;
+  background-color: #2980b9;
 }
 
 /* Transfer Modal Styling */
 #transferModal {
-    background: #f9f9f9;
-    border: 2px solid #e74c3c;
+  background: #f9f9f9;
+  border: 2px solid #e74c3c;
 }
 
 #transferModal select,
 #transferModal button {
-    padding: 12px;
-    margin-bottom: 1em;
-    font-size: 1.1em;
-    border-radius: 4px;
-    border: 1px solid #ddd;
+  padding: 12px;
+  margin-bottom: 1em;
+  font-size: 1.1em;
+  border-radius: 4px;
+  border: 1px solid #ddd;
 }
 
 #transferModal select {
-    cursor: pointer;
-    background-color: #fff;
+  cursor: pointer;
+  background-color: #fff;
 }
 
 #transferModal button {
-    background-color: #e74c3c;
-    color: white;
-    font-weight: bold;
-    transition: background-color 0.3s ease;
+  background-color: #e74c3c;
+  color: white;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
 }
 
 #transferModal button:hover {
-    background-color: #c0392b;
+  background-color: #c0392b;
 }
 
 /* Modal Background Overlay */
 .modal:target {
-    display: block;
-    opacity: 1;
-    transform: translate(-50%, -50%);
+  display: block;
+  opacity: 1;
+  transform: translate(-50%, -50%);
 }
 
 .modal-backdrop {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.6);
-    z-index: 999;
-    transition: opacity 0.3s ease;
-    display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 999;
+  transition: opacity 0.3s ease;
+  display: none;
 }
 
 /* Show backdrop when modal is active */
 .modal:target ~ .modal-backdrop {
-    display: block;
-    opacity: 1;
+  display: block;
+  opacity: 1;
 }
 
 /* Disable button appearance */
 .disabled {
-    pointer-events: none;
-    opacity: 0.6;
-    cursor: not-allowed;
+  pointer-events: none;
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
+.modal {
+  display: none;
+  position: fixed;
+  top: 10%;
+  left: 50%;
+  transform: translate(-50%, -10%);
+  width: 80%;
+  background-color: white;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+  border-radius: 10px;
+  overflow: hidden;
+}
 
+.modal-content {
+  padding: 20px;
+  position: relative;
+}
+
+.close {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.chat-container {
+  height: 300px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 10px;
+  margin-bottom: 10px;
+  background-color: #f9f9f9;
+}
+
+.chat-message {
+  margin: 5px 0;
+  max-width: 70%;
+  padding: 10px;
+  border-radius: 10px;
+  line-height: 1.5;
+}
+
+.sender {
+  background-color: #e0f7fa;
+  align-self: flex-start;
+  text-align: left;
+  margin-left: 5px;
+}
+
+.receiver {
+  background-color: #dcedc8;
+  align-self: flex-end;
+  text-align: right;
+  margin-right: 5px;
+}
+
+.chat-input {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.chat-input textarea {
+  flex: 1;
+  height: 40px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 5px;
+}
+
+.chat-input button {
+  height: 40px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.ticket-thumbnail {
+  max-width: 50px;
+  max-height: 50px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: transform 0.2s;
+}
+
+.ticket-thumbnail:hover {
+  transform: scale(1.1);
+}
+
+h2 {
+  margin-top: 30px;
+  margin-bottom: 20px;
+  color: #333;
+  border-bottom: 2px solid #eee;
+  padding-bottom: 10px;
+}
+
+.no-tickets {
+  padding: 20px;
+  background: #f9f9f9;
+  border-radius: 4px;
+  text-align: center;
+  color: #666;
+}
+
+.assign-to-me {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-right: 5px;
+}
+
+.assign-to-me:hover {
+  background-color: #45a049;
+}
+
+.assigned-badge {
+  display: inline-block;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 0.9em;
+  margin-right: 5px;
+}
+
+.assigned-badge:contains("Assigned to Me") {
+  background-color: #e8f5e9;
+  color: #2e7d32;
+}
+
+.assigned-badge:contains("Assigned to Other") {
+  background-color: #f5f5f5;
+  color: #666;
+}
+
+.ticket-thumbnail {
+  max-width: 50px;
+  max-height: 50px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: transform 0.2s;
+}
+
+.ticket-thumbnail:hover {
+  transform: scale(1.1);
+}
+
+/* Modal styles */
+.image-modal {
+  display: none;
+  position: fixed;
+  z-index: 9999;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.9);
+}
+
+.image-modal-wrapper {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 800px; /* Fixed width */
+  height: 600px; /* Fixed height */
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+}
+
+.image-modal-content {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 4px;
+}
+
+.image-close {
+  position: absolute;
+  top: -30px;
+  right: -30px;
+  color: #fff;
+  font-size: 100px;
+  font-weight: bold;
+  cursor: pointer;
+  z-index: 10000;
+}
+
+.image-close:hover {
+  color: #ddd;
+}
+
+/* Make modal responsive for smaller screens */
+@media screen and (max-width: 900px) {
+  .image-modal-wrapper {
+    width: 90%;
+    height: 70vh;
+  }
+
+  .image-close {
+    top: 10px;
+    right: 10px;
+  }
+}
+
+.ticket-thumbnail {
+  max-width: 50px;
+  max-height: 50px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: transform 0.2s;
+}
+
+.ticket-thumbnail:hover {
+  transform: scale(1.1);
+}
+
+.btn.pending {
+  background-color: #ffa500;
+  color: white;
+}
+
+.btn.chat {
+  background-color: #4caf50;
+  color: white;
+}
+
+.status.pending {
+  background-color: #ffa500;
+  color: white;
+}
+
+.sortable {
+  cursor: pointer;
+}
+.arrow {
+  font-size: 0.8em;
+  margin-left: 5px;
+}
+.arrow.asc {
+  transform: rotate(180deg);
+  display: inline-block;
+}
