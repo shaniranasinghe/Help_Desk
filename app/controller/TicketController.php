@@ -67,7 +67,7 @@ class TicketController
     // Change the status of a ticket
     public function changeTicketStatus($ticketId, $status)
     {
-        if ($status !== 'open' && $status !== 'resolved') {
+        if (!in_array($status, ['open', 'resolved', 'pending'])) {
             return false; // Invalid status
         }
 

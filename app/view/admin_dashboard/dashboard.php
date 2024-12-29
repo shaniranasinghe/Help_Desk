@@ -23,6 +23,8 @@ if (isset($_GET['action']) && isset($_GET['ticketId'])) {
         $ticketController->changeTicketStatus($ticketId, 'resolved');
     } elseif ($action === 'open') {
         $ticketController->changeTicketStatus($ticketId, 'open');
+    } elseif ($action === 'pending') {
+        $ticketController->changeTicketStatus($ticketId, 'pending');
     }
 
     header('Location: dashboard.php');
@@ -143,10 +145,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['query'])) {
                             <?php if ($ticket['ticket_status'] === 'open'): ?>
                             <button class="modal-button open"
                                 onclick="openModal('open', <?php echo $ticket['ticket_id']; ?>)">Open</button>
-                            <?php else: ?>
+                                <?php elseif ($ticket['ticket_status'] === 'pending'): ?>
+                                <button class="modal-button pending"
+                                onclick="openModal('pending', <?php echo $ticket['ticket_id']; ?>)">Pending</button>
+                            <?php else: ?>    
                             <button class="modal-button resolved"
                                 onclick="openModal('resolved', <?php echo $ticket['ticket_id']; ?>)">Resolved</button>
                             <?php endif; ?>
+                            
                         </td>
                         <td><?php echo htmlspecialchars($ticket['priority']); ?></td>
                         <td><?php echo htmlspecialchars($ticket['submitted_by']); ?></td>
@@ -178,21 +184,27 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['query'])) {
         <div class="modal-content">
             <h3>Change Ticket Status</h3>
             <button class="modal-button open" id="openBtn">Open</button>
+            <button class="modal-button pending" id="pendingBtn">Pending</button>
             <button class="modal-button resolved" id="resolvedBtn">Resolved</button>
             <button class="modal-button cancel" onclick="closeModal()">Cancel</button>
         </div>
     </div>
 
     <script>
+
     function openModal(status, ticketId) {
         document.getElementById('statusModal').style.display = 'flex';
         document.getElementById('openBtn').onclick = function() {
             changeStatus(ticketId, 'open');
         };
+        document.getElementById('pendingBtn').onclick = function() { 
+            changeStatus(ticketId, 'pending');
+        };
         document.getElementById('resolvedBtn').onclick = function() {
             changeStatus(ticketId, 'resolved');
         };
     }
+
 
     function closeModal() {
         document.getElementById('statusModal').style.display = 'none';

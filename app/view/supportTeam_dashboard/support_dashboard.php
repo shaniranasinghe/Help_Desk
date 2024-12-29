@@ -102,11 +102,14 @@ $resolved_tickets = $ticketController->getResolvedTickets($company_id);
                         </button>
                         <?php endif; ?>
 
-                        <a href="#"
-                            class="btn resolve <?php echo ($row['ticket_status'] !== 'open') ? 'disabled' : ''; ?>"
+                        <?php if ($row['assigned_to'] == $_SESSION['user_id']): ?>
+                        <?php if ($row['ticket_status'] === 'open' || $row['ticket_status'] === 'pending'): ?>
+                        <a href="#" class="btn resolve"
                             onclick="handleResolveClick(<?php echo $row['ticket_id']; ?>, <?php echo $row['assigned_to']; ?>, '<?php echo $row['ticket_status']; ?>')">
                             Resolve
                         </a>
+                        <?php endif; ?>
+                        <?php endif; ?>
 
                         <button class="btn view-more" onclick="openViewMoreModal(<?php echo $row['ticket_id']; ?>)">
                             View More
@@ -159,79 +162,85 @@ $resolved_tickets = $ticketController->getResolvedTickets($company_id);
         <?php endif; ?>
 
         <!--Display All Tickets -->
-        <h2 style="margin-top: 30px;">All company Tickets</h2>
-        <?php if ($tickets->num_rows > 0): ?>
-        <table class="ticket-table">
-            <thead>
-                <tr>
-                    <th>Ticket ID</th>
-                    <th>Title</th>
-                    <th>Description</th>
-                    <<th class="sortable" onclick="sortByStatus(this)">
-                        Status <span class="arrow">▼</span>
-                        </th>
-                        <th>Priority</th>
-                        <th>Attachment</th>
-                        <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php while ($row = $tickets->fetch_assoc()): ?>
-                <tr>
-                    <td><?php echo htmlspecialchars($row['ticket_id']); ?></td>
-                    <td><?php echo htmlspecialchars($row['ticket_title']); ?></td>
-                    <td><?php echo htmlspecialchars($row['ticket_description']); ?></td>
-                    <td>
-                        <span class="status <?php echo strtolower($row['ticket_status']); ?>">
-                            <?php echo htmlspecialchars($row['ticket_status']); ?>
-                        </span>
-                    </td>
-                    <td><?php echo htmlspecialchars($row['priority']); ?></td>
-                    <td>
-                        <?php if (!empty($row['attachment_path'])): ?>
-                        <img src="../../<?php echo htmlspecialchars($row['attachment_path']); ?>"
-                            alt="Ticket Attachment" class="ticket-thumbnail" onclick="openImageModal(this.src)">
+<h2 style="margin-top: 30px;">All company Tickets</h2>
+<?php if ($tickets->num_rows > 0): ?>
+<table class="ticket-table">
+    <thead>
+        <tr>
+            <th>Ticket ID</th>
+            <th>Title</th>
+            <th>Description</th>
+            <th class="sortable" onclick="sortByStatus(this)">
+                Status <span class="arrow">▼</span>
+            </th>
+            <th>Priority</th>
+            <th>Attachment</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+            <?php while ($row = $tickets->fetch_assoc()): ?>
+            <tr>
+                <td><?php echo htmlspecialchars($row['ticket_id']); ?></td>
+                <td><?php echo htmlspecialchars($row['ticket_title']); ?></td>
+                <td><?php echo htmlspecialchars($row['ticket_description']); ?></td>
+                <td>
+                    <span class="status <?php echo strtolower($row['ticket_status']); ?>">
+                        <?php echo htmlspecialchars($row['ticket_status']); ?>
+                    </span>
+                </td>
+                <td><?php echo htmlspecialchars($row['priority']); ?></td>
+                <td>
+                    <?php if (!empty($row['attachment_path'])): ?>
+                    <img src="../../<?php echo htmlspecialchars($row['attachment_path']); ?>"
+                        alt="Ticket Attachment" class="ticket-thumbnail" onclick="openImageModal(this.src)">
+                    <?php else: ?>
+                    <span>No attachment</span>
+                    <?php endif; ?>
+                </td>
+                <td>
+                    <?php if (empty($row['assigned_to'])): ?>
+                    <!-- Add Assign to Me button for unassigned tickets -->
+                    <button class="btn assign-to-me" onclick="assignToMe(<?php echo $row['ticket_id']; ?>)">
+                        Assign to Me
+                    </button>
+                    <?php elseif ($row['assigned_to'] == $_SESSION['user_id']): ?>
+                    <span class="assigned-badge">Assigned to Me</span>
+                    <?php else: ?>
+                    <span class="assigned-badge">Assigned to Other</span>
+                    <?php endif; ?>
+
+                    <!-- Existing buttons -->
+                    <?php if ($row['assigned_to'] == $_SESSION['user_id']): ?>
+                    <?php if ($row['ticket_status'] === 'open' || $row['ticket_status'] === 'pending'): ?>
+                    <a href="#" class="btn resolve"
+                        onclick="handleResolveClick(<?php echo $row['ticket_id']; ?>, <?php echo $row['assigned_to']; ?>, '<?php echo $row['ticket_status']; ?>')">
+                        Resolve
+                    </a>
+                    <?php endif; ?>
+                    <?php endif; ?>
+
+                    <button class="btn transfer <?php echo ($row['ticket_status'] === 'open' || $row['ticket_status'] === 'pending') ? '' : 'disabled'; ?>"
+                        <?php if ($row['ticket_status'] === 'open' || $row['ticket_status'] === 'pending'): ?>
+                            onclick="openTransferModal(<?php echo $row['ticket_id']; ?>)"
                         <?php else: ?>
-                        <span>No attachment</span>
-                        <?php endif; ?>
-                    </td>
-                    <td>
-                        <?php if (empty($row['assigned_to'])): ?>
-                        <!-- Add Assign to Me button for unassigned tickets -->
-                        <button class="btn assign-to-me" onclick="assignToMe(<?php echo $row['ticket_id']; ?>)">
-                            Assign to Me
-                        </button>
-                        <?php elseif ($row['assigned_to'] == $_SESSION['user_id']): ?>
-                        <span class="assigned-badge">Assigned to Me</span>
-                        <?php else: ?>
-                        <span class="assigned-badge">Assigned to Other</span>
-                        <?php endif; ?>
+                            onclick="return false;" 
+                        <?php endif; ?>>
+                        Transfer
+                    </button>
 
-                        <!-- Existing buttons -->
-                        <a href="#"
-                            class="btn resolve <?php echo ($row['ticket_status'] !== 'open' || $row['assigned_to'] != $_SESSION['user_id']) ? 'disabled' : ''; ?>"
-                            onclick="handleResolveClick(<?php echo $row['ticket_id']; ?>, <?php echo $row['assigned_to']; ?>, '<?php echo $row['ticket_status']; ?>')">
-                            Resolve
-                        </a>
+                    <button class="btn view-more" onclick="openViewMoreModal(<?php echo $row['ticket_id']; ?>)">
+                        View More
+                    </button>
+                </td>
+            </tr>
+            <?php endwhile; ?>
+        </tbody>
+    </table>
+    <?php else: ?>
+    <p class="no-tickets">No tickets available.</p>
+    <?php endif; ?>
 
-                        <button class="btn transfer <?php echo ($row['ticket_status'] !== 'open') ? 'disabled' : ''; ?>"
-                            <?php if ($row['ticket_status'] === 'open'): ?>
-                            onclick="openTransferModal(<?php echo $row['ticket_id']; ?>)" <?php else: ?>
-                            onclick="return false;" <?php endif; ?>>
-                            Transfer
-                        </button>
-
-                        <button class="btn view-more" onclick="openViewMoreModal(<?php echo $row['ticket_id']; ?>)">
-                            View More
-                        </button>
-                    </td>
-                </tr>
-                <?php endwhile; ?>
-            </tbody>
-        </table>
-        <?php else: ?>
-        <p class="no-tickets">No tickets available.</p>
-        <?php endif; ?>
 
 
 
@@ -355,11 +364,6 @@ $resolved_tickets = $ticketController->getResolvedTickets($company_id);
     </div>
 
 
-
-
-
-
-
     <script>
     function openResolveModal(ticketId) {
         document.getElementById("resolveModal").style.display = "block";
@@ -465,7 +469,6 @@ $resolved_tickets = $ticketController->getResolvedTickets($company_id);
     }
 
 
-
     function openImageModal(src) {
         const modal = document.getElementById('imageModal');
         const modalImg = document.getElementById('modalImage');
@@ -521,32 +524,18 @@ $resolved_tickets = $ticketController->getResolvedTickets($company_id);
     const loggedInUserId = <?php echo json_encode($_SESSION['user_id']); ?>;
 
     function handleResolveClick(ticketId, assignedTo, status) {
-
-
         const currentUserId = <?php echo $_SESSION['user_id']; ?>;
-
-        console.log('Ticket Status:', status);
-        console.log('Assigned To:', assignedTo);
-        console.log('Current User:', currentUserId);
-
-        if (status !== 'open') {
-            alert('This ticket is already resolved.');
-            return false;
-        }
 
         if (assignedTo != currentUserId) {
             alert('You can only resolve tickets assigned to you.');
             return false;
         }
 
-        // If all checks pass, open the resolve modal
+        // Open the resolve modal
         openResolveModal(ticketId);
         return false;
     }
     </script>
-
-
-
 
     <script>
     function openImageModal(src) {
@@ -624,12 +613,6 @@ $resolved_tickets = $ticketController->getResolvedTickets($company_id);
         rows.forEach(row => tbody.appendChild(row));
     }
     </script>
-
-
-
-
-
-
 
     <?php include_once '../common/footer.php'; ?>
 

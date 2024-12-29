@@ -44,8 +44,6 @@
   margin-left: 20px;
 }
 
-/* Container for login buttons (My Tickets & Logout) */
-/* Container for login buttons (My Tickets & Logout) */
 .login-container {
   display: flex; /* Align buttons in a row */
   gap: 10px; /* Add space between buttons */

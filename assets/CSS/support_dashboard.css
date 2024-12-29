@@ -48,7 +48,7 @@ body {
 }
 
 .ticket-table .status.open {
-  background-color: #f39c12;
+  background-color: rgb(226, 226, 20);
   color: white;
 }
 

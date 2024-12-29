@@ -149,8 +149,8 @@ body {
     color: #fff;
 }
 
-.ticket-status.transferred {
-    background: #17a2b8;
+.ticket-status.pending {
+    background: orange;
     color: #fff;
 }
 
@@ -270,6 +270,10 @@ h2 {
 }
 .modal-button.resolved {
     background-color: #17a2b8;
+    color: white;
+}
+.modal-button.pending {
+    background-color: orange;
     color: white;
 }
 .modal-button.cancel {
