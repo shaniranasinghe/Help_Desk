@@ -89,7 +89,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 $mail->addAddress($email, $firstName . ' ' . $lastName);
 
                                 // Content
-                                $verificationLink = "http://localhost/it-help-desk/app/view/auth/verify.php?token=" . $verificationToken;
+                                $verificationLink = "http://localhost/HELP_DESK/app/view/auth/verify.php?token=" . $verificationToken;
 
                                 $mail->isHTML(true);
                                 $mail->Subject = 'Verify Your Email Address';
