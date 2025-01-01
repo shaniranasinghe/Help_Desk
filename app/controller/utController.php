@@ -18,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             'Ticket ID', 'Ticket Title', 'Ticket Description', 'Status', 
             'Priority', 'Submitted by', 'Current Company', 'Transfer', 'Ticket Replies'
         ];
-        $widths = [15, 30, 30, 20, 20, 30, 30, 30, 50]; // Column widths
+        $widths = [15, 30, 30, 20, 20, 30, 30, 30, 70]; // Column widths
 
         // Map headers to database columns
         $columnMapping = [
