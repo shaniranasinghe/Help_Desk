@@ -57,7 +57,13 @@ body {
   color: white;
 }
 
-/* Action Buttons */
+/* Container for buttons */
+.btn-container {
+  display: flex;
+  justify-content: center; /* Center-align buttons */
+  gap: 10px; /* Space between buttons */
+}
+
 .btn {
   padding: 8px 16px;
   font-size: 14px;
@@ -66,12 +72,18 @@ body {
   text-decoration: none;
   cursor: pointer;
   color: white;
-  margin: 0 5px;
+  text-align: center;
+  margin: 0;
   display: inline-block;
+  flex: 1; /* Ensures buttons align evenly */
+  text-align: center;
 }
 
 .btn.resolve {
   background-color: #3498db;
+  display: flex; /* Enables flexbox */
+  align-items: center; /* Centers text vertically */
+  justify-content: center;
 }
 
 .btn.resolve:hover {
@@ -90,6 +102,10 @@ body {
   background-color: #3c0c48;
 }
 
+.btn.view-more:hover {
+  background-color: #2b0233;
+}
+
 /* No Tickets Message */
 .no-tickets {
   font-size: 18px;
@@ -103,37 +119,43 @@ body {
   background-color: #f1f1f1;
 }
 
-/* Modal Styles */
 .modal {
   display: none;
   position: fixed;
   top: 50%;
   left: 50%;
+  right: 50%;
   transform: translate(-50%, -50%);
-  background: #fff;
-  padding: 2em;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  border-radius: 8px;
+  width: 60%; /* Reduce width */
+  max-width: 500px; /* Ensure responsiveness */
+  background-color: white;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+  border-radius: 10px;
+  overflow: hidden;
+  padding: 20px; /* Add padding for better spacing */
   z-index: 1000;
-  width: 400px;
-  max-width: 90%;
-  transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
 .modal-content {
-  text-align: left;
+  padding: 20px;
+  position: relative;
+  font-size: 1rem;
+  display: block;
+    margin: auto;
+    max-width: 500px; /* Set the fixed size */
+    max-height: 500px;
+    object-fit: contain; /* Adjust font size if needed */
 }
 
-.modal .close {
-  font-size: 1.5em;
-  font-weight: bold;
-  color: #333;
-  cursor: pointer;
+.close {
   position: absolute;
   top: 10px;
-  right: 10px;
-  transition: color 0.3s;
+  right: 15px;
+  font-size: 20px;
+  cursor: pointer;
 }
+
+
 
 .modal .close:hover {
   color: #e74c3c;
@@ -187,6 +209,11 @@ body {
 #transferModal {
   background: #f9f9f9;
   border: 2px solid #e74c3c;
+}
+
+#viewMoreModal{
+  background: #f9f9f9;
+  border: 2px solid #3c0c48;
 }
 
 #transferModal select,
@@ -447,16 +474,54 @@ h2 {
   color: #ddd;
 }
 
-/* Make modal responsive for smaller screens */
-@media screen and (max-width: 900px) {
-  .image-modal-wrapper {
-    width: 90%;
-    height: 70vh;
+/* Responsive Styles */
+@media screen and (max-width: 768px) {
+  .container {
+    width: 95%;
+    padding-top: 20px;
   }
 
-  .image-close {
-    top: 10px;
-    right: 10px;
+  .ticket-table th,
+  .ticket-table td {
+    font-size: 0.9rem;
+    padding: 8px;
+  }
+
+  .btn {
+    padding: 6px 12px;
+    font-size: 12px;
+    margin: 5px 0;
+  }
+
+  .modal {
+    width: 95%;
+    max-width: 400px;
+  }
+
+  .modal-content {
+    font-size: 0.9rem;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .btn {
+    font-size: 10px;
+    padding: 5px 10px;
+    margin: 2px;
+  }
+
+  .modal {
+    width: 90%;
+    max-width: 300px;
+  }
+
+  .ticket-table th,
+  .ticket-table td {
+    font-size: 0.8rem;
+  }
+
+  .no-tickets {
+    font-size: 16px;
   }
 }
 

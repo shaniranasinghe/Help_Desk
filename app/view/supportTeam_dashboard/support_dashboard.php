@@ -14,6 +14,71 @@ $ticketController = new TicketController($conn);
 // Get the company ID from the session
 $company_id = $_SESSION['company_id'];
 
+// Retrieve the logged-in user's ID from the session
+$user_id = $_SESSION['user_id'];
+
+// Fetch the company_id for the logged-in user
+$ticketModel = new TicketModel($conn);  // Initialize the model here
+$userQuery = "SELECT company_id FROM users WHERE id = ?";
+if ($stmt = $conn->prepare($userQuery)) {
+    $stmt->bind_param("i", $user_id);
+    $stmt->execute();
+    $stmt->store_result();
+    $stmt->bind_result($company_id); // Fetch the company_id
+    $stmt->fetch();
+    $stmt->close();
+}
+
+$ticketModel = new TicketModel($conn);  // Initialize the model here
+$companies = $ticketModel->getCompanies();
+$allMembers = $ticketModel->getSupportMembers();
+
+// Initialize support members array to be empty by default
+$supportMembers = [];
+
+// Check if the company is selected and fetch support members
+if (isset($_POST['company_id'])) {
+    $companyId = $_POST['company_id'];
+    $supportMembers = $ticketModel->getSupportMembersByCompany($companyId);
+}
+
+
+// Handling transfer ticket form submission
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['transfer_ticket'])) {
+    $ticketId = $_POST['ticket_id'];
+    $transferType = $_POST['transfer_type'];
+    $success = false;
+    $message = '';
+
+    if ($transferType === 'internal' && !empty($_POST['to_team_member'])) {
+        $toTeamMember = $_POST['to_team_member'];
+        $query = "UPDATE tickets SET assigned_to = ? WHERE ticket_id = ?";
+        if ($stmt = $conn->prepare($query)) {
+            $stmt->bind_param("ii", $toTeamMember, $ticketId);
+            $success = $stmt->execute();
+            $stmt->close();
+        }
+    } elseif ($transferType === 'external' && !empty($_POST['to_company_id'])) {
+        $toCompanyId = $_POST['to_company_id'];
+        $query = "UPDATE tickets SET company_id = ?, assigned_to = NULL WHERE ticket_id = ?";
+        if ($stmt = $conn->prepare($query)) {
+            $stmt->bind_param("ii", $toCompanyId, $ticketId);
+            $success = $stmt->execute();
+            $stmt->close();
+        }
+    }
+
+    if ($success) {
+        $message = 'Ticket transferred successfully.';
+    } else {
+        $message = 'Failed to transfer ticket.';
+    }
+
+    $_SESSION['transfer_message'] = $message;
+    header("Location: support_dashboard.php");
+    exit();
+}
+
 // Fetch tickets sorted by priority for the dashboard
 $tickets = $ticketController->getTicketsSortedByPriority($company_id);
 $my_assigned_tickets = $ticketController->getMyAssignedTickets($company_id, $_SESSION['user_id']);
@@ -32,6 +97,46 @@ $resolved_tickets = $ticketController->getResolvedTickets($company_id);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Support Dashboard</title>
     <link rel="stylesheet" href="../../../assets/CSS/support_dashboard.css">
+    <script>
+    function toggleSupportMemberDropdown() {
+        const companySelect = document.getElementById("company_id");
+        const supportMemberSelect = document.getElementById("support_member");
+        const supportMemberContainer = document.getElementById("support_member_container");
+
+        if (companySelect.value) {
+            // Show the support member container
+            supportMemberContainer.style.display = "block";
+
+            // Fetch support members using AJAX
+            const companyId = companySelect.value;
+            fetch('../../controller/get_support_members.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: `company_id=${companyId}`,
+                })
+                .then((response) => response.json())
+                .then((data) => {
+                    // Clear existing options
+                    supportMemberSelect.innerHTML =
+                        '<option value="" disabled selected>Select a Support Member (Optional)</option>';
+
+                    // Populate support member dropdown
+                    data.forEach((member) => {
+                        const option = document.createElement('option');
+                        option.value = member.user_id;
+                        option.textContent = member.user_name;
+                        supportMemberSelect.appendChild(option);
+                    });
+                })
+                .catch((error) => console.error('Error fetching support members:', error));
+        } else {
+            // Hide the support member container if no company is selected
+            supportMemberContainer.style.display = "none";
+        }
+    }
+    </script>
 </head>
 
 <body>
@@ -89,6 +194,8 @@ $resolved_tickets = $ticketController->getResolvedTickets($company_id);
                         <?php endif; ?>
                     </td>
                     <td>
+                        <div class="btn-container">
+
                         <?php if ($row['ticket_status'] === 'open'): ?>
                         <button class="btn pending"
                             onclick="changeTicketStatus(<?php echo $row['ticket_id']; ?>, 'pending')">
@@ -114,6 +221,7 @@ $resolved_tickets = $ticketController->getResolvedTickets($company_id);
                         <button class="btn view-more" onclick="openViewMoreModal(<?php echo $row['ticket_id']; ?>)">
                             View More
                         </button>
+                        </div>
                     </td>
                 </tr>
                 <?php endwhile; ?>
@@ -199,13 +307,14 @@ $resolved_tickets = $ticketController->getResolvedTickets($company_id);
                     <?php endif; ?>
                 </td>
                 <td>
+                <div class="btn-container">
                     <?php if (empty($row['assigned_to'])): ?>
                     <!-- Add Assign to Me button for unassigned tickets -->
                     <button class="btn assign-to-me" onclick="assignToMe(<?php echo $row['ticket_id']; ?>)">
                         Assign to Me
                     </button>
                     <?php elseif ($row['assigned_to'] == $_SESSION['user_id']): ?>
-                    <span class="assigned-badge">Assigned to Me</span>
+                    <span class="assigned-badge">Assigned to other</span>
                     <?php else: ?>
                     <span class="assigned-badge">Assigned to Other</span>
                     <?php endif; ?>
@@ -232,6 +341,8 @@ $resolved_tickets = $ticketController->getResolvedTickets($company_id);
                     <button class="btn view-more" onclick="openViewMoreModal(<?php echo $row['ticket_id']; ?>)">
                         View More
                     </button>
+
+                </div>    
                 </td>
             </tr>
             <?php endwhile; ?>
@@ -329,33 +440,67 @@ $resolved_tickets = $ticketController->getResolvedTickets($company_id);
     </div>
 
     <!-- Transfer Ticket Modal -->
-    <div id="transferModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeTransferModal()">&times;</span>
-            <h2>Transfer Ticket</h2>
-            <form action="transfer_ticket.php" method="POST">
-                <input type="hidden" id="ticket_id_input" name="ticket_id">
+<div id="transferModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeTransferModal()">&times;</span>
+        <h2>Transfer Ticket</h2>
+        <form action="transfer_ticket.php" method="POST">
+            <input type="hidden" id="ticket_id_input" name="ticket_id">
+
+            <!-- Select Transfer Type -->
+            <label for="transfer_type">Transfer Type:</label>
+            <select id="transfer_type" name="transfer_type" onchange="toggleTransferOptions()" required>
+                <option value="">--Select Transfer Type--</option>
+                <option value="internal">Internal Transfer</option>
+                <option value="external">External Transfer</option>
+            </select>
+
+            <!-- Internal Transfer Options -->
+            <div id="internal_transfer_section" style="display: none;">
+                <label for="to_team_member">Select Team Member:</label>
+                <select name="to_team_member" id="to_team_member">
+                    <option value="">--Select Team Member--</option>
+                    <?php
+                    $companyId = $_SESSION['company_id'];
+                    $teamQuery = "SELECT id, user_name FROM users WHERE company_id = '$companyId'";
+                    $result = mysqli_query($conn, $teamQuery);
+
+                    if ($result && mysqli_num_rows($result) > 0) {
+                        while ($member = mysqli_fetch_assoc($result)) {
+                            echo "<option value='" . htmlspecialchars($member['id']) . "'>"
+                                . htmlspecialchars($member['user_name']) . 
+                                "</option>";
+                        }
+                    }
+
+                    ?>
+                </select>
+            </div>
+
+            <!-- External Transfer Options -->
+            <div id="external_transfer_section" style="display: none;">
                 <label for="to_company_id">Select Company to Transfer:</label>
-                <select name="to_company_id" required>
+                <select name="to_company_id" id="to_company_id">
                     <option value="">--Select Company--</option>
                     <?php
-                    // Fetch companies from the database
                     $companyQuery = "SELECT company_id, company_name FROM companies";
                     $result = mysqli_query($conn, $companyQuery);
 
                     if ($result && mysqli_num_rows($result) > 0) {
                         while ($company = mysqli_fetch_assoc($result)) {
                             echo "<option value='" . htmlspecialchars($company['company_id']) . "'>"
-                                . htmlspecialchars($company['company_name']) .
+                                . htmlspecialchars($company['company_name']) . 
                                 "</option>";
                         }
                     }
                     ?>
                 </select>
-                <button type="submit" name="transfer_ticket">Transfer</button>
-            </form>
-        </div>
+            </div>
+
+            <button type="submit" name="transfer_ticket">Transfer</button>
+        </form>
     </div>
+</div>
 
     <!-- Add Modal for Image Preview -->
     <div id="imageModal" class="modal">
@@ -374,14 +519,33 @@ $resolved_tickets = $ticketController->getResolvedTickets($company_id);
         document.getElementById("resolveModal").style.display = "none";
     }
 
-    function openTransferModal(ticketId) {
-        document.getElementById("transferModal").style.display = "block";
-        document.getElementById("ticket_id_input").value = ticketId;
-    }
+    function toggleTransferOptions() {
+    const transferType = document.getElementById("transfer_type").value;
+    const internalSection = document.getElementById("internal_transfer_section");
+    const externalSection = document.getElementById("external_transfer_section");
 
-    function closeTransferModal() {
-        document.getElementById("transferModal").style.display = "none";
+    if (transferType === "internal") {
+        internalSection.style.display = "block";
+        externalSection.style.display = "none";
+    } else if (transferType === "external") {
+        internalSection.style.display = "none";
+        externalSection.style.display = "block";
+    } else {
+        internalSection.style.display = "none";
+        externalSection.style.display = "none";
     }
+}
+
+function openTransferModal(ticketId) {
+    document.getElementById("transferModal").style.display = "block";
+    document.getElementById("ticket_id_input").value = ticketId;
+}
+
+function closeTransferModal() {
+    document.getElementById("transferModal").style.display = "none";
+    document.getElementById("transfer_type").value = ""; // Reset selection
+    toggleTransferOptions(); // Reset sections
+}
 
     function openViewMoreModal(ticketId) {
         fetch(`get_ticket_details.php?ticket_id=${ticketId}`)
@@ -536,6 +700,53 @@ $resolved_tickets = $ticketController->getResolvedTickets($company_id);
         return false;
     }
     </script>
+
+
+
+
+    <script>
+        document.getElementById("transfer_type").addEventListener("change", function () {
+        const transferType = this.value;
+        const internalSection = document.getElementById("internal_transfer_section");
+        const externalSection = document.getElementById("external_transfer_section");
+
+        if (transferType === "internal") {
+            internalSection.style.display = "block";
+            externalSection.style.display = "none";
+
+            function fetchSupportMembers() {
+        var selectedCompanyId = document.getElementById('company_id').value;
+        var supportMembersDiv = document.getElementById('support_members_div');
+        var supportMembersSelect = document.getElementById('all_support_members');
+
+        if (selectedCompanyId) {
+            supportMembersDiv.style.display = 'block';
+            supportMembersSelect.innerHTML =
+                '<option value="" disabled selected>Select a Support Member (Optional)</option>';
+
+            <?php while ($row = $allMembers->fetch_assoc()): ?>
+            if (selectedCompanyId === "<?php echo htmlspecialchars($row['company_id']); ?>") {
+                var option = document.createElement('option');
+                option.value = "<?php echo htmlspecialchars($row['user_id']); ?>";
+                option.textContent = "<?php echo htmlspecialchars($row['user_name']); ?>";
+                supportMembersSelect.appendChild(option);
+            }
+            <?php endwhile; ?>
+        } else {
+            supportMembersDiv.style.display = 'none';
+        }
+    }
+        } else if (transferType === "external") {
+            internalSection.style.display = "none";
+            externalSection.style.display = "block";
+        } else {
+            internalSection.style.display = "none";
+            externalSection.style.display = "none";
+        }
+    });
+
+    </script>
+
 
     <script>
     function openImageModal(src) {

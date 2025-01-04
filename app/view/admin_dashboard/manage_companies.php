@@ -120,10 +120,12 @@ $active_companies = "active";
                                 <td><?php echo htmlspecialchars($row['company_email']); ?></td>
                                 <td><?php echo htmlspecialchars($row['company_type']); ?></td>
                                 <td><?php echo htmlspecialchars($row['date_created']); ?></td>
-                                <td>
+                                <td class="actions">
+                                    <div class="btn-container">
                                     <a href="edit_company.php?id=<?php echo $row['company_id']; ?>" class="btn edit-btn">Edit</a>
                                     <a href="delete_company.php?id=<?php echo $row['company_id']; ?>" class="btn delete-btn" 
                                        onclick="return confirm('Are you sure you want to delete this company?')">Delete</a>
+                                    </div>   
                                 </td>
                             </tr>
                         <?php endwhile; ?>

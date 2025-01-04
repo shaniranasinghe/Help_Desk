@@ -143,11 +143,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['query'])) {
                                 <?php endif; ?>
                             </td>
                             <td><?php echo htmlspecialchars($row['date_created']); ?></td>
-                            <td>
+                            <td class="actions">
+                                <div class="btn-container">
                                 <a href="edit_user.php?id=<?php echo $row['id']; ?>" class="btn edit-btn">Edit</a>
                                 <a href="?delete=<?php echo $row['id']; ?>" class="btn delete-btn" 
-                                   onclick="return confirm('Are you sure you want to delete this user?')">Delete</a>
+                                onclick="return confirm('Are you sure you want to delete this user?')">Delete</a>
+                                </div>    
                             </td>
+
                         </tr>
                     <?php endwhile; ?>
                 </tbody>

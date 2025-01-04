@@ -119,7 +119,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 // Fetch companies for the dropdown
-$companyQuery = "SELECT * FROM company";
+$companyQuery = "SELECT * FROM companies";
 $companyResult = $conn->query($companyQuery);
 
 $conn->close();
@@ -206,32 +206,37 @@ $conn->close();
                 </div>
 
                 <div class="inputbox">
-                    <input type="text" id="address" name="address" required>
+                    <input type="text" id="address" name="address">
                     <label for="address">Address</label>
                 </div>
 
                 <div class="inputbox">
-                    <input type="text" id="city" name="city" required>
+                    <input type="text" id="city" name="city">
                     <label for="city">City</label>
                 </div>
 
                 <div class="inputbox">
-                    <input type="text" id="postalcode" name="postalcode" required>
+                    <input type="text" id="postalcode" name="postalcode">
                     <label for="postalcode">Postal Code</label>
                 </div>
 
 
                 <div class="inputbox">
-                    <label for="company_id" class="required">Company:</label>
-                    <select name="company_id" id="company_id" required>
-                        <option value="1">Sub-Company 1</option>
-                        <option value="2">Sub-Company 2</option>
-                        <option value="3">Sub-Company 3</option>
-                        <option value="4">Sub-Company 4</option>
-                        <option value="5">Sub-Company 5</option>
-                        <option value="6">Primary Company</option>
-                    </select>
-                </div>
+    <label for="company_id" class="required">Company:</label>
+    <select name="company_id" id="company_id" required>
+        <option value="" disabled selected>Select a company</option>
+        <?php 
+        if ($companyResult && $companyResult->num_rows > 0) {
+            while ($row = $companyResult->fetch_assoc()) {
+                echo '<option value="' . htmlspecialchars($row['company_id']) . '">' . htmlspecialchars($row['company_name']) . '</option>';
+            }
+        } else {
+            echo '<option value="" disabled>No companies available</option>';
+        }
+        ?>
+    </select>
+</div>
+
 
 
                 <div class="inputbox">
