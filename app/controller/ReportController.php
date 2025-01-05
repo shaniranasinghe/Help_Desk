@@ -4,11 +4,9 @@ include('../../model/includes/config.php');
 
 
 class ReportController {
-    public function searchUserTickets($userID) {
+    public function searchUserTickets($ticketID) {
         global $conn; // Ensure $conn is available
         $reportModel = new ReportModel($conn);
-        return $reportModel->getUserTickets($userID);
+        return $reportModel->getFilteredTickets($ticketID);
     }
-
-    
 }

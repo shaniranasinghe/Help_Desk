@@ -185,6 +185,31 @@ body {
     font-size: 14px;
 }
 
+
+.report-container {
+    display: flex;
+    justify-content: flex-end; /* Aligns content to the right */
+    margin-bottom: 10px; /* Adds space between button and table */
+}
+
+/* Styling for the Generate Report button */
+.generate-report-btn {
+    background-color: #4CAF50; /* Green background */
+    color: white; /* White text */
+    padding: 10px 20px; /* Adds padding */
+    border: none; /* Removes border */
+    border-radius: 5px; /* Rounds corners */
+    font-size: 16px; /* Increases font size */
+    cursor: pointer; /* Adds hover cursor */
+    transition: transform 0.2s, background-color 0.3s;
+}
+
+/* Hover effect for button */
+.generate-report-btn:hover {
+    background-color: #45a049; /* Slightly darker green */
+    transform: scale(1.05); /* Enlarge slightly */
+}
+
 .companies-table .btn.edit-btn {
     background: #f39c12;
 }

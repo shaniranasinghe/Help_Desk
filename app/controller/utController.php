@@ -15,14 +15,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         // Headers and column widths
         $headers = [
-            'Ticket ID', 'Ticket Title', 'Ticket Description', 'Status', 
+            'User ID', 'Ticket ID', 'Ticket Title', 'Ticket Description', 'Status', 
             'Priority', 'Submitted by', 'Current Company', 'Transfer', 'Ticket Replies'
         ];
-        $widths = [15, 30, 30, 20, 20, 30, 30, 30, 70]; // Column widths
+        $widths = [15, 15, 30, 30, 20, 20, 30, 30, 30, 60]; 
 
         // Map headers to database columns
         $columnMapping = [
             'Ticket ID' => 'ticket_id',
+            'User ID' => 'user_id',
             'Ticket Title' => 'ticket_title',
             'Ticket Description' => 'ticket_description',
             'Status' => 'ticket_status',
@@ -35,21 +36,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         // Query to fetch ticket data
         $query = "
-            SELECT 
-                t.ticket_id, t.ticket_title, t.ticket_description, t.ticket_status, t.priority, 
-                u.user_name AS submitted_by, 
-                c.company_name AS current_company, 
-                GROUP_CONCAT(CONCAT('From: ', tt.from_company_id, ' To: ', tt.to_company_id) SEPARATOR '\n') AS transfer_history,
-                GROUP_CONCAT(CONCAT(tr.ticket_reply) SEPARATOR '\n') AS ticket_replies
-            FROM tickets t 
-            LEFT JOIN users u ON t.user_id = u.id
-            LEFT JOIN companies c ON t.company_id = c.company_id
-            LEFT JOIN ticket_transfers tt ON t.ticket_id = tt.ticket_id
-            LEFT JOIN ticket_replies tr ON t.ticket_id = tr.ticket_id 
-            WHERE t.user_id = ? 
-            GROUP BY t.ticket_id
-            ORDER BY t.created_at DESC, tr.replied_at ASC
-        ";
+        SELECT 
+            t.user_id, t.ticket_id, t.ticket_title, t.ticket_description, t.ticket_status, t.priority, 
+            u.user_name AS submitted_by, 
+            c.company_name AS current_company, 
+            GROUP_CONCAT(CONCAT('From: ', tt.from_company_id, ' To: ', tt.to_company_id) SEPARATOR '\n') AS transfer_history,
+            GROUP_CONCAT(CONCAT(tr.ticket_reply) SEPARATOR '\n') AS ticket_replies
+        FROM tickets t 
+        LEFT JOIN users u ON t.user_id = u.id
+        LEFT JOIN companies c ON t.company_id = c.company_id
+        LEFT JOIN ticket_transfers tt ON t.ticket_id = tt.ticket_id
+        LEFT JOIN ticket_replies tr ON t.ticket_id = tr.ticket_id 
+        WHERE t.user_id = ? 
+        GROUP BY t.ticket_id
+        ORDER BY t.created_at DESC, tr.replied_at ASC
+    ";
+
 
         $stmt = $conn->prepare($query);
         if ($stmt === false) {

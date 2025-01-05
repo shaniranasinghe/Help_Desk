@@ -214,20 +214,20 @@ $conn->close();
 
 
                 <div class="inputbox">
-    <label for="company_id" class="required">Company:</label>
-    <select name="company_id" id="company_id" required>
-        <option value="" disabled selected>Select a company</option>
-        <?php 
-        if ($companyResult && $companyResult->num_rows > 0) {
-            while ($row = $companyResult->fetch_assoc()) {
-                echo '<option value="' . htmlspecialchars($row['company_id']) . '">' . htmlspecialchars($row['company_name']) . '</option>';
-            }
-        } else {
-            echo '<option value="" disabled>No companies available</option>';
-        }
-        ?>
-    </select>
-</div>
+                    <label for="company_id" class="required">Company:</label>
+                    <select name="company_id" id="company_id" required>
+                        <option value="" disabled selected>Select a company</option>
+                        <?php 
+                        if ($companyResult && $companyResult->num_rows > 0) {
+                            while ($row = $companyResult->fetch_assoc()) {
+                                echo '<option value="' . htmlspecialchars($row['company_id']) . '">' . htmlspecialchars($row['company_name']) . '</option>';
+                            }
+                        } else {
+                            echo '<option value="" disabled>No companies available</option>';
+                        }
+                        ?>
+                    </select>
+                </div>
 
 
 
