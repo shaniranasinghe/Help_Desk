@@ -201,7 +201,7 @@ $resolved_tickets = $ticketController->getResolvedTickets($company_id);
                         <?php if ($row['ticket_status'] === 'open'): ?>
                         <button class="btn pending"
                             onclick="changeTicketStatus(<?php echo $row['ticket_id']; ?>, 'pending')">
-                            Mark Pending
+                            Mark_Pending
                         </button>
                         <?php endif; ?>
 

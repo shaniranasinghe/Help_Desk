@@ -267,7 +267,11 @@ if ($acctype != "Admin" && $acctype != "Support") {
     }
 
     function openChat(ticketId) {
+        <?php if ($acctype == "Support"): ?>
+        window.location.href = '../supportTeam_dashboard/chat.php?ticket_id=' + ticketId;
+        <?php else: ?>
         window.location.href = '../tickets/user_chat.php?ticket_id=' + ticketId;
+        <?php endif; ?>
     }
 
     // Check messages more frequently (every 10 seconds)
