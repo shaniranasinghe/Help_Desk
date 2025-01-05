@@ -158,14 +158,6 @@ $conn->close();
     </header>
 
 
-    <div class="breadcrumb-container">
-        <nav class="breadcrumb">
-            <a href="../../../index.php" class="breadcrumb-logo">
-                <img src="../../../assets/Images/logo.png" alt="Help Desk Logo" class="logo">
-            </a>
-            <a href="../pages/home.php" class="breadcrumb-link active">Help Center</a>
-        </nav>
-    </div>
     <section>
         <div class="form-box">
             <h2>Create Your Account</h2>

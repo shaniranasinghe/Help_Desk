@@ -84,7 +84,7 @@ class TicketController
 
         $query = "SELECT * FROM tickets 
                   WHERE company_id = ? 
-                  AND ticket_status != 'resolved'
+                  AND ticket_status != 'resolved' AND assigned_to IS NULL
                   ORDER BY FIELD(priority, 'high', 'medium', 'low') ASC";
 
         if (!($stmt = $this->conn->prepare($query))) {
@@ -104,7 +104,7 @@ class TicketController
 
         $query = "SELECT * FROM tickets 
               WHERE company_id = ? 
-              AND assigned_to = ? 
+              AND assigned_to = ? AND ticket_status != 'resolved'
               ORDER BY FIELD(priority, 'high', 'medium', 'low') ASC";
 
         $stmt = $this->conn->prepare($query);

@@ -50,8 +50,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['transfer_ticket'])) {
     $success = false;
     $message = '';
 
-    if ($transferType === 'internal' && !empty($_POST['to_team_member'])) {
-        $toTeamMember = $_POST['to_team_member'];
+    if ($transferType === 'internal' && !empty($_POST['to_assigned_to'])) {
+        $toTeamMember = $_POST['to_assigned_to'];
         $query = "UPDATE tickets SET assigned_to = ? WHERE ticket_id = ?";
         if ($stmt = $conn->prepare($query)) {
             $stmt->bind_param("ii", $toTeamMember, $ticketId);
@@ -168,7 +168,9 @@ $resolved_tickets = $ticketController->getResolvedTickets($company_id);
                     <th class="sortable" onclick="sortByStatus(this)">
                         Status <span class="arrow">▼</span>
                     </th>
-                    <th>Priority</th>
+                    <th class="sortable" onclick="sortByPriority(this)">
+                        Priority <span class="arrow">▼</span>
+                    </th>
                     <th>Attachment</th>
                     <th>Actions</th>
                 </tr>
@@ -217,6 +219,15 @@ $resolved_tickets = $ticketController->getResolvedTickets($company_id);
                         </a>
                         <?php endif; ?>
                         <?php endif; ?>
+
+                        <button class="btn transfer <?php echo ($row['ticket_status'] === 'open' || $row['ticket_status'] === 'pending') ? '' : 'disabled'; ?>"
+                            <?php if ($row['ticket_status'] === 'open' || $row['ticket_status'] === 'pending'): ?>
+                                onclick="openTransferModal(<?php echo $row['ticket_id']; ?>)"
+                            <?php else: ?>
+                                onclick="return false;" 
+                            <?php endif; ?>>
+                            Transfer
+                        </button>
 
                         <button class="btn view-more" onclick="openViewMoreModal(<?php echo $row['ticket_id']; ?>)">
                             View More
@@ -281,7 +292,9 @@ $resolved_tickets = $ticketController->getResolvedTickets($company_id);
             <th class="sortable" onclick="sortByStatus(this)">
                 Status <span class="arrow">▼</span>
             </th>
-            <th>Priority</th>
+            <th class="sortable" onclick="sortByPriority(this)">
+                        Priority <span class="arrow">▼</span>
+            </th>
             <th>Attachment</th>
             <th>Actions</th>
         </tr>
@@ -329,14 +342,7 @@ $resolved_tickets = $ticketController->getResolvedTickets($company_id);
                     <?php endif; ?>
                     <?php endif; ?>
 
-                    <button class="btn transfer <?php echo ($row['ticket_status'] === 'open' || $row['ticket_status'] === 'pending') ? '' : 'disabled'; ?>"
-                        <?php if ($row['ticket_status'] === 'open' || $row['ticket_status'] === 'pending'): ?>
-                            onclick="openTransferModal(<?php echo $row['ticket_id']; ?>)"
-                        <?php else: ?>
-                            onclick="return false;" 
-                        <?php endif; ?>>
-                        Transfer
-                    </button>
+                    
 
                     <button class="btn view-more" onclick="openViewMoreModal(<?php echo $row['ticket_id']; ?>)">
                         View More
@@ -457,8 +463,8 @@ $resolved_tickets = $ticketController->getResolvedTickets($company_id);
 
             <!-- Internal Transfer Options -->
             <div id="internal_transfer_section" style="display: none;">
-                <label for="to_team_member">Select Team Member:</label>
-                <select name="to_team_member" id="to_team_member">
+                <label for="to_assigned_to">Select Team Member:</label>
+                <select name="to_assigned_to" id="to_assigned_to">
                     <option value="">--Select Team Member--</option>
                     <?php
                     $companyId = $_SESSION['company_id'];
@@ -823,6 +829,36 @@ function closeTransferModal() {
         // Reorder rows
         rows.forEach(row => tbody.appendChild(row));
     }
+
+
+
+    function sortByPriority(header) {
+        const table = header.closest('table');
+        const tbody = table.querySelector('tbody');
+        const rows = Array.from(tbody.querySelectorAll('tr'));
+        const arrow = header.querySelector('.arrow');
+        const isAscending = !arrow.classList.contains('asc');
+
+        // Update arrow
+        arrow.classList.toggle('asc');
+
+        // Sort rows
+        rows.sort((a, b) => {
+            const priorityA = a.querySelector('td:nth-child(5)').textContent.trim().toLowerCase();
+            const priorityB = b.querySelector('td:nth-child(5)').textContent.trim().toLowerCase();
+
+            // Define custom priority order
+            const priorityOrder = { 'low': 1, 'medium': 2, 'high': 3, 'urgent': 4 };
+
+            return isAscending ?
+                (priorityOrder[priorityA] - priorityOrder[priorityB]) :
+                (priorityOrder[priorityB] - priorityOrder[priorityA]);
+        });
+
+        // Reorder rows
+        rows.forEach(row => tbody.appendChild(row));
+    }
+
     </script>
 
     <?php include_once '../common/footer.php'; ?>

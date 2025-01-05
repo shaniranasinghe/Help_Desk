@@ -58,7 +58,7 @@ if (!isset($_SESSION['user_id'])) {
                 <div class="card">
                     <h3>General FAQs</h3>
                     <p>Find answers to frequently asked questions related to IT support and services.</p>
-                    <a href="knowledgebase.php">View Articles</a>
+                    <a href="general.php">View Articles</a>
                 </div>
                 <div class="card">
                     <h3>Software Help</h3>

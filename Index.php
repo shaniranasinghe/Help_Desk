@@ -60,7 +60,7 @@
                 <div class="card">
                     <h3>General FAQs</h3>
                     <p>Find answers to frequently asked questions related to IT support and services.</p>
-                    <a href="./app/view/pages/knowledgebase.php">View Articles</a>
+                    <a href="./app/view/pages/general.php">View Articles</a>
                 </div>
                 <div class="card">
                     <h3>Software Help</h3>

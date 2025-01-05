@@ -172,7 +172,7 @@ class TicketModel
     // Transfer a ticket to another company
     public function transferTicket($ticket_id, $to_company_id)
     {
-        $transfer_status = 'Open';
+        $transfer_status = 'Open'; 
         $transferred_at = date("Y-m-d H:i:s");
 
         $query = "UPDATE tickets SET company_id = ?, ticket_status = ? WHERE ticket_id = ?";
@@ -187,6 +187,18 @@ class TicketModel
         $stmt_transfer->bind_param("iiis", $ticket_id, $_SESSION['company_id'], $to_company_id, $transferred_at);
         return $stmt_transfer->execute();
     }
+
+
+    // Assign a ticket to a specific support member
+    public function assignTicketToSupportMember($ticket_id, $assigned_to)
+    {
+        $query = "UPDATE tickets SET assigned_to = ?, ticket_status = 'open' WHERE ticket_id = ?";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param("ii", $assigned_to, $ticket_id);
+        return $stmt->execute();
+    }
+
+    
 
     // Update ticket status
     // TicketModel.php
