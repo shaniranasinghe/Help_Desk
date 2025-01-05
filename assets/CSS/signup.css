@@ -280,16 +280,19 @@ section {
 }
 
 .form-box {
-    position: relative;
-    width: 600px;
-    height: auto; /* Make height dynamic to adjust based on content */
-    background-color: white;
-    border-radius: 8px;
-    padding: 30px 40px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    width: 560px;
+    padding: 20px 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
     text-align: center;
-    margin: 20px 0; /* Add vertical margin to prevent clipping at edges */
-}
+  }
+  
+  .form-value h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+  }
 
 
 .input-group {
@@ -303,42 +306,43 @@ section {
     flex: 1; /* Make each input field take equal space */
 }
 
-h2 {
-    font-size: 2em;
-    color: black;
-    text-align: center;
-}
 
 .inputbox {
     position: relative;
     margin: 20px 0;
+  }
+  
+  .inputbox input {
     width: 100%;
-    border-bottom: 2px solid #5a5959;
-}
+    padding: 10px;
+    border: none;
+    border-bottom: 2px solid #ddd;
+    outline: none;
+    background: transparent;
+    font-size: 16px;
+  }
+  
+  .inputbox input:focus {
+    border-color: #0171d3;
+  }
 
-.inputbox label {
+  .inputbox label {
     position: absolute;
-    top: 2px;
+    top: 50%;
     left: 10px;
     transform: translateY(-50%);
-    color: rgb(70, 70, 70);
-    font-size: 1em;
+    color: #aaa;
+    transition: 0.3s;
     pointer-events: none;
-    transition: 0.5s;
-}
+  }
 
-
-.inputbox input {
-    width: 100%;
-    height: 50px;
-    background: transparent;
-    border: none;
-    outline: none;
-    font-size: 1em;
-    padding: 0 5px;
-    color: black;
-}
-
+  .inputbox input:focus + label,
+  .inputbox input:not(:placeholder-shown) + label {
+    top: 0;
+    left: 10px;
+    font-size: 16px;
+    color: #333;
+  }  
 
 input, select {
     padding: 10px;
@@ -349,20 +353,60 @@ input, select {
     height: 50px; /* Match other input fields */
 }
 
+.inputbox select {
+    width: 50%;
+    padding: 10px;
+    border-bottom: 2px solid #ddd;
+    outline: none;
+    background: transparent;
+    font-size: 16px;
+    -webkit-appearance: none; /* Removes default select arrow on WebKit browsers */
+    -moz-appearance: none; /* Removes default select arrow on Firefox */
+    appearance: none; /* Removes default select arrow on other browsers */
+    margin-left: 20px; /* Adjust the value to move it more to the right */
+}
+
+
+#select-company-dropdown {
+    margin-left: 20px; /* Adjust the value as needed */
+}
+
+
+.inputbox select:focus {
+    border-color: #0171d3;
+}
+
+.inputbox label {
+    position: absolute;
+    top: 10%;
+    left: 10px;
+    font-size: 16px;
+    transform: translateY(-50%);
+    color: #333;
+    transition: 0.3s;
+    pointer-events: none;
+}
+
+.inputbox select:focus + label,
+.inputbox select:not(:placeholder-shown) + label {
+    top: 0;
+    left: 10px;
+    font-size: 16px;
+    color: #333;
+}
+
 
 button {
     width: 100%;
-    height: 45px;
-    border-radius: 5px;
+    padding: 10px;
     background: #0171d3;
     border: none;
-    outline: none;
-    color: white;
+    border-radius: 8px;
+    color: #fff;
+    font-size: 16px;
     cursor: pointer;
-    font-size: 1em;
-    font-weight: 500;
     transition: 0.3s;
-}
+  }
 
 button:hover {
     background: #005bb5;
@@ -373,6 +417,7 @@ button:hover {
     font-weight: 400;
     color: black;
     margin-top: 15px;
+    text-align: center; /* Center the text */
 }
 
 .login p a {
@@ -384,6 +429,7 @@ button:hover {
 .login p a:hover {
     text-decoration: underline;
 }
+
 
 p {
     font-size: 1em;

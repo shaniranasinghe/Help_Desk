@@ -160,7 +160,7 @@ $conn->close();
 
     <section>
         <div class="form-box">
-            <h2>Create Your Account</h2>
+            <h2>Create Your Account</h2><br>
 
             <!-- Display error or success messages -->
             <?php if ($error): ?>
@@ -214,8 +214,9 @@ $conn->close();
 
 
                 <div class="inputbox">
-                    <label for="company_id" class="required">Company:</label>
-                    <select name="company_id" id="company_id" required>
+                <label for="company" class="required">Company</label>
+                <select id="company" name="company">
+
                         <option value="" disabled selected>Select a company</option>
                         <?php 
                         if ($companyResult && $companyResult->num_rows > 0) {

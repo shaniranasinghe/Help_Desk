@@ -85,6 +85,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['query'])) {
             <li><a href="manage_users.php" class="active">Users</a></li>
             <li><a href="manage_companies.php">Companies</a></li>
             <li><a href="ticketListView.php">Summery Report</a></li>
+            <li><a href="feedback.php">Feedbacks</a></li>
         </ul>
     </div>
 

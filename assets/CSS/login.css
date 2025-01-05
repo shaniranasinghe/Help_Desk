@@ -1,5 +1,4 @@
 
-
 *{
     margin: 0;
     padding: 0;
@@ -327,7 +326,7 @@
 .inputbox input:not(:placeholder-shown) + label {
   top: 0;
   left: 10px;
-  font-size: 14px;
+  font-size: 16px;
   color: #333;
 }
 
