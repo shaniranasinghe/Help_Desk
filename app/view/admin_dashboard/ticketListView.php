@@ -69,7 +69,7 @@ $conn->close();
 
         <section class="hero">
             <div class="container">
-            <form id="search-form" method="POST" action="ticketListView.php">
+            <form id="search-form1" method="POST" action="ticketListView.php">
                 <input type="text" name="user_id" placeholder="Search by User ID..." value="<?php echo htmlspecialchars($_POST['user_id'] ?? ''); ?>">
                 <select name="priority">
                     <option value="">Select Priority</option>
@@ -109,6 +109,7 @@ $conn->close();
             <form action="../../controller/utController.php" method="POST">
                 <input type="hidden" name="report_type" value="user_tickets">
                 <input type="hidden" name="user_id" value="<?php echo htmlspecialchars($_POST['user_id'] ?? ''); ?>">
+                <input type="hidden" name="ticket_id" value="<?php echo htmlspecialchars($_POST['ticket_id'] ?? ''); ?>">
                 <input type="hidden" name="priority" value="<?php echo htmlspecialchars($_POST['priority'] ?? 'all'); ?>">
                 <input type="hidden" name="status" value="<?php echo htmlspecialchars($_POST['status'] ?? 'all'); ?>">
                 <input type="hidden" name="start_date" value="<?php echo htmlspecialchars($_POST['start_date'] ?? ''); ?>">
@@ -153,14 +154,15 @@ $conn->close();
                     <?php 
                         if (!empty($ticket['transfers'])): 
                             foreach ($ticket['transfers'] as $transfer): ?>
-                                From: <?php echo htmlspecialchars($transfer['from_company_id']); ?><br>
-                                To: <?php echo htmlspecialchars($transfer['to_company_id']); ?><br>
+                                From: <?php echo htmlspecialchars($transfer['from_company_name']); ?><br>
+                                To: <?php echo htmlspecialchars($transfer['to_company_name']); ?><br>
                                 At: <?php echo htmlspecialchars($transfer['transferred_at']); ?><br>
                             <?php endforeach; 
                         else: ?>
                             Not Transferred
                     <?php endif; ?>
                 </td>
+
                 <td>
                     <?php 
                         if (!empty($ticket['replies'])): 

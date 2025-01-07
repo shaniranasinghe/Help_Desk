@@ -1,111 +1,117 @@
-<?php
+<?php 
 ob_start();
 require('../../libs/fpdf.php');
 include('../model/includes/config.php');
+require_once('../model/ReportModel.php');
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $reportType = $_POST['report_type'];
-    $userId = isset($_POST['user_id']) ? $_POST['user_id'] : null;
-
-    if ($reportType === 'user_tickets' && $userId !== null) {
-        $pdf = new FPDF('L', 'mm', 'A4'); // Landscape mode for wider tables
-        $pdf->AddPage();
-        $pdf->SetFont('Arial', 'B', 10);
-        $pdf->Cell(275, 10, 'User Tickets Report', 0, 1, 'C');
-
-        // Headers and column widths
-        $headers = [
-            'User ID', 'Ticket ID', 'Ticket Title', 'Ticket Description', 'Status', 
-            'Priority', 'Submitted by', 'Current Company', 'Transfer', 'Ticket Replies'
-        ];
-        $widths = [15, 15, 30, 30, 20, 20, 30, 30, 30, 60]; 
-
-        // Map headers to database columns
-        $columnMapping = [
-            'Ticket ID' => 'ticket_id',
-            'User ID' => 'user_id',
-            'Ticket Title' => 'ticket_title',
-            'Ticket Description' => 'ticket_description',
-            'Status' => 'ticket_status',
-            'Priority' => 'priority',
-            'Submitted by' => 'submitted_by',
-            'Current Company' => 'current_company',
-            'Transfer' => 'transfer_history',
-            'Ticket Replies' => 'ticket_replies',
-        ];
-
-        // Query to fetch ticket data
-        $query = "
-        SELECT 
-            t.user_id, t.ticket_id, t.ticket_title, t.ticket_description, t.ticket_status, t.priority, 
-            u.user_name AS submitted_by, 
-            c.company_name AS current_company, 
-            GROUP_CONCAT(CONCAT('From: ', tt.from_company_id, ' To: ', tt.to_company_id) SEPARATOR '\n') AS transfer_history,
-            GROUP_CONCAT(CONCAT(tr.ticket_reply) SEPARATOR '\n') AS ticket_replies
-        FROM tickets t 
-        LEFT JOIN users u ON t.user_id = u.id
-        LEFT JOIN companies c ON t.company_id = c.company_id
-        LEFT JOIN ticket_transfers tt ON t.ticket_id = tt.ticket_id
-        LEFT JOIN ticket_replies tr ON t.ticket_id = tr.ticket_id 
-        WHERE t.user_id = ? 
-        GROUP BY t.ticket_id
-        ORDER BY t.created_at DESC, tr.replied_at ASC
-    ";
-
-
-        $stmt = $conn->prepare($query);
-        if ($stmt === false) {
-            die("Prepare failed: (" . $conn->errno . ") " . $conn->error);
+// Handle download report request
+if (isset($_POST['download_report']) && $_POST['report_type'] === 'user_tickets') {
+    // Extend FPDF for custom Header and Footer
+    class PDF extends FPDF {
+        // Header
+        function Header() {
+            $this->SetFont('Arial', 'B', 14);
+            $this->SetTextColor(0, 0, 0); // Black text
+            $this->Cell(0, 10, 'User Tickets Report', 0, 1, 'C');
+            $this->Ln(5);
         }
-        $stmt->bind_param('i', $userId);
-        $stmt->execute();
-        $result = $stmt->get_result();
 
-        // Add headers to the PDF
-        $pdf->SetFillColor(200, 220, 255);
-        foreach ($headers as $index => $header) {
-            $pdf->Cell($widths[$index], 12, $header, 1, 0, 'C', true); // Increased height to 12
+        // Footer
+        function Footer() {
+            $this->SetY(-15);
+            $this->SetFont('Arial', 'I', 8);
+            $this->SetTextColor(0, 0, 0);
+            $this->Cell(0, 10, 'Page ' . $this->PageNo(), 0, 0, 'C');
+        }
+    }
+
+    // Initialize PDF
+    $pdf = new PDF('L', 'mm', 'A4'); // A4 Landscape
+    $pdf->AddPage();
+
+    // Filters
+    $filters = [
+        'user_id' => $_POST['user_id'] ?? '',
+        'priority' => $_POST['priority'] ?? 'all',
+        'status' => $_POST['status'] ?? 'all',
+        'start_date' => $_POST['start_date'] ?? '',
+        'end_date' => $_POST['end_date'] ?? '',
+        'company' => $_POST['company'] ?? ''
+    ];
+
+    $ticketModel = new ReportModel();
+    $filteredTickets = $ticketModel->getFilteredTickets($filters);
+
+    if (!empty($filteredTickets)) {
+        // Table Header with Styling
+        $pdf->SetFont('Arial', 'B', 10);
+        $pdf->SetFillColor(200, 220, 255); // Light blue background
+        $pdf->SetTextColor(0, 0, 0); // Black text
+
+        $headers = [
+            ['label' => 'Ticket ID', 'width' => 17],
+            ['label' => 'User ID', 'width' => 17],
+            ['label' => 'Submitted By', 'width' => 25],
+            ['label' => 'Ticket Title', 'width' => 25],
+            ['label' => 'Ticket Description', 'width' => 30],
+            ['label' => 'Status', 'width' => 20],
+            ['label' => 'Priority', 'width' => 20],
+            ['label' => 'Current Company', 'width' => 30],
+            ['label' => 'Transfer History', 'width' => 50],
+            ['label' => 'Replies', 'width' => 50]
+        ];
+
+        foreach ($headers as $header) {
+            $pdf->Cell($header['width'], 10, $header['label'], 1, 0, 'C', true); // Fill color applied
         }
         $pdf->Ln();
 
-        // Add data rows
+        // Table Rows
         $pdf->SetFont('Arial', '', 8);
-        while ($row = $result->fetch_assoc()) {
-            foreach ($headers as $index => $header) {
-                $columnKey = $columnMapping[$header];
-                $column = isset($row[$columnKey]) ? $row[$columnKey] : '';
-
-                // If no transfer history, display "Not Transferred"
-                if ($header === 'Transfer') {
-                    if (empty($column)) {
-                        $column = 'Not Transferred'; // Default text if no transfer history
-                    }
-                    $x = $pdf->GetX();
-                    $y = $pdf->GetY();
-                    $pdf->MultiCell($widths[$index], 12, $column, 1, 'C'); // Increased row height to 12
-                    $pdf->SetXY($x + $widths[$index], $y); // Reset X position for the next cell
+        foreach ($filteredTickets as $ticket) {
+            $pdf->Cell(17, 10, '#' . $ticket['ticket_id'], 1);
+            $pdf->Cell(17, 10, $ticket['user_id'], 1);
+            $pdf->Cell(25, 10, $ticket['submitted_by'], 1);
+            $pdf->Cell(25, 10, $ticket['ticket_title'], 1);
+            $pdf->Cell(30, 10, $ticket['ticket_description'], 1);
+            $pdf->Cell(20, 10, $ticket['ticket_status'], 1);
+            $pdf->Cell(20, 10, $ticket['priority'], 1);
+            $pdf->Cell(30, 10, $ticket['current_company'], 1);
+            
+            // Display Transfer History
+            $transferText = '';
+            if (!empty($ticket['transfers'])) {
+                foreach ($ticket['transfers'] as $transfer) {
+                    $transferText .= $transfer['from_company_name'] . ' - To: ' . $transfer['to_company_name'];
                 }
-                // If no ticket replies, display "No Replies"
-                else if ($header === 'Ticket Replies') {
-                    if (empty($column)) {
-                        $column = 'No Replies'; // Default text if no ticket replies
-                    }
-                    $x = $pdf->GetX();
-                    $y = $pdf->GetY();
-                    $pdf->MultiCell($widths[$index], 12, $column, 1, 'C'); // Increased row height to 12
-                    $pdf->SetXY($x + $widths[$index], $y); // Reset X position for the next cell
-                }
-                // For other columns, just display normally
-                else {
-                    $pdf->Cell($widths[$index], 12, $column, 1, 0, 'C'); // Increased row height to 12
-                }
+            } else {
+                $transferText = 'No transfers';
             }
-            $pdf->Ln();
+            $pdf->Cell(50, 10, $transferText, 1);
+
+            // Display Replies with controlled line breaks
+            $replyText = '';
+            if (!empty($ticket['replies'])) {
+                foreach ($ticket['replies'] as $reply) {
+                    $replyText .= $reply['ticket_reply'];
+                }
+            } else {
+                $replyText = 'No replies';
+            }
+
+            // Display the replies within a controlled MultiCell
+            $pdf->Cell(50, 10, $replyText, 1);
+
+            $pdf->Ln(); // Line break after each ticket row
         }
 
         // Output the PDF
-        $pdf->Output('D', 'user_tickets_report.pdf');
-        exit;
+        $pdf->Output('D', 'filtered_tickets_report.pdf');
+        exit();
+    } else {
+        // Redirect back with an error message if no data
+        header("Location: ../view/ticketListView.php?error=No tickets found for the applied filters");
+        exit();
     }
 }
 ob_end_clean();

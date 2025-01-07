@@ -23,7 +23,6 @@ class ReportModel {
             $conditions[] = "t.company_id = '" . $conn->real_escape_string($filters['company']) . "'";
         }
         
-
         // Build the query
         $query = "
             SELECT 
@@ -37,7 +36,6 @@ class ReportModel {
             LEFT JOIN companies c ON t.company_id = c.company_id
             LEFT JOIN ticket_transfers tt ON t.ticket_id = tt.ticket_id
             LEFT JOIN ticket_replies tr ON t.ticket_id = tr.ticket_id
-
         ";
 
         // Append conditions
@@ -81,9 +79,19 @@ class ReportModel {
             }
 
             if ($row['from_company_id'] !== null) {
+                // Look up the company name for the 'from_company_id'
+                $fromCompanyQuery = "SELECT company_name FROM companies WHERE company_id = '" . $conn->real_escape_string($row['from_company_id']) . "'";
+                $fromCompanyResult = $conn->query($fromCompanyQuery);
+                $fromCompany = $fromCompanyResult->fetch_assoc();
+
+                // Look up the company name for the 'to_company_id'
+                $toCompanyQuery = "SELECT company_name FROM companies WHERE company_id = '" . $conn->real_escape_string($row['to_company_id']) . "'";
+                $toCompanyResult = $conn->query($toCompanyQuery);
+                $toCompany = $toCompanyResult->fetch_assoc();
+
                 $tickets[$ticket_id]['transfers'][] = [
-                    'from_company_id' => $row['from_company_id'],
-                    'to_company_id' => $row['to_company_id'],
+                    'from_company_name' => $fromCompany['company_name'] ?? 'Unknown',
+                    'to_company_name' => $toCompany['company_name'] ?? 'Unknown',
                     'transferred_at' => $row['transferred_at']
                 ];
             }
@@ -92,4 +100,5 @@ class ReportModel {
         return $tickets;
     }
 }
+
 ?>

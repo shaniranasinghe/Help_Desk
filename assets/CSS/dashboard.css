@@ -322,7 +322,7 @@ h2 {
 }
 
 /* Form Styling */
-#search-form {
+#search-form1 {
     display: flex;
     flex-wrap: wrap;
     gap: 15px;
@@ -331,9 +331,9 @@ h2 {
 }
 
 /* Input and Select Fields */
-#search-form input[type="text"],
-#search-form input[type="date"],
-#search-form select {
+#search-form1 input[type="text"],
+#search-form1 input[type="date"],
+#search-form1 select {
     flex: 1;
     min-width: 150px;
     padding: 10px;
@@ -345,15 +345,15 @@ h2 {
     transition: border-color 0.3s ease;
 }
 
-#search-form input[type="text"]:focus,
-#search-form input[type="date"]:focus,
-#search-form select:focus {
+#search-form1 input[type="text"]:focus,
+#search-form1 input[type="date"]:focus,
+#search-form1 select:focus {
     border-color: #4caf50;
     outline: none;
 }
 
 /* Labels for Date Inputs */
-#search-form label {
+#search-form1 label {
     font-size: 14px;
     font-weight: bold;
     color: #555;
@@ -361,7 +361,7 @@ h2 {
 }
 
 /* Button Styling */
-#search-form button {
+#search-form1 button {
     padding: 10px 20px;
     font-size: 14px;
     font-weight: bold;
@@ -373,21 +373,21 @@ h2 {
     transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-#search-form button:hover {
+#search-form1 button:hover {
     background-color: #0078d4;
     transform: translateY(-2px);
 }
 
 /* Responsive Design */
 @media (max-width: 768px) {
-    #search-form {
+    #search-form1 {
         flex-direction: column;
         gap: 10px;
     }
 
-    #search-form input,
-    #search-form select,
-    #search-form button {
+    #search-form1 input,
+    #search-form1 select,
+    #search-form1 button {
         width: 100%;
     }
 }
