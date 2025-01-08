@@ -64,8 +64,10 @@ if (isset($_GET['id'])) {
                     <option value="Sub" <?php echo ($company['company_type'] === 'Sub') ? 'selected' : ''; ?>>Sub</option>
                 </select>
             </div>
-            <button type="submit" name="edit_company" class="btn save-btn">Save Changes</button>
-            <a href="manage_companies.php" class="btn cancel-btn">Cancel</a>
+            <div class="button-container">
+                <button type="submit" name="edit_company" class="btn save-btn">Save Changes</button>
+                <a href="manage_companies.php" class="btn cancel-btn">Cancel</a>
+            </div>
         </form>
     </div>
 </body>
