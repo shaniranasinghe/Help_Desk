@@ -12,10 +12,24 @@ $userController = new UserController($conn);
 
 // Handle user deletion
 if (isset($_GET['delete']) && is_numeric($_GET['delete'])) {
-    $user_id = $_GET['delete'];
-    $userController->deleteUser($user_id);
-    echo "<script>alert('User deleted successfully!'); window.location.href='manage_users.php';</script>";
+    $user_id = (int)$_GET['delete'];
+
+    // Ensure the user exists and is not an admin
+    $result = $conn->query("SELECT * FROM users WHERE id = '$user_id'");
+    $user = $result->fetch_assoc();
+    
+    if ($user) {
+        if ($user['Acc_type'] !== 'Admin') {
+            $userController->deleteUser($user_id);
+            echo "<script>alert('User deleted successfully!'); window.location.href='manage_users.php';</script>";
+        } else {
+            echo "<script>alert('Cannot delete admin accounts!'); window.location.href='manage_users.php';</script>";
+        }
+    } else {
+        echo "<script>alert('User not found!'); window.location.href='manage_users.php';</script>";
+    }
 }
+
 
 // Handle account type update
 if (isset($_POST['update_acc_type']) && isset($_POST['user_id'])) {
@@ -147,8 +161,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['query'])) {
                             <td class="actions">
                                 <div class="btn-container">
                                 <a href="edit_user.php?id=<?php echo $row['id']; ?>" class="btn edit-btn">Edit</a>
-                                <a href="?delete=<?php echo $row['id']; ?>" class="btn delete-btn" 
-                                onclick="return confirm('Are you sure you want to delete this user?')">Delete</a>
+                                <a href="manage_users.php?delete=<?php echo $row['id']; ?>" class="btn delete-btn" 
+                                onclick="return confirm('Are you sure you want to delete user <?php echo htmlspecialchars($row['user_name']); ?> (ID: <?php echo $row['id']; ?>)?')">Delete</a>
+
                                 </div>    
                             </td>
 

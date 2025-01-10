@@ -71,10 +71,7 @@ public function deleteAccount($userId) {
         $stmt->bind_param("i", $userId);
         $stmt->execute();
 
-        // Check if ticket deletion is successful
-        if ($stmt->affected_rows === 0) {
-            throw new Exception("No tickets found for the user.");
-        }
+        
 
         // Delete the user account
         $deleteQuery = "DELETE FROM users WHERE id = ?";
@@ -82,10 +79,7 @@ public function deleteAccount($userId) {
         $stmt->bind_param("i", $userId);
         $stmt->execute();
 
-        // Check if user deletion is successful
-        if ($stmt->affected_rows === 0) {
-            throw new Exception("User deletion failed.");
-        }
+        
 
         // Commit the transaction
         $conn->commit();

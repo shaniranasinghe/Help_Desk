@@ -97,7 +97,8 @@ $active_companies = "active";
                 </select>
             </div>
 
-            <button type="submit" name="add_company" class="btn add-btn">Add Company</button>
+            <button type="submit" name="add_company" class="btn add-btn" style="display: block; margin: 20px auto;">Add Company</button>
+
         </form>
 
         <?php if ($companies->num_rows > 0): ?>

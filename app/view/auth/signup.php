@@ -214,8 +214,8 @@ $conn->close();
 
 
                 <div class="inputbox">
-                <label for="company" class="required">Company</label>
-                <select id="company" name="company">
+                <label for="company_id" class="required">Company</label>
+                <select id="company_id" name="company_id">
 
                         <option value="" disabled selected>Select a company</option>
                         <?php 

@@ -35,7 +35,7 @@ $success = $result['success'];
 
     <div class="breadcrumb-container">
         <nav class="breadcrumb">
-            <a href="./home.php" class="breadcrumb-logo">
+            <a href="../supportTeam_dashboard/support_dashboard.php" class="breadcrumb-logo">
                 <img src="../../../assets/Images/logo.png" alt="Help Desk Logo" class="logo">
             </a>
             <a href="../supportTeam_dashboard/support_dashboard.php" class="breadcrumb-link">Help Center</a>

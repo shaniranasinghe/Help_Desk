@@ -230,7 +230,7 @@ $resolved_tickets = $ticketController->getResolvedTickets($company_id);
                         </button>
 
                         <button class="btn view-more" onclick="openViewMoreModal(<?php echo $row['ticket_id']; ?>)">
-                            View More
+                            View_More
                         </button>
                         </div>
                     </td>

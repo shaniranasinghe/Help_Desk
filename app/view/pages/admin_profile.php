@@ -1,5 +1,5 @@
 <?php
-include_once '../common/logHeader.php';
+include_once '../common/AdminlogHeader.php';
 require_once '../../controller/ProfileController.php'; // Include ProfileController
 
 // Initialize the ProfileController
@@ -35,7 +35,7 @@ $success = $result['success'];
 
     <div class="breadcrumb-container">
         <nav class="breadcrumb">
-            <a href="./home.php" class="breadcrumb-logo">
+            <a href="../admin_dashboard/dashboard.php" class="breadcrumb-logo">
                 <img src="../../../assets/Images/logo.png" alt="Help Desk Logo" class="logo">
             </a>
             <a href="../admin_dashboard/dashboard.php" class="breadcrumb-link">Help Center</a>
@@ -68,7 +68,7 @@ $success = $result['success'];
 
                 <div class="edit-details-box">
                     <h3>Edit Details</h3>
-                    <form action="support_profile.php" method="POST">
+                    <form action="#" method="POST">
                         <div class="inputbox">
                             <input type="text" name="user_name" value="<?php echo htmlspecialchars($user['user_name']); ?>" required>
                             <label for="user_name">User Name</label>
