@@ -510,9 +510,9 @@ $resolved_tickets = $ticketController->getResolvedTickets($company_id);
 
     <!-- Add Modal for Image Preview -->
     <div id="imageModal" class="modal">
-        <span class="close-modal" onclick="closeImageModal()">&times;</span>
-        <img class="modal-content" id="modalImage">
-    </div>
+    <span class="close-modal right" onclick="closeImageModal()">&times;</span>
+    <img class="modal-content" id="modalImage">
+</div>
 
 
     <script>

@@ -156,6 +156,23 @@ body {
 }
 
 
+/* General close button styles */
+.close, .close-modal {
+  position: absolute;
+  top: 10px;
+  font-size: 24px;
+  color: #000;
+  cursor: pointer;
+  background: none;
+  border: none;
+}
+
+/* Align close button to the right */
+.close.right, .close-modal.right {
+  right: 10px;
+}
+
+
 
 .modal .close:hover {
   color: #e74c3c;
