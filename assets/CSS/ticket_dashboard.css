@@ -1,0 +1,956 @@
+/* Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f4f4f4;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+
+
+/* Dashboard Container */
+.dashboard-container {
+    display: flex;
+    flex: 1;
+    overflow: hidden; /* Prevent page scrolling */
+}
+
+/* Sidebar Styling */
+.sidebar {
+    width: 250px;
+    background: linear-gradient(135deg, #2c3e50, #34495e);
+    color: white;
+    padding: 20px;
+    overflow-y: auto;
+    height: calc(100vh - 90px); /* Height excluding header & footer */
+    position: sticky;
+    top: 60px; /* Height of the header */
+    flex-shrink: 0; /* Prevent sidebar shrinking */
+}
+
+.sidebar h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 22px;
+    letter-spacing: 1px;
+    color: #ecf0f1;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+}
+
+.sidebar ul li {
+    margin: 15px 0;
+}
+
+.sidebar ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+    display: block;
+    padding: 12px 20px;
+    border-radius: 8px;
+    transition: all 0.3s ease-in-out;
+    font-weight: 500;
+    position: relative;
+}
+
+.sidebar ul li a:before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 5px;
+    height: 100%;
+    background: #3498db;
+    transform: scaleY(0);
+    transition: all 0.3s ease-in-out;
+}
+
+.sidebar ul li a:hover, .sidebar ul li a.active {
+    background: #3498db;
+    color: white;
+}
+
+.sidebar ul li a:hover:before, .sidebar ul li a.active:before {
+    transform: scaleY(1);
+}
+
+/* Main Content Styling */
+.main-content {
+    flex-grow: 1;
+    padding: 20px 30px;
+    overflow-y: auto; /* Enable main content scrolling */
+}
+
+/* Table Container with Scroll */
+.ticket-table-container {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%; /* Ensure the container takes full width */
+}
+
+/* Table Styling */
+.ticket-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 16px;    
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.ticket-table thead tr {
+    background: #466587;
+    color: white;
+    text-align: left;
+    font-weight: bold;
+}
+
+.ticket-table th, .ticket-table td {
+    padding: 12px 20px;
+    text-align: left;
+    border: 1px solid #ddd;
+}
+
+.ticket-table tbody tr:nth-child(even) {
+    background: #f2f2f2;
+}
+
+.ticket-table tbody tr:hover {
+    background: #eaf3ff;
+    cursor: pointer;
+}
+
+/* Ticket Status Styles */
+.ticket-status {
+    font-weight: bold;
+    padding: 5px 10px;
+    border-radius: 4px;
+}
+
+.ticket-status.open {
+    background: #ffc107;
+    color: #fff;
+}
+
+.ticket-status.closed {
+    background: #28a745;
+    color: #fff;
+}
+
+.ticket-status.pending {
+    background: orange;
+    color: #fff;
+}
+
+.ticket-status.resolved {
+    background: #17a2b8;
+    color: #fff;
+}
+
+h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+/* Container styling for positioning */
+.report-container {
+    display: flex;
+    justify-content: flex-end; /* Aligns content to the right */
+    margin-bottom: 10px; /* Adds space between button and table */
+}
+
+/* Styling for the Generate Report button */
+.generate-report-btn {
+    background-color: #4CAF50; /* Green background */
+    color: white; /* White text */
+    padding: 10px 20px; /* Adds padding */
+    border: none; /* Removes border */
+    border-radius: 5px; /* Rounds corners */
+    font-size: 16px; /* Increases font size */
+    cursor: pointer; /* Adds hover cursor */
+    transition: transform 0.2s, background-color 0.3s;
+}
+
+/* Hover effect for button */
+.generate-report-btn:hover {
+    background-color: #45a049; /* Slightly darker green */
+    transform: scale(1.05); /* Enlarge slightly */
+}
+
+
+/* Status Modal Styles */
+.status-modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+    overflow: auto;
+}
+
+.status-modal-content {
+    background-color: white;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 50%;
+}
+
+.close-btn {
+    color: #aaa;
+    font-size: 28px;
+    font-weight: bold;
+    position: absolute;
+    right: 15px;
+    top: 10px;
+}
+
+.close-btn:hover,
+.close-btn:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.change-status-btn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+}
+
+.change-status-btn:hover {
+    background-color: #45a049;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 400px;
+    height: 400px;
+    background: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+}
+.modal-content {
+    background: white;
+    padding: 20px;
+    border-radius: 5px;
+    width: 300px;
+    text-align: center;
+}
+.modal-button {
+    margin: 10px;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+.modal-button.open {
+    background-color: rgb(248, 248, 68);
+}
+.modal-button.resolved {
+    background-color: #17a2b8;
+    color: white;
+}
+.modal-button.pending {
+    background-color: orange;
+    color: white;
+}
+.modal-button.cancel {
+    background-color: gray;
+    color: white;
+}
+
+/* Hero Section */
+.hero {
+    background-color: #f4f4f4;
+    padding:10px 0;
+    text-align: center;
+    margin-top: 0;
+}
+
+
+.hero form {
+    display: inline-block;
+}
+
+.hero form input[type="text"] {
+    padding: 10px;
+    width: 300px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-right: 5px;
+}
+
+.hero form button {
+    padding: 10px 20px;
+    background-color: #0078d4;
+    border: none;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.hero form button:hover {
+    background-color: #005bb5;
+}
+
+/* Highlight Search Result */
+.highlight {
+    background-color: #a29d73 !important;  /* Light yellow highlight */
+    font-weight: bold;
+}
+
+/* Form Styling */
+#search-form1 {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Input and Select Fields */
+#search-form1 input[type="text"],
+#search-form1 input[type="date"],
+#search-form1 select {
+    flex: 1;
+    min-width: 150px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px;
+    background-color: #f9f9f9;
+    color: #333;
+    transition: border-color 0.3s ease;
+}
+
+#search-form1 input[type="text"]:focus,
+#search-form1 input[type="date"]:focus,
+#search-form1 select:focus {
+    border-color: #4caf50;
+    outline: none;
+}
+
+/* Labels for Date Inputs */
+#search-form1 label {
+    font-size: 14px;
+    font-weight: bold;
+    color: #555;
+    margin-right: 5px;
+}
+
+/* Button Styling */
+#search-form1 button {
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: bold;
+    background-color: #0078d4;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+#search-form1 button:hover {
+    background-color: #0078d4;
+    transform: translateY(-2px);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    #search-form1 {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    #search-form1 input,
+    #search-form1 select,
+    #search-form1 button {
+        width: 100%;
+    }
+}
+
+
+/* Ticket Table */
+.ticket-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 30px;
+  }
+  
+  .ticket-table th,
+  .ticket-table td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .ticket-table th {
+    background-color: #466587;
+    color: white;
+  }
+  
+  .ticket-table td {
+    background-color: #f9f9f9;
+  }
+  
+  .ticket-table .status {
+    padding: 5px 10px;
+    border-radius: 4px;
+  }
+  
+  .ticket-table .status.open {
+    background-color: rgb(226, 226, 20);
+    color: white;
+  }
+  
+  .ticket-table .status.resolved {
+    background-color: #27ae60;
+    color: white;
+  }
+  
+  /* Container for buttons */
+  .btn-container {
+    display: flex;
+    justify-content: center; /* Center-align buttons */
+    gap: 10px; /* Space between buttons */
+  }
+  
+  .btn {
+    padding: 8px 16px;
+    font-size: 14px;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    cursor: pointer;
+    color: white;
+    text-align: center;
+    margin: 0;
+    display: inline-block;
+    flex: 1; /* Ensures buttons align evenly */
+    text-align: center;
+  }
+  
+  .btn.resolve {
+    background-color: #3498db;
+    display: flex; /* Enables flexbox */
+    align-items: center; /* Centers text vertically */
+    justify-content: center;
+  }
+  
+  .btn.resolve:hover {
+    background-color: #2980b9;
+  }
+  
+  .btn.transfer {
+    background-color: #e74c3c;
+  }
+  
+  .btn.transfer:hover {
+    background-color: #c0392b;
+  }
+  
+  .btn.view-more {
+    background-color: #3c0c48;
+  }
+  
+  .btn.view-more:hover {
+    background-color: #2b0233;
+  }
+  
+  /* No Tickets Message */
+  .no-tickets {
+    font-size: 18px;
+    color: #e74c3c;
+    margin-top: 30px;
+    text-align: center;
+  }
+  
+  /* Table Row Hover */
+  .ticket-table tr:hover {
+    background-color: #f1f1f1;
+  }
+  
+  .modal {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    right: 50%;
+    transform: translate(-50%, -50%);
+    width: 60%; /* Reduce width */
+    max-width: 500px; /* Ensure responsiveness */
+    background-color: white;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+    overflow: hidden;
+    padding: 20px; /* Add padding for better spacing */
+    z-index: 1000;
+  }
+  
+  .modal-content {
+    padding: 20px;
+    position: relative;
+    font-size: 1rem;
+    display: block;
+      margin: auto;
+      max-width: 500px; /* Set the fixed size */
+      max-height: 500px;
+      object-fit: contain; /* Adjust font size if needed */
+  }
+  
+  .close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 20px;
+    cursor: pointer;
+  }
+  
+  
+  /* General close button styles */
+  .close, .close-modal {
+    position: absolute;
+    top: 10px;
+    font-size: 24px;
+    color: #000;
+    cursor: pointer;
+    background: none;
+    border: none;
+  }
+  
+  /* Align close button to the right */
+  .close.right, .close-modal.right {
+    right: 10px;
+  }
+  
+  
+  
+  .modal .close:hover {
+    color: #e74c3c;
+  }
+  
+  .modal-content h2 {
+    margin-top: 0;
+    font-size: 1.5em;
+    color: #333;
+    margin-bottom: 1em;
+    text-align: center;
+  }
+  
+  /* Resolve Modal Styling */
+  #resolveModal {
+    background: #f4f9fc;
+    border: 2px solid #3498db;
+  }
+  
+  #resolveModal form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  #resolveModal textarea {
+    padding: 10px;
+    margin-bottom: 1em;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    font-size: 1em;
+    resize: vertical;
+    min-height: 120px;
+  }
+  
+  #resolveModal button {
+    padding: 12px 18px;
+    background-color: #3498db;
+    color: white;
+    font-size: 1.1em;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  #resolveModal button:hover {
+    background-color: #2980b9;
+  }
+  
+  /* Transfer Modal Styling */
+  #transferModal {
+    background: #f9f9f9;
+    border: 2px solid #e74c3c;
+  }
+  
+  #viewMoreModal{
+    background: #f9f9f9;
+    border: 2px solid #3c0c48;
+  }
+  
+  #transferModal select,
+  #transferModal button {
+    padding: 12px;
+    margin-bottom: 1em;
+    font-size: 1.1em;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+  }
+  
+  #transferModal select {
+    cursor: pointer;
+    background-color: #fff;
+  }
+  
+  #transferModal button {
+    background-color: #e74c3c;
+    color: white;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+  }
+  
+  #transferModal button:hover {
+    background-color: #c0392b;
+  }
+  
+  /* Modal Background Overlay */
+  .modal:target {
+    display: block;
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+  
+  .modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 999;
+    transition: opacity 0.3s ease;
+    display: none;
+  }
+  
+  /* Show backdrop when modal is active */
+  .modal:target ~ .modal-backdrop {
+    display: block;
+    opacity: 1;
+  }
+  
+  /* Disable button appearance */
+  .disabled {
+    pointer-events: none;
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+  
+  .modal {
+    display: none;
+    position: fixed;
+    top: 10%;
+    left: 50%;
+    transform: translate(-50%, -10%);
+    width: 80%;
+    background-color: white;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  
+  .modal-content {
+    padding: 20px;
+    position: relative;
+  }
+  
+  .close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 20px;
+    cursor: pointer;
+  }
+  
+  .chat-container {
+    height: 300px;
+    overflow-y: auto;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #f9f9f9;
+  }
+  
+  .chat-message {
+    margin: 5px 0;
+    max-width: 70%;
+    padding: 10px;
+    border-radius: 10px;
+    line-height: 1.5;
+  }
+  
+  .sender {
+    background-color: #e0f7fa;
+    align-self: flex-start;
+    text-align: left;
+    margin-left: 5px;
+  }
+  
+  .receiver {
+    background-color: #dcedc8;
+    align-self: flex-end;
+    text-align: right;
+    margin-right: 5px;
+  }
+  
+  .chat-input {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .chat-input textarea {
+    flex: 1;
+    height: 40px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 5px;
+  }
+  
+  .chat-input button {
+    height: 40px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+  }
+  
+  .ticket-thumbnail {
+    max-width: 50px;
+    max-height: 50px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: transform 0.2s;
+  }
+  
+  .ticket-thumbnail:hover {
+    transform: scale(1.1);
+  }
+  
+  h3 {
+    margin-top: 30px;
+    margin-bottom: 20px;
+    color: #333;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 10px;
+  }
+  
+  .no-tickets {
+    padding: 20px;
+    background: #f9f9f9;
+    border-radius: 4px;
+    text-align: center;
+    color: #666;
+  }
+  
+  .assign-to-me {
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-right: 5px;
+  }
+  
+  .assign-to-me:hover {
+    background-color: #45a049;
+  }
+  
+  .assigned-badge {
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 0.9em;
+    margin-right: 5px;
+  }
+  
+  .assigned-badge:contains("Assigned to Me") {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+  }
+  
+  .assigned-badge:contains("Assigned to Other") {
+    background-color: #f5f5f5;
+    color: #666;
+  }
+  
+  .ticket-thumbnail {
+    max-width: 50px;
+    max-height: 50px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: transform 0.2s;
+  }
+  
+  .ticket-thumbnail:hover {
+    transform: scale(1.1);
+  }
+  
+  /* Modal styles */
+  .image-modal {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+  }
+  
+  .image-modal-wrapper {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 800px; /* Fixed width */
+    height: 600px; /* Fixed height */
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+  }
+  
+  .image-modal-content {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 4px;
+  }
+  
+  .image-close {
+    position: absolute;
+    top: -30px;
+    right: -30px;
+    color: #fff;
+    font-size: 100px;
+    font-weight: bold;
+    cursor: pointer;
+    z-index: 10000;
+  }
+  
+  .image-close:hover {
+    color: #ddd;
+  }
+  
+  /* Responsive Styles */
+  @media screen and (max-width: 768px) {
+    .container {
+      width: 95%;
+      padding-top: 20px;
+    }
+  
+    .ticket-table th,
+    .ticket-table td {
+      font-size: 0.9rem;
+      padding: 8px;
+    }
+  
+    .btn {
+      padding: 6px 12px;
+      font-size: 12px;
+      margin: 5px 0;
+    }
+  
+    .modal {
+      width: 95%;
+      max-width: 400px;
+    }
+  
+    .modal-content {
+      font-size: 0.9rem;
+    }
+  }
+  
+  @media screen and (max-width: 480px) {
+    .btn {
+      font-size: 10px;
+      padding: 5px 10px;
+      margin: 2px;
+    }
+  
+    .modal {
+      width: 90%;
+      max-width: 300px;
+    }
+  
+    .ticket-table th,
+    .ticket-table td {
+      font-size: 0.8rem;
+    }
+  
+    .no-tickets {
+      font-size: 16px;
+    }
+  }
+  
+  .ticket-thumbnail {
+    max-width: 50px;
+    max-height: 50px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: transform 0.2s;
+  }
+  
+  .ticket-thumbnail:hover {
+    transform: scale(1.1);
+  }
+  
+  .btn.pending {
+    background-color: #ffa500;
+    color: white;
+  }
+  
+  .btn.chat {
+    background-color: #4caf50;
+    color: white;
+  }
+  
+  .status.pending {
+    background-color: #ffa500;
+    color: white;
+  }
+  
+  .sortable {
+    cursor: pointer;
+  }
+  .arrow {
+    font-size: 0.8em;
+    margin-left: 5px;
+  }
+  .arrow.asc {
+    transform: rotate(180deg);
+    display: inline-block;
+  }
+  

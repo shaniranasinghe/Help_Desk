@@ -94,10 +94,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['query'])) {
         <div class="sidebar">
             <h2>Admin Panel</h2>
             <ul>
-                <li><a href="dashboard.php">Tickets</a></li>
+                <li><a href="dashboard.php" class="active">Tickets</a></li>
                 <li><a href="manage_users.php">Users</a></li>
                 <li><a href="manage_companies.php">Companies</a></li>
                 <li><a href="ticketListView.php">Summery Report</a></li>
+                <li><a href="support_dashboard.php">Ticket Dashboard</a></li>
                 <li><a href="feedback.php">Feedbacks</a></li>
             </ul>
         </div>

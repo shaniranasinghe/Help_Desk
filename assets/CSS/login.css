@@ -60,7 +60,6 @@
   position: absolute;
   right: 20px;
   top: 50%;
-  transform: translateY(-50%); /* Vertically center */
 }
 
 
@@ -77,7 +76,6 @@
   text-align: center;
   text-decoration: none; /* Remove underline */
   border: none; /* Clean look */
-  transition: all 0.3s ease-in-out; /* Smooth transition */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
 }
 
@@ -300,7 +298,8 @@
 
 .inputbox input {
   width: 100%;
-  padding: 10px;
+  padding: 5px;
+  margin-top: 20px;
   border: none;
   border-bottom: 2px solid #ddd;
   outline: none;
@@ -316,7 +315,6 @@
   position: absolute;
   top: 50%;
   left: 10px;
-  transform: translateY(-50%);
   color: #aaa;
   transition: 0.3s;
   pointer-events: none;

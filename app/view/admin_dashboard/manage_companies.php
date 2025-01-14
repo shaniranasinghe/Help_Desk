@@ -60,7 +60,8 @@ $active_companies = "active";
             <li><a href="dashboard.php">Tickets</a></li>
             <li><a href="manage_users.php">Users</a></li>
             <li><a href="manage_companies.php" class="<?php echo $active_companies; ?>">Companies</a></li>
-            <li><a href="ticketListView.php">Summery Report</a></li>
+            <li><a href="ticketListView.php">Summary Report</a></li>
+            <li><a href="support_dashboard.php">Ticket Dashboard</a></li>
             <li><a href="feedback.php">Feedbacks</a></li>
         </ul>
     </div>

@@ -189,4 +189,47 @@ class TicketController
 
         return $result;
     }
+
+
+    public function getAllMemberAssignedTickets() {
+        $query = "SELECT tickets.*, users.user_name 
+                  FROM tickets 
+                  LEFT JOIN users ON tickets.assigned_to = users.id 
+                  WHERE ticket_status != 'resolved' AND assigned_to IS NOT NULL";
+        $result = $this->conn->query($query);
+        return $result;
+    }
+    
+
+    public function getAllCompanyAssignedTickets()
+    {
+        if ($this->conn === null) {
+            throw new Exception("Database connection is not initialized.");
+        }
+
+        // Updated query with a JOIN to fetch company name
+        $query = "
+            SELECT 
+                tickets.*, 
+                companies.company_name 
+            FROM tickets
+            INNER JOIN companies ON tickets.company_id = companies.company_id
+            WHERE ticket_status != 'resolved' AND assigned_to IS NULL
+            ORDER BY FIELD(priority, 'high', 'medium', 'low') ASC
+        ";
+
+        if (!($stmt = $this->conn->prepare($query))) {
+            throw new Exception("Query preparation failed: " . $this->conn->error);
+        }
+
+        $stmt->execute();
+        return $stmt->get_result();
+    }
+
+    public function getAllResolvedTickets() {
+        $query = "SELECT * FROM tickets WHERE ticket_status = 'resolved'";
+        $result = $this->conn->query($query); // Updated from $this->db to $this->conn
+        return $result;
+    }
+
 }

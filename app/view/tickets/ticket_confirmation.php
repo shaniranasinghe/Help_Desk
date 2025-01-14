@@ -13,7 +13,7 @@
     <div class="popup-content">
         <h2>🎉 Ticket Raised Successfully!</h2>
         <p>Your issue has been submitted. Our support team will get back to you shortly.</p>
-        <a href="../pages/home.php" class="btn-close">Return to Dashboard</a>
+        <a href="./view_tickets.php" class="btn-close">Return to Ticket Dashboard</a>
     </div>
 </div>
 
