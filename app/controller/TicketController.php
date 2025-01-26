@@ -118,7 +118,10 @@ class TicketController
             throw new Exception("Database connection is not initialized.");
         }
 
-        $query = "SELECT * FROM tickets WHERE company_id = ? AND ticket_status = 'resolved' ORDER BY updated_at DESC";
+        $query = "SELECT * FROM tickets 
+                  WHERE company_id = ? AND ticket_status = 'resolved' 
+                  ORDER BY updated_at DESC 
+                  LIMIT 5";  // Added LIMIT clause
 
         // Debug the query
         if (!($stmt = $this->conn->prepare($query))) {
@@ -191,7 +194,8 @@ class TicketController
     }
 
 
-    public function getAllMemberAssignedTickets() {
+    public function getAllMemberAssignedTickets()
+    {
         $query = "SELECT tickets.*, users.user_name 
                   FROM tickets 
                   LEFT JOIN users ON tickets.assigned_to = users.id 
@@ -199,7 +203,7 @@ class TicketController
         $result = $this->conn->query($query);
         return $result;
     }
-    
+
 
     public function getAllCompanyAssignedTickets()
     {
@@ -226,10 +230,49 @@ class TicketController
         return $stmt->get_result();
     }
 
-    public function getAllResolvedTickets() {
+    public function getAllResolvedTickets()
+    {
         $query = "SELECT * FROM tickets WHERE ticket_status = 'resolved'";
         $result = $this->conn->query($query); // Updated from $this->db to $this->conn
         return $result;
     }
 
+    public function getTicketTransfers($company_id)
+    {
+        if ($this->conn === null) {
+            throw new Exception("Database connection is not initialized.");
+        }
+
+        $query = "SELECT 
+                    tt.transfer_id,
+                    tt.ticket_id,
+                    t.ticket_title,
+                    c1.company_name as from_company,
+                    c2.company_name as to_company,
+                    tt.transferred_at
+                  FROM ticket_transfers tt
+                  JOIN tickets t ON tt.ticket_id = t.ticket_id
+                  JOIN companies c1 ON tt.from_company_id = c1.company_id
+                  JOIN companies c2 ON tt.to_company_id = c2.company_id
+                  WHERE tt.from_company_id = ? OR tt.to_company_id = ?
+                  ORDER BY tt.transferred_at DESC
+                  LIMIT 5";
+
+        if (!($stmt = $this->conn->prepare($query))) {
+            throw new Exception("Query preparation failed: " . $this->conn->error);
+        }
+
+        if (!$stmt->bind_param("ii", $company_id, $company_id)) {
+            throw new Exception("Parameter binding failed: " . $stmt->error);
+        }
+
+        if (!$stmt->execute()) {
+            throw new Exception("Query execution failed: " . $stmt->error);
+        }
+
+        $result = $stmt->get_result();
+        $stmt->close();
+
+        return $result;
+    }
 }

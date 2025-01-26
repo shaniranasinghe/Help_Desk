@@ -198,40 +198,39 @@ $resolved_tickets = $ticketController->getResolvedTickets($company_id);
                     <td>
                         <div class="btn-container">
 
-                        <?php if ($row['ticket_status'] === 'open'): ?>
-                        <button class="btn pending"
-                            onclick="changeTicketStatus(<?php echo $row['ticket_id']; ?>, 'pending')">
-                            Mark_Pending
-                        </button>
-                        <?php endif; ?>
+                            <?php if ($row['ticket_status'] === 'open'): ?>
+                            <button class="btn pending"
+                                onclick="changeTicketStatus(<?php echo $row['ticket_id']; ?>, 'pending')">
+                                Mark_Pending
+                            </button>
+                            <?php endif; ?>
 
-                        <?php if ($row['ticket_status'] === 'pending'): ?>
-                        <button class="btn chat" onclick="openChat(<?php echo $row['ticket_id']; ?>)">
-                            Chat
-                        </button>
-                        <?php endif; ?>
+                            <?php if ($row['ticket_status'] === 'pending'): ?>
+                            <button class="btn chat" onclick="openChat(<?php echo $row['ticket_id']; ?>)">
+                                Chat
+                            </button>
+                            <?php endif; ?>
 
-                        <?php if ($row['assigned_to'] == $_SESSION['user_id']): ?>
-                        <?php if ($row['ticket_status'] === 'open' || $row['ticket_status'] === 'pending'): ?>
-                        <a href="#" class="btn resolve"
-                            onclick="handleResolveClick(<?php echo $row['ticket_id']; ?>, <?php echo $row['assigned_to']; ?>, '<?php echo $row['ticket_status']; ?>')">
-                            Resolve
-                        </a>
-                        <?php endif; ?>
-                        <?php endif; ?>
-
-                        <button class="btn transfer <?php echo ($row['ticket_status'] === 'open' || $row['ticket_status'] === 'pending') ? '' : 'disabled'; ?>"
+                            <?php if ($row['assigned_to'] == $_SESSION['user_id']): ?>
                             <?php if ($row['ticket_status'] === 'open' || $row['ticket_status'] === 'pending'): ?>
-                                onclick="openTransferModal(<?php echo $row['ticket_id']; ?>)"
-                            <?php else: ?>
-                                onclick="return false;" 
-                            <?php endif; ?>>
-                            Transfer
-                        </button>
+                            <a href="#" class="btn resolve"
+                                onclick="handleResolveClick(<?php echo $row['ticket_id']; ?>, <?php echo $row['assigned_to']; ?>, '<?php echo $row['ticket_status']; ?>')">
+                                Resolve
+                            </a>
+                            <?php endif; ?>
+                            <?php endif; ?>
 
-                        <button class="btn view-more" onclick="openViewMoreModal(<?php echo $row['ticket_id']; ?>)">
-                            View_More
-                        </button>
+                            <button
+                                class="btn transfer <?php echo ($row['ticket_status'] === 'open' || $row['ticket_status'] === 'pending') ? '' : 'disabled'; ?>"
+                                <?php if ($row['ticket_status'] === 'open' || $row['ticket_status'] === 'pending'): ?>
+                                onclick="openTransferModal(<?php echo $row['ticket_id']; ?>)" <?php else: ?>
+                                onclick="return false;" <?php endif; ?>>
+                                Transfer
+                            </button>
+
+                            <button class="btn view-more" onclick="openViewMoreModal(<?php echo $row['ticket_id']; ?>)">
+                                View_More
+                            </button>
                         </div>
                     </td>
                 </tr>
@@ -281,82 +280,82 @@ $resolved_tickets = $ticketController->getResolvedTickets($company_id);
         <?php endif; ?>
 
         <!--Display All Tickets -->
-<h2 style="margin-top: 30px;">All company Tickets</h2>
-<?php if ($tickets->num_rows > 0): ?>
-<table class="ticket-table">
-    <thead>
-        <tr>
-            <th>Ticket ID</th>
-            <th>Title</th>
-            <th>Description</th>
-            <th class="sortable" onclick="sortByStatus(this)">
-                Status <span class="arrow">▼</span>
-            </th>
-            <th class="sortable" onclick="sortByPriority(this)">
+        <h2 style="margin-top: 30px;">All company Tickets</h2>
+        <?php if ($tickets->num_rows > 0): ?>
+        <table class="ticket-table">
+            <thead>
+                <tr>
+                    <th>Ticket ID</th>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th class="sortable" onclick="sortByStatus(this)">
+                        Status <span class="arrow">▼</span>
+                    </th>
+                    <th class="sortable" onclick="sortByPriority(this)">
                         Priority <span class="arrow">▼</span>
-            </th>
-            <th>Attachment</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-            <?php while ($row = $tickets->fetch_assoc()): ?>
-            <tr>
-                <td><?php echo htmlspecialchars($row['ticket_id']); ?></td>
-                <td><?php echo htmlspecialchars($row['ticket_title']); ?></td>
-                <td><?php echo htmlspecialchars($row['ticket_description']); ?></td>
-                <td>
-                    <span class="status <?php echo strtolower($row['ticket_status']); ?>">
-                        <?php echo htmlspecialchars($row['ticket_status']); ?>
-                    </span>
-                </td>
-                <td><?php echo htmlspecialchars($row['priority']); ?></td>
-                <td>
-                    <?php if (!empty($row['attachment_path'])): ?>
-                    <img src="../../<?php echo htmlspecialchars($row['attachment_path']); ?>"
-                        alt="Ticket Attachment" class="ticket-thumbnail" onclick="openImageModal(this.src)">
-                    <?php else: ?>
-                    <span>No attachment</span>
-                    <?php endif; ?>
-                </td>
-                <td>
-                <div class="btn-container">
-                    <?php if (empty($row['assigned_to'])): ?>
-                    <!-- Add Assign to Me button for unassigned tickets -->
-                    <button class="btn assign-to-me" onclick="assignToMe(<?php echo $row['ticket_id']; ?>)">
-                        Assign to Me
-                    </button>
-                    <?php elseif ($row['assigned_to'] == $_SESSION['user_id']): ?>
-                    <span class="assigned-badge">Assigned to other</span>
-                    <?php else: ?>
-                    <span class="assigned-badge">Assigned to Other</span>
-                    <?php endif; ?>
+                    </th>
+                    <th>Attachment</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php while ($row = $tickets->fetch_assoc()): ?>
+                <tr>
+                    <td><?php echo htmlspecialchars($row['ticket_id']); ?></td>
+                    <td><?php echo htmlspecialchars($row['ticket_title']); ?></td>
+                    <td><?php echo htmlspecialchars($row['ticket_description']); ?></td>
+                    <td>
+                        <span class="status <?php echo strtolower($row['ticket_status']); ?>">
+                            <?php echo htmlspecialchars($row['ticket_status']); ?>
+                        </span>
+                    </td>
+                    <td><?php echo htmlspecialchars($row['priority']); ?></td>
+                    <td>
+                        <?php if (!empty($row['attachment_path'])): ?>
+                        <img src="../../<?php echo htmlspecialchars($row['attachment_path']); ?>"
+                            alt="Ticket Attachment" class="ticket-thumbnail" onclick="openImageModal(this.src)">
+                        <?php else: ?>
+                        <span>No attachment</span>
+                        <?php endif; ?>
+                    </td>
+                    <td>
+                        <div class="btn-container">
+                            <?php if (empty($row['assigned_to'])): ?>
+                            <!-- Add Assign to Me button for unassigned tickets -->
+                            <button class="btn assign-to-me" onclick="assignToMe(<?php echo $row['ticket_id']; ?>)">
+                                Assign to Me
+                            </button>
+                            <?php elseif ($row['assigned_to'] == $_SESSION['user_id']): ?>
+                            <span class="assigned-badge">Assigned to other</span>
+                            <?php else: ?>
+                            <span class="assigned-badge">Assigned to Other</span>
+                            <?php endif; ?>
 
-                    <!-- Existing buttons -->
-                    <?php if ($row['assigned_to'] == $_SESSION['user_id']): ?>
-                    <?php if ($row['ticket_status'] === 'open' || $row['ticket_status'] === 'pending'): ?>
-                    <a href="#" class="btn resolve"
-                        onclick="handleResolveClick(<?php echo $row['ticket_id']; ?>, <?php echo $row['assigned_to']; ?>, '<?php echo $row['ticket_status']; ?>')">
-                        Resolve
-                    </a>
-                    <?php endif; ?>
-                    <?php endif; ?>
+                            <!-- Existing buttons -->
+                            <?php if ($row['assigned_to'] == $_SESSION['user_id']): ?>
+                            <?php if ($row['ticket_status'] === 'open' || $row['ticket_status'] === 'pending'): ?>
+                            <a href="#" class="btn resolve"
+                                onclick="handleResolveClick(<?php echo $row['ticket_id']; ?>, <?php echo $row['assigned_to']; ?>, '<?php echo $row['ticket_status']; ?>')">
+                                Resolve
+                            </a>
+                            <?php endif; ?>
+                            <?php endif; ?>
 
-                    
 
-                    <button class="btn view-more" onclick="openViewMoreModal(<?php echo $row['ticket_id']; ?>)">
-                        View More
-                    </button>
 
-                </div>    
-                </td>
-            </tr>
-            <?php endwhile; ?>
-        </tbody>
-    </table>
-    <?php else: ?>
-    <p class="no-tickets">No tickets available.</p>
-    <?php endif; ?>
+                            <button class="btn view-more" onclick="openViewMoreModal(<?php echo $row['ticket_id']; ?>)">
+                                View More
+                            </button>
+
+                        </div>
+                    </td>
+                </tr>
+                <?php endwhile; ?>
+            </tbody>
+        </table>
+        <?php else: ?>
+        <p class="no-tickets">No tickets available.</p>
+        <?php endif; ?>
 
 
 
@@ -408,6 +407,45 @@ $resolved_tickets = $ticketController->getResolvedTickets($company_id);
         <?php else: ?>
         <p class="no-tickets">No resolved tickets available.</p>
         <?php endif; ?>
+
+        <!-- Add this after the resolved tickets section -->
+        <h2 style="margin-top: 30px;">Recent Ticket Transfers</h2>
+        <?php
+        $transfers = $ticketController->getTicketTransfers($company_id);
+        if ($transfers && $transfers->num_rows > 0):
+        ?>
+        <table class="ticket-table">
+            <thead>
+                <tr>
+                    <th>Transfer ID</th>
+                    <th>Ticket</th>
+                    <th>From Company</th>
+                    <th>To Company</th>
+                    <th>Transferred At</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php while ($transfer = $transfers->fetch_assoc()): ?>
+                <tr>
+                    <td><?php echo htmlspecialchars($transfer['transfer_id']); ?></td>
+                    <td><?php echo htmlspecialchars($transfer['ticket_title']); ?></td>
+                    <td><?php echo htmlspecialchars($transfer['from_company']); ?></td>
+                    <td><?php echo htmlspecialchars($transfer['to_company']); ?></td>
+                    <td><?php echo date('Y-m-d H:i', strtotime($transfer['transferred_at'])); ?></td>
+                    <td>
+                        <button class="btn view-more"
+                            onclick="openViewMoreModal(<?php echo $transfer['ticket_id']; ?>)">
+                            View Ticket
+                        </button>
+                    </td>
+                </tr>
+                <?php endwhile; ?>
+            </tbody>
+        </table>
+        <?php else: ?>
+        <p class="no-tickets">No recent ticket transfers.</p>
+        <?php endif; ?>
     </div>
 
     <div id="viewMoreModal" class="modal">
@@ -446,73 +484,73 @@ $resolved_tickets = $ticketController->getResolvedTickets($company_id);
     </div>
 
     <!-- Transfer Ticket Modal -->
-<div id="transferModal" class="modal">
-    <div class="modal-content">
-        <span class="close" onclick="closeTransferModal()">&times;</span>
-        <h2>Transfer Ticket</h2>
-        <form action="transfer_ticket.php" method="POST">
-            <input type="hidden" id="ticket_id_input" name="ticket_id">
+    <div id="transferModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeTransferModal()">&times;</span>
+            <h2>Transfer Ticket</h2>
+            <form action="transfer_ticket.php" method="POST">
+                <input type="hidden" id="ticket_id_input" name="ticket_id">
 
-            <!-- Select Transfer Type -->
-            <label for="transfer_type">Transfer Type:</label>
-            <select id="transfer_type" name="transfer_type" onchange="toggleTransferOptions()" required>
-                <option value="">--Select Transfer Type--</option>
-                <option value="internal">Internal Transfer</option>
-                <option value="external">External Transfer</option>
-            </select>
-
-            <!-- Internal Transfer Options -->
-            <div id="internal_transfer_section" style="display: none;">
-                <label for="to_assigned_to">Select Team Member:</label>
-                <select name="to_assigned_to" id="to_assigned_to">
-                    <option value="">--Select Team Member--</option>
-                    <?php
-                    $companyId = $_SESSION['company_id'];
-                    $teamQuery = "SELECT id, user_name FROM users WHERE company_id = '$companyId'";
-                    $result = mysqli_query($conn, $teamQuery);
-
-                    if ($result && mysqli_num_rows($result) > 0) {
-                        while ($member = mysqli_fetch_assoc($result)) {
-                            echo "<option value='" . htmlspecialchars($member['id']) . "'>"
-                                . htmlspecialchars($member['user_name']) . 
-                                "</option>";
-                        }
-                    }
-
-                    ?>
+                <!-- Select Transfer Type -->
+                <label for="transfer_type">Transfer Type:</label>
+                <select id="transfer_type" name="transfer_type" onchange="toggleTransferOptions()" required>
+                    <option value="">--Select Transfer Type--</option>
+                    <option value="internal">Internal Transfer</option>
+                    <option value="external">External Transfer</option>
                 </select>
-            </div>
 
-            <!-- External Transfer Options -->
-            <div id="external_transfer_section" style="display: none;">
-                <label for="to_company_id">Select Company to Transfer:</label>
-                <select name="to_company_id" id="to_company_id">
-                    <option value="">--Select Company--</option>
-                    <?php
-                    $companyQuery = "SELECT company_id, company_name FROM companies";
-                    $result = mysqli_query($conn, $companyQuery);
+                <!-- Internal Transfer Options -->
+                <div id="internal_transfer_section" style="display: none;">
+                    <label for="to_assigned_to">Select Team Member:</label>
+                    <select name="to_assigned_to" id="to_assigned_to">
+                        <option value="">--Select Team Member--</option>
+                        <?php
+                        $companyId = $_SESSION['company_id'];
+                        $teamQuery = "SELECT id, user_name FROM users WHERE company_id = '$companyId'";
+                        $result = mysqli_query($conn, $teamQuery);
 
-                    if ($result && mysqli_num_rows($result) > 0) {
-                        while ($company = mysqli_fetch_assoc($result)) {
-                            echo "<option value='" . htmlspecialchars($company['company_id']) . "'>"
-                                . htmlspecialchars($company['company_name']) . 
-                                "</option>";
+                        if ($result && mysqli_num_rows($result) > 0) {
+                            while ($member = mysqli_fetch_assoc($result)) {
+                                echo "<option value='" . htmlspecialchars($member['id']) . "'>"
+                                    . htmlspecialchars($member['user_name']) .
+                                    "</option>";
+                            }
                         }
-                    }
-                    ?>
-                </select>
-            </div>
 
-            <button type="submit" name="transfer_ticket">Transfer</button>
-        </form>
+                        ?>
+                    </select>
+                </div>
+
+                <!-- External Transfer Options -->
+                <div id="external_transfer_section" style="display: none;">
+                    <label for="to_company_id">Select Company to Transfer:</label>
+                    <select name="to_company_id" id="to_company_id">
+                        <option value="">--Select Company--</option>
+                        <?php
+                        $companyQuery = "SELECT company_id, company_name FROM companies";
+                        $result = mysqli_query($conn, $companyQuery);
+
+                        if ($result && mysqli_num_rows($result) > 0) {
+                            while ($company = mysqli_fetch_assoc($result)) {
+                                echo "<option value='" . htmlspecialchars($company['company_id']) . "'>"
+                                    . htmlspecialchars($company['company_name']) .
+                                    "</option>";
+                            }
+                        }
+                        ?>
+                    </select>
+                </div>
+
+                <button type="submit" name="transfer_ticket">Transfer</button>
+            </form>
+        </div>
     </div>
-</div>
 
     <!-- Add Modal for Image Preview -->
     <div id="imageModal" class="modal">
-    <span class="close-modal right" onclick="closeImageModal()">&times;</span>
-    <img class="modal-content" id="modalImage">
-</div>
+        <span class="close-modal right" onclick="closeImageModal()">&times;</span>
+        <img class="modal-content" id="modalImage">
+    </div>
 
 
     <script>
@@ -526,32 +564,32 @@ $resolved_tickets = $ticketController->getResolvedTickets($company_id);
     }
 
     function toggleTransferOptions() {
-    const transferType = document.getElementById("transfer_type").value;
-    const internalSection = document.getElementById("internal_transfer_section");
-    const externalSection = document.getElementById("external_transfer_section");
+        const transferType = document.getElementById("transfer_type").value;
+        const internalSection = document.getElementById("internal_transfer_section");
+        const externalSection = document.getElementById("external_transfer_section");
 
-    if (transferType === "internal") {
-        internalSection.style.display = "block";
-        externalSection.style.display = "none";
-    } else if (transferType === "external") {
-        internalSection.style.display = "none";
-        externalSection.style.display = "block";
-    } else {
-        internalSection.style.display = "none";
-        externalSection.style.display = "none";
+        if (transferType === "internal") {
+            internalSection.style.display = "block";
+            externalSection.style.display = "none";
+        } else if (transferType === "external") {
+            internalSection.style.display = "none";
+            externalSection.style.display = "block";
+        } else {
+            internalSection.style.display = "none";
+            externalSection.style.display = "none";
+        }
     }
-}
 
-function openTransferModal(ticketId) {
-    document.getElementById("transferModal").style.display = "block";
-    document.getElementById("ticket_id_input").value = ticketId;
-}
+    function openTransferModal(ticketId) {
+        document.getElementById("transferModal").style.display = "block";
+        document.getElementById("ticket_id_input").value = ticketId;
+    }
 
-function closeTransferModal() {
-    document.getElementById("transferModal").style.display = "none";
-    document.getElementById("transfer_type").value = ""; // Reset selection
-    toggleTransferOptions(); // Reset sections
-}
+    function closeTransferModal() {
+        document.getElementById("transferModal").style.display = "none";
+        document.getElementById("transfer_type").value = ""; // Reset selection
+        toggleTransferOptions(); // Reset sections
+    }
 
     function openViewMoreModal(ticketId) {
         fetch(`get_ticket_details.php?ticket_id=${ticketId}`)
@@ -711,7 +749,7 @@ function closeTransferModal() {
 
 
     <script>
-        document.getElementById("transfer_type").addEventListener("change", function () {
+    document.getElementById("transfer_type").addEventListener("change", function() {
         const transferType = this.value;
         const internalSection = document.getElementById("internal_transfer_section");
         const externalSection = document.getElementById("external_transfer_section");
@@ -721,27 +759,27 @@ function closeTransferModal() {
             externalSection.style.display = "none";
 
             function fetchSupportMembers() {
-        var selectedCompanyId = document.getElementById('company_id').value;
-        var supportMembersDiv = document.getElementById('support_members_div');
-        var supportMembersSelect = document.getElementById('all_support_members');
+                var selectedCompanyId = document.getElementById('company_id').value;
+                var supportMembersDiv = document.getElementById('support_members_div');
+                var supportMembersSelect = document.getElementById('all_support_members');
 
-        if (selectedCompanyId) {
-            supportMembersDiv.style.display = 'block';
-            supportMembersSelect.innerHTML =
-                '<option value="" disabled selected>Select a Support Member (Optional)</option>';
+                if (selectedCompanyId) {
+                    supportMembersDiv.style.display = 'block';
+                    supportMembersSelect.innerHTML =
+                        '<option value="" disabled selected>Select a Support Member (Optional)</option>';
 
-            <?php while ($row = $allMembers->fetch_assoc()): ?>
-            if (selectedCompanyId === "<?php echo htmlspecialchars($row['company_id']); ?>") {
-                var option = document.createElement('option');
-                option.value = "<?php echo htmlspecialchars($row['user_id']); ?>";
-                option.textContent = "<?php echo htmlspecialchars($row['user_name']); ?>";
-                supportMembersSelect.appendChild(option);
+                    <?php while ($row = $allMembers->fetch_assoc()): ?>
+                    if (selectedCompanyId === "<?php echo htmlspecialchars($row['company_id']); ?>") {
+                        var option = document.createElement('option');
+                        option.value = "<?php echo htmlspecialchars($row['user_id']); ?>";
+                        option.textContent = "<?php echo htmlspecialchars($row['user_name']); ?>";
+                        supportMembersSelect.appendChild(option);
+                    }
+                    <?php endwhile; ?>
+                } else {
+                    supportMembersDiv.style.display = 'none';
+                }
             }
-            <?php endwhile; ?>
-        } else {
-            supportMembersDiv.style.display = 'none';
-        }
-    }
         } else if (transferType === "external") {
             internalSection.style.display = "none";
             externalSection.style.display = "block";
@@ -750,7 +788,6 @@ function closeTransferModal() {
             externalSection.style.display = "none";
         }
     });
-
     </script>
 
 
@@ -848,7 +885,12 @@ function closeTransferModal() {
             const priorityB = b.querySelector('td:nth-child(5)').textContent.trim().toLowerCase();
 
             // Define custom priority order
-            const priorityOrder = { 'low': 1, 'medium': 2, 'high': 3, 'urgent': 4 };
+            const priorityOrder = {
+                'low': 1,
+                'medium': 2,
+                'high': 3,
+                'urgent': 4
+            };
 
             return isAscending ?
                 (priorityOrder[priorityA] - priorityOrder[priorityB]) :
@@ -858,8 +900,9 @@ function closeTransferModal() {
         // Reorder rows
         rows.forEach(row => tbody.appendChild(row));
     }
-
     </script>
+
+
 
     <?php include_once '../common/footer.php'; ?>
 
