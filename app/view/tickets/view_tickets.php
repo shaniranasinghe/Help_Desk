@@ -48,14 +48,17 @@ $tickets = $ticketController->getTicketsWithReplies($userId);
     </div>
 
     <div class="container1">
-        <div class="new">
-            <h1>My Tickets</h1>
-            <a href="new_ticket.php" class="btn primary">Raise a New Ticket</a>
+        <!-- Section for Raising a New Ticket -->
+        <div class="raise-ticket-section">
+            <h1>Need Assistance?</h1>
+            <p>If you have a new issue, you can raise a ticket and our team will get back to you.</p><br>
+            <a href="new_ticket.php" class="btn primary">Raise a New Ticket</a><br><br><br>
         </div>
 
-        <!-- Ticket Display Section -->
+    <div class="ticket-display-section">
+        <h1>My Tickets</h1>
         <?php if (count($tickets) > 0): ?>
-        <div class="ticket-grid">
+        <div class="ticket-list">
             <?php foreach ($tickets as $ticket): ?>
             <div
                 class="ticket-card <?php echo $ticket['ticket_status'] === 'open' ? 'open-ticket' : ($ticket['ticket_status'] === 'resolved' ? 'resolved-ticket' : ''); ?>">
@@ -64,50 +67,45 @@ $tickets = $ticketController->getTicketsWithReplies($userId);
                 </div>
                 <div class="ticket-body">
                     <p class="status">Status: <?php echo htmlspecialchars($ticket['ticket_status']); ?></p>
-                    <div id="ticket-details-<?php echo $ticket['ticket_id']; ?>" style="display: none;">
-                        <h3>More Details:</h3>
-                        <p>Full Description: <?php echo htmlspecialchars($ticket['ticket_description']); ?></p>
-                        <p>Submitted on: <?php echo htmlspecialchars($ticket['created_at']); ?></p>
-
-
-
-
-
-                        <!-- Add this section for displaying the attachment -->
-                        <?php if (!empty($ticket['attachment_path'])): ?>
-                        <div class="ticket-attachment">
-                            <h4>Attachment:</h4>
-                            <img src="../../<?php echo htmlspecialchars($ticket['attachment_path']); ?>"
-                                alt="Ticket Attachment" class="ticket-image" onclick="openImageModal(this.src)">
-                        </div>
-                        <?php endif; ?>
-
-                        <?php if (!empty($ticket['replies'])): ?>
-                        <div class="replies">
-                            <h3>Replies:</h3>
-                            <?php foreach ($ticket['replies'] as $reply): ?>
-                            <div class="reply">
-                                <p><strong>Reply:</strong> <?php echo htmlspecialchars($reply['ticket_reply']); ?></p>
-                                <p class="date">Replied on: <?php echo htmlspecialchars($reply['replied_at']); ?></p>
-                            </div>
-                            <?php endforeach; ?>
-                        </div>
-                        <?php else: ?>
-                        <p>No replies yet.</p>
-                        <?php endif; ?>
-                    </div>
-                </div>
-                <div class="ticket-footer">
                     <button class="btn view-more"
-                        onclick="showDetails(<?php echo htmlspecialchars($ticket['ticket_id']); ?>)">View More</button>
+                        onclick="showDetails(<?php echo htmlspecialchars($ticket['ticket_id']); ?>)">View Details</button>
+                </div>
+                <div id="ticket-details-<?php echo $ticket['ticket_id']; ?>" class="ticket-details" style="display: none;">
+                    <h3>Details:</h3>
+                    <p>Description: <?php echo htmlspecialchars($ticket['ticket_description']); ?></p>
+                    <p>Submitted on: <?php echo htmlspecialchars($ticket['created_at']); ?></p>
+                    <!-- Display Attachment -->
+                    <?php if (!empty($ticket['attachment_path'])): ?>
+                    <div class="ticket-attachment">
+                        <h4>Attachment:</h4>
+                        <img src="../../<?php echo htmlspecialchars($ticket['attachment_path']); ?>" alt="Attachment"
+                            class="ticket-image" onclick="openImageModal(this.src)">
+                    </div>
+                    <?php endif; ?>
+                    <!-- Display Replies -->
+                    <?php if (!empty($ticket['replies'])): ?>
+                    <div class="replies">
+                        <h3>Replies:</h3>
+                        <?php foreach ($ticket['replies'] as $reply): ?>
+                        <div class="reply">
+                            <p><strong>Reply:</strong> <?php echo htmlspecialchars($reply['ticket_reply']); ?></p>
+                            <p class="date">Replied on: <?php echo htmlspecialchars($reply['replied_at']); ?></p>
+                        </div>
+                        <?php endforeach; ?>
+                    </div>
+                    <?php else: ?>
+                    <p>No replies yet.</p>
+                    <?php endif; ?>
                 </div>
             </div>
             <?php endforeach; ?>
         </div>
         <?php else: ?>
-        <p class="no-tickets">No tickets found. Submit a new ticket!</p>
+        <p class="no-tickets">You haven't raised any tickets yet. Click the button above to get started!</p>
         <?php endif; ?>
     </div>
+
+
 
     <!-- Add this modal at the bottom of your body tag -->
     <div id="imageModal" class="modal">
@@ -141,12 +139,16 @@ $tickets = $ticketController->getTicketsWithReplies($userId);
     }
     </script>
 
+    </div>
 
 
 
 
 
-    <?php include_once '../common/footer.php'; ?>
+    <?php
+        include_once '../common/footer.php';
+    ?>
+    
 </body>
 
 </html>

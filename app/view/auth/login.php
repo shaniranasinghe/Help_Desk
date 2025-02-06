@@ -66,7 +66,7 @@ window.location.href = 'login.php';
                     header("Location: ../supportTeam_dashboard/support_dashboard.php");
                     exit;
                 } else {
-                    header("Location: ../pages/profile.php");
+                    header("Location: ../tickets/view_tickets.php");
                     exit;
                 }
             } else {
