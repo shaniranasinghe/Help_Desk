@@ -34,6 +34,18 @@ if (!$result) {
 }
 
 $feedbacks = $result->fetch_all(MYSQLI_ASSOC);
+
+// Fetch feedbacks for each ticket
+$ticketFeedbacks = [];
+$ticketQuery = "SELECT ticket_id, user_id, feedback FROM tickets";
+$ticketResult = $conn->query($ticketQuery);
+
+if ($ticketResult) {
+    $ticketFeedbacks = $ticketResult->fetch_all(MYSQLI_ASSOC);
+} else {
+    die("Query failed: " . $conn->error);
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -84,6 +96,7 @@ $feedbacks = $result->fetch_all(MYSQLI_ASSOC);
                 </div>
             </section>
 
+            <h3>All Feedbacks</h3><br>
             <?php if (!empty($feedbacks)): ?>
                 <table class="feedback-table">
                     <thead>
@@ -95,6 +108,7 @@ $feedbacks = $result->fetch_all(MYSQLI_ASSOC);
                             <th>Overall Rating</th>
                             <th>Comments</th>
                             <th>Submitted At</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -107,12 +121,51 @@ $feedbacks = $result->fetch_all(MYSQLI_ASSOC);
                                 <td><?php echo htmlspecialchars($feedback['overall_rating']); ?></td>
                                 <td><?php echo htmlspecialchars($feedback['comments']); ?></td>
                                 <td><?php echo htmlspecialchars($feedback['created_at']); ?></td>
+                                <td class="actions">
+                                    <div class="btn-container">
+                                        <a href="edit_feedback.php?id=<?php echo $feedback['id']; ?>" class="btn btn-edit">Edit</a>
+                                        <a href="delete_feedback.php?id=<?php echo $feedback['id']; ?>" class="btn btn-delete" onclick="return confirm('Are you sure you want to delete this feedback?')">Delete</a>
+                                    </div>
+                                    </td>
+
                             </tr>
                         <?php endforeach; ?>
                     </tbody>
                 </table>
             <?php else: ?>
                 <p>No feedbacks found.</p>
+            <?php endif; ?>
+
+            <br><br><br><br><h3>Feedbacks for Resolved Tickets</h3><br>
+            <?php if (!empty($ticketFeedbacks)): ?>
+                <table class="feedback-table">
+                    <thead>
+                        <tr>
+                            <th>Ticket ID</th>
+                            <th>User ID</th>
+                            <th>Feedback</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($ticketFeedbacks as $ticketFeedback): ?>
+                            <tr>
+                                <td><?php echo htmlspecialchars($ticketFeedback['ticket_id']); ?></td>
+                                <td><?php echo htmlspecialchars($ticketFeedback['user_id']); ?></td>
+                                <td><?php echo htmlspecialchars($ticketFeedback['feedback']); ?></td>
+                                <td class="actions">
+                                    <div class="btn-container">
+                                    <a href="edit_feedback1.php?id=<?php echo htmlspecialchars($ticketFeedback['ticket_id'], ENT_QUOTES, 'UTF-8'); ?>" class="btn edit-btn">Edit</a>
+                                    <a href="delete_feedback1.php?id=<?php echo htmlspecialchars($ticketFeedback['ticket_id'], ENT_QUOTES, 'UTF-8'); ?>" class="btn delete-btn" onclick="return confirm('Are you sure you want to delete this feedback?')">Delete</a>
+                                    </div>
+                                </td>
+
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            <?php else: ?>
+                <p>No feedbacks for tickets found.</p>
             <?php endif; ?>
         </main>
     </div>

@@ -15,8 +15,15 @@ class UserModel {
     }
 
     public function deleteUser($user_id) {
-        $query = "DELETE FROM users WHERE id = ?";
-        $stmt = $this->conn->prepare($query);
+        // Delete tickets associated with the user
+        $deleteTicketsQuery = "DELETE FROM tickets WHERE user_id = ?";
+        $stmt = $this->conn->prepare($deleteTicketsQuery);
+        $stmt->bind_param("i", $user_id);
+        $stmt->execute();
+    
+        // Delete the user
+        $deleteUserQuery = "DELETE FROM users WHERE id = ?";
+        $stmt = $this->conn->prepare($deleteUserQuery);
         $stmt->bind_param("i", $user_id);
         return $stmt->execute();
     }

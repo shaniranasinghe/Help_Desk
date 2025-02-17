@@ -41,10 +41,10 @@ if (isset($_POST['transfer_ticket'])) {
     }
 
     // Redirect to the dashboard after processing
-    echo "<script>window.location.href='dashboard.php';</script>";
+    echo "<script>window.location.href='support_dashboard.php';</script>";
     exit();
 } else {
-    header("Location: dashboard.php?error=Invalid+request");
+    header("Location: support_dashboard.php?error=Invalid+request");
     exit();
 }
 

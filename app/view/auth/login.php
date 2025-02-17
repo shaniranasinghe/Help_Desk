@@ -135,7 +135,7 @@ window.location.href = 'login.php';
                         <label for="">Password</label>
                     </div>
                     <div class="forget">
-                        <label><a href="#">Forgot password?</a></label>
+                        <label><a href="./forgot_password.php">Forgot password?</a></label>
                     </div>
                     <button type="submit">Log in</button>
                     <div class="register">

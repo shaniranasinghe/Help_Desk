@@ -134,7 +134,7 @@ $allResolvedTickets = $ticketController->getAllResolvedTickets();
             <a href="#" class="breadcrumb-logo">
                 <img src="../../../assets/Images/logo.png" alt="Help Desk Logo" class="logo">
             </a>
-            <a href="./dashboard.php" class="breadcrumb-link">Help Center</a>
+            <a href="./support_dashboard.php" class="breadcrumb-link">Help Center</a>
             <span class="breadcrumb-separator">></span>
             <a href="#" class="breadcrumb-link active">Ticket Dashboard</a>
         </nav>
@@ -202,11 +202,39 @@ $allResolvedTickets = $ticketController->getAllResolvedTickets();
                     <td>
                         <div class="btn-container">
 
+                        <?php if ($row['assigned_to'] == $_SESSION['user_id']): ?>
+                            <?php if ($row['ticket_status'] === 'open' || $row['ticket_status'] === 'pending'): ?>
+                            <a href="#" class="btn resolve"
+                                onclick="handleResolveClick(<?php echo $row['ticket_id']; ?>, <?php echo $row['assigned_to']; ?>, '<?php echo $row['ticket_status']; ?>')">
+                                Resolve
+                            </a>
+                            <?php endif; ?>
+                            <?php endif; ?>
+
+                            <button
+                                class="btn transfer <?php echo ($row['ticket_status'] === 'open' || $row['ticket_status'] === 'pending') ? '' : 'disabled'; ?>"
+                                <?php if ($row['ticket_status'] === 'open' || $row['ticket_status'] === 'pending'): ?>
+                                onclick="openTransferModal(<?php echo $row['ticket_id']; ?>)" <?php else: ?>
+                                onclick="return false;" <?php endif; ?>>
+                                Transfer
+                            </button>
+
 
                        
                         <button class="btn view-more" onclick="openViewMoreModal(<?php echo $row['ticket_id']; ?>)">
                             View More
                         </button>
+
+                        <button class="btn view-more" onclick="openChat(<?php echo $row['ticket_id']; ?>)">
+                            Open Chat
+                        </button>
+
+                        <script>
+                            function openChat(ticketId) {
+                                window.location.href = `chat.php?ticket_id=${ticketId}`;
+                            }
+                        </script>
+
                         </div>
                     </td>
                 </tr>
@@ -315,11 +343,36 @@ $allResolvedTickets = $ticketController->getAllResolvedTickets();
                         <?php endif; ?>
                         <?php endif; ?>
 
-                        
+                        <?php if ($row['assigned_to'] == $_SESSION['user_id']): ?>
+                            <?php if ($row['ticket_status'] === 'open' || $row['ticket_status'] === 'pending'): ?>
+                            <a href="#" class="btn resolve"
+                                onclick="handleResolveClick(<?php echo $row['ticket_id']; ?>, <?php echo $row['assigned_to']; ?>, '<?php echo $row['ticket_status']; ?>')">
+                                Resolve
+                            </a>
+                            <?php endif; ?>
+                            <?php endif; ?>
+
+                            <button
+                                class="btn transfer <?php echo ($row['ticket_status'] === 'open' || $row['ticket_status'] === 'pending') ? '' : 'disabled'; ?>"
+                                <?php if ($row['ticket_status'] === 'open' || $row['ticket_status'] === 'pending'): ?>
+                                onclick="openTransferModal(<?php echo $row['ticket_id']; ?>)" <?php else: ?>
+                                onclick="return false;" <?php endif; ?>>
+                                Transfer
+                            </button>
 
                         <button class="btn view-more" onclick="openViewMoreModal(<?php echo $row['ticket_id']; ?>)">
                             View More
                         </button>
+
+                        <button class="btn view-more" onclick="openChat(<?php echo $row['ticket_id']; ?>)">
+                            Open Chat
+                        </button>
+
+                        <script>
+                            function openChat(ticketId) {
+                                window.location.href = `chat.php?ticket_id=${ticketId}`;
+                            }
+                        </script>
 
                     </div>    
                     </td>
@@ -370,9 +423,36 @@ $allResolvedTickets = $ticketController->getAllResolvedTickets();
                         <?php endif; ?>
                     </td>
                     <td>
+                    <?php if ($row['assigned_to'] == $_SESSION['user_id']): ?>
+                            <?php if ($row['ticket_status'] === 'open' || $row['ticket_status'] === 'pending'): ?>
+                            <a href="#" class="btn resolve"
+                                onclick="handleResolveClick(<?php echo $row['ticket_id']; ?>, <?php echo $row['assigned_to']; ?>, '<?php echo $row['ticket_status']; ?>')">
+                                Resolve
+                            </a>
+                            <?php endif; ?>
+                            <?php endif; ?>
+                                    
+                            <button
+                                class="btn transfer <?php echo ($row['ticket_status'] === 'open' || $row['ticket_status'] === 'pending') ? '' : 'disabled'; ?>"
+                                <?php if ($row['ticket_status'] === 'open' || $row['ticket_status'] === 'pending'): ?>
+                                onclick="openTransferModal(<?php echo $row['ticket_id']; ?>)" <?php else: ?>
+                                onclick="return false;" <?php endif; ?>>
+                                Transfer
+                            </button>
+
                         <button class="btn view-more" onclick="openViewMoreModal(<?php echo $row['ticket_id']; ?>)">
                             View More
                         </button>
+
+                        <button class="btn view-more" onclick="openChat(<?php echo $row['ticket_id']; ?>)">
+                            Open Chat
+                        </button>
+
+                        <script>
+                            function openChat(ticketId) {
+                                window.location.href = `chat.php?ticket_id=${ticketId}`;
+                            }
+                        </script>
                     </td>
                 </tr>
                 <?php endwhile; ?>

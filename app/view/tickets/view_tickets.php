@@ -66,10 +66,16 @@ $tickets = $ticketController->getTicketsWithReplies($userId);
                     <h2><?php echo htmlspecialchars($ticket['ticket_title']); ?></h2>
                 </div>
                 <div class="ticket-body">
-                    <p class="status">Status: <?php echo htmlspecialchars($ticket['ticket_status']); ?></p>
-                    <button class="btn view-more"
-                        onclick="showDetails(<?php echo htmlspecialchars($ticket['ticket_id']); ?>)">View Details</button>
-                </div>
+                        <p class="status">
+                            Status: <?php echo htmlspecialchars($ticket['ticket_status']); ?>
+                            <?php if (!empty($ticket['feedback'])): ?>
+                            <span class="feedback-status">(Feedback Provided)</span>
+                            <?php endif; ?>
+                        </p>
+                        <button class="btn view-more"
+                            onclick="showDetails(<?php echo htmlspecialchars($ticket['ticket_id']); ?>)">View Details</button>
+                    </div>
+
                 <div id="ticket-details-<?php echo $ticket['ticket_id']; ?>" class="ticket-details" style="display: none;">
                     <h3>Details:</h3>
                     <p>Description: <?php echo htmlspecialchars($ticket['ticket_description']); ?></p>
@@ -96,6 +102,31 @@ $tickets = $ticketController->getTicketsWithReplies($userId);
                     <?php else: ?>
                     <p>No replies yet.</p>
                     <?php endif; ?>
+
+                    <div class="ticket-body">
+                        <button class="btn view-more" onclick="openChat(<?php echo $ticket['ticket_id']; ?>)">Open Chat</button>
+                    </div>
+                    <script>
+                        function openChat(ticketId) {
+                            window.location.href = `chat.php?ticket_id=${ticketId}`;
+                        }
+                    </script>
+
+                    <!-- Feedback Section -->
+                    <?php if ($ticket['ticket_status'] === 'resolved'): ?>
+                        <div class="feedback-section">
+                            <h3>Provide Feedback:</h3>
+                            <?php if (!empty($ticket['feedback'])): ?>
+                            <p><strong>Your Feedback:</strong> <?php echo htmlspecialchars($ticket['feedback']); ?></p>
+                            <?php else: ?>
+                            <form action="submit_feedback.php" method="POST">
+                                <input type="hidden" name="ticket_id" value="<?php echo htmlspecialchars($ticket['ticket_id']); ?>">
+                                <textarea name="feedback" placeholder="Write your feedback here..." required></textarea>
+                                <button type="submit" class="btn">Submit Feedback</button>
+                            </form>
+                            <?php endif; ?>
+                        </div>
+                        <?php endif; ?>
                 </div>
             </div>
             <?php endforeach; ?>
