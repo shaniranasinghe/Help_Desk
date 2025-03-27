@@ -24,7 +24,7 @@
 }
 
 .header .logo h1 a {
-    color: #0078d4; /* Keep the text color consistent */
+    color: #d0a33b; /* Keep the text color consistent */
     text-decoration: none; /* Remove underline */
     font-size: 28px; /* Adjust size for emphasis */
     font-weight: bold; /* Make it stand out */
@@ -67,7 +67,7 @@
 /* Updated styling for 'Login' and 'Sign Up' buttons */
 .login-container a.btn.secondary1 {
     display: inline-block;
-    background-color: #0078d4; /* Professional blue */
+    background-color: #d0a33b; /* Professional blue */
     color: #ffffff; /* White text */
     padding: 10px 20px; /* Better padding for appearance */
     border-radius: 25px; /* Rounded buttons */
@@ -148,7 +148,7 @@
 
 /* Base button styles */
 .nav-links .btn {
-    background-color: #0078d4;
+    background-color: #d0a33b;
     padding: 8px 16px;
     border-radius: 5px;
     font-weight: bold;
@@ -178,7 +178,7 @@
 
 /* Hover effect for links */
 .nav-links a:hover {
-    color: #0078d4;
+    color: #d0a33b;
     transform: scale(1.1);
 }
 
@@ -233,7 +233,7 @@
   }
   
   .breadcrumb-link:hover {
-    color: #007bff;
+    color: #d0a33b;
   }
   
   .breadcrumb-separator {
@@ -323,7 +323,7 @@ section {
   }
   
   .inputbox input:focus {
-    border-color: #0171d3;
+    border-color: #d0a33b;
   }
 
   .inputbox label {
@@ -373,7 +373,7 @@ input, select {
 
 
 .inputbox select:focus {
-    border-color: #0171d3;
+    border-color: #d0a33b;
 }
 
 .inputbox label {
@@ -399,7 +399,7 @@ input, select {
 button {
     width: 100%;
     padding: 10px;
-    background: #0171d3;
+    background: #d0a33b;
     border: none;
     border-radius: 8px;
     color: #fff;
@@ -422,7 +422,7 @@ button:hover {
 
 .login p a {
     text-decoration: none;
-    color: #0171d3;
+    color: #d0a33b;
     font-weight: 600;
 }
 

@@ -275,4 +275,12 @@ class TicketController
 
         return $result;
     }
+
+    public function deleteTicket($ticketId) {
+        $query = "DELETE FROM tickets WHERE ticket_id = ?";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param("i", $ticketId);
+    
+        return $stmt->execute();
+    }
 }

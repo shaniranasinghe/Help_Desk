@@ -68,13 +68,13 @@ body {
     top: 0;
     width: 5px;
     height: 100%;
-    background: #3498db;
+    background: #d0a33b;
     transform: scaleY(0);
     transition: all 0.3s ease-in-out;
 }
 
 .sidebar ul li a:hover, .sidebar ul li a.active {
-    background: #3498db;
+    background: #d0a33b;
     color: white;
 }
 
@@ -176,7 +176,7 @@ body {
 /* Buttons */
 .companies-table .btn {
     padding: 8px 12px;
-    background: #3498db;
+    background: #d0a33b;
     color: white;
     border: none;
     border-radius: 5px;
@@ -306,7 +306,7 @@ body {
 
 .form-group input:focus,
 .form-group select:focus {
-    border-color: #007bff;
+    border-color: #d0a33b;
     outline: none;
 }
 

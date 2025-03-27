@@ -38,7 +38,7 @@ body {
 }
 
 .header .logo h1 a {
-    color: #0078d4; /* Keep the text color consistent */
+    color: #d0a33b; /* Keep the text color consistent */
     text-decoration: none; /* Remove underline */
     font-size: 28px; /* Adjust size for emphasis */
     font-weight: bold; /* Make it stand out */
@@ -81,7 +81,7 @@ body {
 /* Updated styling for 'Login' and 'Sign Up' buttons */
 .login-container a.btn.secondary1 {
     display: inline-block;
-    background-color: #0078d4; /* Professional blue */
+    background-color: #d0a33b; /* Professional blue */
     color: #ffffff; /* White text */
     padding: 10px 20px; /* Better padding for appearance */
     border-radius: 25px; /* Rounded buttons */
@@ -162,7 +162,7 @@ body {
 
 /* Base button styles */
 .nav-links .btn {
-    background-color: #0078d4;
+    background-color: #d0a33b;
     padding: 8px 16px;
     border-radius: 5px;
     font-weight: bold;
@@ -192,7 +192,7 @@ body {
 
 /* Hover effect for links */
 .nav-links a:hover {
-    color: #0078d4;
+    color: #d0a33b;
     transform: scale(1.1);
 }
 
@@ -247,7 +247,7 @@ body {
   }
   
   .breadcrumb-link:hover {
-    color: #007bff;
+    color: #d0a33b;
   }
   
   .breadcrumb-separator {
@@ -307,7 +307,7 @@ body {
 
 .hero form button {
     padding: 10px 20px;
-    background-color: #0078d4;
+    background-color: #d0a33b;
     border: none;
     color: white;
     border-radius: 5px;
@@ -345,21 +345,21 @@ body {
 
 /* Adjust the "Raise a New Ticket" button positioning */
 #raise-ticket .btn {
-    background-color: #007bff;
+    background-color: #d0a33b;
     color: #ffffff;
     padding: 10px 20px;
     border-radius: 8px;
     text-decoration: none;
     font-size: 18px;
     font-weight: bold;
-    border: 2px solid #007bff;
+    border: 2px solid #d0a33b;
     transition: background-color 0.3s ease, color 0.3s ease;
     margin-top: 200px; /* Adjusted margin to move button down */
 }
 
 #raise-ticket .btn:hover {
     background-color: #ffffff;
-    color: #007bff;
+    color: #d0a33b;
 }
 
 /* Cards Section */
@@ -401,7 +401,7 @@ body {
 }
 
 .card a {
-    color: #0078d4;
+    color: #d0a33b;
     font-weight: bold;
     text-decoration: none;
 }

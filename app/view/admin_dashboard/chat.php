@@ -61,7 +61,7 @@ $ticket = $stmt->get_result()->fetch_assoc();
     }
 
     .message.support {
-        background: #007bff;
+        background: #d0a33b;
         color: white;
         margin-left: auto;
     }
@@ -94,7 +94,7 @@ $ticket = $stmt->get_result()->fetch_assoc();
 
     .chat-input button {
         padding: 10px 20px;
-        background: #007bff;
+        background: #d0a33b;
         color: white;
         border: none;
         border-radius: 4px;

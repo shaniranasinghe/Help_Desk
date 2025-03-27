@@ -91,13 +91,13 @@ section {
 }
 
 .dont a {
-    color: #0171d3;
+    color: #d0a33b;
 }
 
 .submit-button {
     height: 55px;
     width: 100%;
-    background-color: #0171d3;
+    background-color: #d0a33b;
     color: #fff;
     font-size: 1rem;
     font-weight: 400;

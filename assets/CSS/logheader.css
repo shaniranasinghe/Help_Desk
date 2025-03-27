@@ -16,7 +16,7 @@
 }
 
 .header .logo h1 a {
-  color: #0078d4; /* Keep the text color consistent */
+  color: #d0a33b; /* Keep the text color consistent */
   text-decoration: none; /* Remove underline */
   font-size: 28px; /* Adjust size for emphasis */
   font-weight: bold; /* Make it stand out */
@@ -58,7 +58,7 @@
 /* Updated styling for 'Login' and 'Sign Up' buttons */
 .login-container a.btn.secondary1 {
   display: inline-block;
-  background-color: #0078d4; /* Professional blue */
+  background-color: #d0a33b; /* Professional blue */
   color: #ffffff; /* White text */
   padding: 10px 20px; /* Better padding for appearance */
   border-radius: 25px; /* Rounded buttons */
@@ -149,7 +149,7 @@
 
 /* Base button styles */
 .nav-links .btn {
-  background-color: #0078d4;
+  background-color: #d0a33b;
   padding: 8px 16px;
   border-radius: 5px;
   font-weight: bold;
@@ -179,7 +179,7 @@
 
 /* Hover effect for links */
 .nav-links a:hover {
-  color: #0078d4;
+  color: #d0a33b;
   transform: scale(1.1);
 }
 
@@ -231,7 +231,7 @@
 }
 
 .breadcrumb-link:hover {
-  color: #007bff;
+  color: #d0a33b;
 }
 
 .breadcrumb-separator {

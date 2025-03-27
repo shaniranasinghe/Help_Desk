@@ -64,7 +64,7 @@ if (!$ticket || $ticket['assigned_to'] != $_SESSION['user_id']) {
     }
 
     .message.support {
-        background: #007bff;
+        background: #d0a33b;
         color: white;
         margin-left: auto;
     }
@@ -97,7 +97,7 @@ if (!$ticket || $ticket['assigned_to'] != $_SESSION['user_id']) {
 
     .chat-input button {
         padding: 10px 20px;
-        background: #007bff;
+        background: #d0a33b;
         color: white;
         border: none;
         border-radius: 4px;

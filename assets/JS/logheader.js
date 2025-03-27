@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", function () {
         // Optional: Hover effect to make the button more interactive
         link.addEventListener('mouseover', () => {
             link.style.transition = 'all 0.3s ease';
-            link.style.color = '#0078d4'; // Change text color on hover
+            link.style.color = '#d0a33b'; // Change text color on hover
             link.style.transform = 'scale(1.1)'; // Enlarge link slightly
         });
 

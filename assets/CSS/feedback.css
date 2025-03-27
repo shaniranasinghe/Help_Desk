@@ -31,7 +31,7 @@ body {
     letter-spacing: 1px;
     text-transform: uppercase;
     padding: 10px;
-    border-bottom: 2px solid #007bff;
+    border-bottom: 2px solid #d0a33b;
     display: inline-block;
 }
 
@@ -103,13 +103,13 @@ body {
 }
 
 .feedback-comment textarea:focus {
-    border-color: #007bff;
+    border-color: #d0a33b;
 }
 
 .btn-submit {
     display: block;
     width: 100%;
-    background-color: #007bff;
+    background-color: #d0a33b;
     color: white;
     padding: 14px 20px;
     border: none;
@@ -170,7 +170,7 @@ body {
 }
 
 .feedback-item p strong {
-    color: #007bff;
+    color: #d0a33b;
 }
 
 .feedback-item small {

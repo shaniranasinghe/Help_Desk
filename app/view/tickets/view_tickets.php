@@ -47,6 +47,28 @@ $tickets = $ticketController->getTicketsWithReplies($userId);
         </nav>
     </div>
 
+
+    <!-- Display success or error messages -->
+    <?php
+        if (isset($_GET['status'])) {
+            $status = $_GET['status'];
+            $message = "";
+            if ($status === 'success') {
+                $message = "Ticket canceled successfully!";
+            } elseif ($status === 'error') {
+                $message = "An error occurred while canceling the ticket. Please try again.";
+            }
+            if ($message !== "") {
+                echo "<script>
+                        window.onload = function() {
+                            alert('$message');
+                        };
+                    </script>";
+            }
+        }
+    ?>
+
+
     <div class="container1">
         <!-- Section for Raising a New Ticket -->
         <div class="raise-ticket-section">
@@ -74,7 +96,13 @@ $tickets = $ticketController->getTicketsWithReplies($userId);
                         </p>
                         <button class="btn view-more"
                             onclick="showDetails(<?php echo htmlspecialchars($ticket['ticket_id']); ?>)">View Details</button>
+                            
                     </div>
+                    <form action="cancel_ticket.php" method="POST" style="display:inline-block;">
+                            <input type="hidden" name="ticket_id" value="<?php echo htmlspecialchars($ticket['ticket_id']); ?>">
+                            <button type="submit" class="btn cancel-btn">Cancel Ticket</button>
+                    </form>    
+                    
 
                 <div id="ticket-details-<?php echo $ticket['ticket_id']; ?>" class="ticket-details" style="display: none;">
                     <h3>Details:</h3>

@@ -80,7 +80,7 @@ body {
 }
 
 .btn.resolve {
-  background-color: #3498db;
+  background-color: #d0a33b;
   display: flex; /* Enables flexbox */
   align-items: center; /* Centers text vertically */
   justify-content: center;
@@ -189,7 +189,7 @@ body {
 /* Resolve Modal Styling */
 #resolveModal {
   background: #f4f9fc;
-  border: 2px solid #3498db;
+  border: 2px solid #d0a33b;
 }
 
 #resolveModal form {
@@ -209,7 +209,7 @@ body {
 
 #resolveModal button {
   padding: 12px 18px;
-  background-color: #3498db;
+  background-color: #d0a33b;
   color: white;
   font-size: 1.1em;
   border: none;

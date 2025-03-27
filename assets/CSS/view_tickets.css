@@ -43,20 +43,20 @@ body {
   margin: 10px 0;
 }
 .raise-ticket-section .btn.primary {
-  background-color: #007bff;
+  background-color: #d0a33b;
   color: #ffffff;
   padding: 10px 20px;
   border-radius: 8px;
   text-decoration: none;
   font-size: 18px;
   font-weight: bold;
-  border: 2px solid #007bff;
+  border: 2px solid #d0a33b;
   transition: background-color 0.3s ease, color 0.3s ease;
   margin-top: 200px; /* Adjusted margin to move button down */
 }
 .raise-ticket-section .btn.primary:hover {
   background-color: #ffffff;
-  color: #007bff;
+  color: #d0a33b;
 }
 
 
@@ -88,7 +88,7 @@ body {
   transform: translateY(-5px);
 }
 .ticket-card.open-ticket {
-  border-left: 5px solid #007bff;
+  border-left: 5px solid #d0a33b;
 }
 .ticket-card.resolved-ticket {
   border-left: 5px solid #28a745;
